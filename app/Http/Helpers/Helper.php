@@ -536,19 +536,6 @@ if (!function_exists('checkProjectWishList')) {
 // 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 if (!function_exists('getParam')) {
 
      function getParam()
@@ -561,7 +548,7 @@ if (!function_exists('getParam')) {
              return $path[1];
          }
          // if it is a subdomain / custom domain , then return the host (username.domain.ext / custom_domain.ext)
-         return $host;
+         return '';
      }
  }
 

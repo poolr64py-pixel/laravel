@@ -36,7 +36,7 @@ Route::group(['domain' => $domain, 'prefix' => $prefix, 'middleware' => 'userMai
 
     Route::post('/store-subscriber', [MiscellaneousController::class, 'storeSubscriber'])->name('store_subscriber');
 
-    Route::get('/', [HomePageController::class, 'index'])->name('frontend.user.index');
+    Route::get('/', [HomePageController::class, 'index'])->name('user.index');
     Route::get('/about-us', [HomePageController::class, 'aboutus'])->name('aboutus');
 
     // Properties route  

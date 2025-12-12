@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -7,57 +6,24 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-
     protected $namespace = 'App\Http\Controllers';
-
-    /**
-     * The path to the "home" route for your application.
-     *
-     * @var string
-     */
+    
     public const HOME = '/home';
 
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
     public function boot()
     {
-        //
         Route::pattern('domain', '[a-z0-9.\-]+');
         parent::boot();
     }
 
-    /**
-     * Define the routes for the application.
-     *
-     * @return void
-     */
     public function map()
     {
         $this->mapTenantFrontendRoutes();
         $this->mapWebRoutes();
         $this->mapAdminRoutes();
-       $this->mapApiRoutes();
-   
- }
+        $this->mapApiRoutes();
+    }
 
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
     protected function mapApiRoutes()
     {
         Route::prefix('api')
@@ -65,19 +31,22 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
-protected function mapWebRoutes()
-{
-    Route::middleware('web')
-        ->namespace($this->namespace)
-        ->group(base_path('routes/web.php'));
-}
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
+
+    protected function mapWebRoutes()
+    {
+        $host = request()->getHost();
+        $websiteHost = config('app.website_host', 'terrasnoparaguay.com');
+        $cleanHost = str_replace('www.', '', $host);
+        $cleanWebsiteHost = str_replace('www.', '', $websiteHost);
+        
+        // Só carregar rotas web se FOR o site principal
+        if ($cleanHost === $cleanWebsiteHost) {
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+        }
+    }
+
     protected function mapAdminRoutes()
     {
         Route::middleware('web')
@@ -85,19 +54,19 @@ protected function mapWebRoutes()
             ->group(base_path('routes/admin.php'));
     }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
     protected function mapTenantFrontendRoutes()
     {
-         $host = request()->getHost();
-    $websiteHost = config('app.website_host', 'terrasnoparaguay.com');
-    
-    Route::middleware("web")->namespace($this->namespace)->group(base_path("routes/tenant_frontend.php"));
-    // Só carregar tenant_frontend se for subdomínio ou custom domain
-}
+        $host = request()->getHost();
+        $websiteHost = config('app.website_host', 'terrasnoparaguay.com');
+        $cleanHost = str_replace('www.', '', $host);
+        $cleanWebsiteHost = str_replace('www.', '', $websiteHost);
+        
+        // Só carregar rotas de tenant se NÃO for o site principal
+        if ($cleanHost !== $cleanWebsiteHost) {
+            Route::middleware("web")
+                ->namespace($this->namespace)
+                ->group(base_path("routes/tenant_frontend.php"));
+        }
     }
+}
+
