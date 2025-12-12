@@ -1,0 +1,53 @@
+Array
+(
+    [0] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => property_wishlists
+        )
+
+    [1] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_properties
+        )
+
+    [2] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_amenities
+        )
+
+    [3] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_categories
+        )
+
+    [4] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_category_contents
+        )
+
+    [5] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_contacts
+        )
+
+    [6] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_contents
+        )
+
+    [7] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_slider_images
+        )
+
+    [8] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_specification_contents
+        )
+
+    [9] => stdClass Object
+        (
+            [Tables_in_multiestate2025 (%prop%)] => user_property_specifications
+        )
+
+)

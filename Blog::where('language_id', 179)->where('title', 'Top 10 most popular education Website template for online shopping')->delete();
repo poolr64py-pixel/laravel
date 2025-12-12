@@ -1,0 +1,48 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#7411
+    [34mall[39m: [
+      [34;4mApp\Models\Blog[39;24m {#8118
+        [34mid[39m: [35m121[39m,
+        [34mlanguage_id[39m: [35m179[39m,
+        [34mbcategory_id[39m: [35m21[39m,
+        [34mtitle[39m: "[32mTop 10 most popular education Website template for online shopping[39m",
+        [34mslug[39m: "[32mtop-10-most-popular-education-website-template-for-online-shopping-es-pt[39m",
+        [34mmain_image[39m: "[32m1744792689.jpg[39m",
+        [34mcontent[39m: """
+          [32m<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to sure there isn't anything embarrassing hidden in the middle of.</p>[39m\r\n
+          [32m<blockquote>[39m\r\n
+          [32m<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt nobis similique nulla fugit ipsum dolor ratione voluptatum minima deserunt numquam?</p>[39m\r\n
+          [32m</blockquote>[39m\r\n
+          [32m<p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio!</p>[39m\r\n
+          [32m<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to sure there isn't anything embarrassing hidden in the middle of.</p>[39m\r\n
+          [32m<blockquote>[39m\r\n
+          [32m<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt nobis similique nulla fugit ipsum dolor ratione voluptatum minima deserunt numquam?</p>[39m\r\n
+          [32m</blockquote>[39m\r\n
+          [32m<p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio!</p>[39m\r\n
+          [32m<p> </p>[39m\r\n
+          [32m<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to sure there isn't anything embarrassing hidden in the middle of.</p>[39m\r\n
+          [32m<blockquote>[39m\r\n
+          [32m<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt nobis similique nulla fugit ipsum dolor ratione voluptatum minima deserunt numquam?</p>[39m\r\n
+          [32m</blockquote>[39m\r\n
+          [32m<p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio!</p>[39m\r\n
+          [32m<p> </p>[39m\r\n
+          [32m<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to sure there isn't anything embarrassing hidden in the middle of.</p>[39m\r\n
+          [32m<blockquote>[39m\r\n
+          [32m<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt nobis similique nulla fugit ipsum dolor ratione voluptatum minima deserunt numquam?</p>[39m\r\n
+          [32m</blockquote>[39m\r\n
+          [32m<p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio!</p>[39m\r\n
+          [32m<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to sure there isn't anything embarrassing hidden in the middle of.</p>[39m\r\n
+          [32m<blockquote>[39m\r\n
+          [32m<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt nobis similique nulla fugit ipsum dolor ratione voluptatum minima deserunt numquam?</p>[39m\r\n
+          [32m</blockquote>[39m\r\n
+          [32m<p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio!</p>[39m
+          """,
+        [34mtags[39m: [36mnull[39m,
+        [34mmeta_keywords[39m: [36mnull[39m,
+        [34mmeta_description[39m: [36mnull[39m,
+        [34mserial_number[39m: [35m1[39m,
+        [34mcreated_at[39m: "[32m2025-12-05 16:14:40[39m",
+        [34mupdated_at[39m: "[32m2025-12-05 16:14:40[39m",
+      },
+    ],
+  }
+

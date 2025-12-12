@@ -1,0 +1,22 @@
+○ nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (]8;;file://cloud.bestoffernowe.com/usr/lib/systemd/system/nginx.service/usr/lib/systemd/system/nginx.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: inactive (dead) since Wed 2025-11-26 06:47:22 -03; 3h 14min ago
+   Duration: 11h 9min 51.915s
+       Docs: ]8;;man:nginx(8)man:nginx(8)]8;;
+    Process: 308964 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 308966 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 319661 ExecReload=/usr/sbin/nginx -g daemon on; master_process on; -s reload (code=exited, status=0/SUCCESS)
+    Process: 320289 ExecStop=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid (code=exited, status=0/SUCCESS)
+   Main PID: 308967 (code=exited, status=0/SUCCESS)
+        CPU: 11.493s
+
+Nov 26 06:21:24 cloud.bestoffernowe.com nginx[319661]: nginx: [warn] conflicting server name "*.terrasnoparaguay.com" on 0.0.0.0:443, ignored
+Nov 26 06:21:24 cloud.bestoffernowe.com nginx[319661]: nginx: [warn] conflicting server name "terrasnoparaguay.com" on [::]:443, ignored
+Nov 26 06:21:24 cloud.bestoffernowe.com nginx[319661]: nginx: [warn] conflicting server name "www.terrasnoparaguay.com" on [::]:443, ignored
+Nov 26 06:21:24 cloud.bestoffernowe.com nginx[319661]: nginx: [warn] conflicting server name "www1.terrasnoparaguay.com" on [::]:443, ignored
+Nov 26 06:21:24 cloud.bestoffernowe.com nginx[319661]: nginx: [warn] conflicting server name "*.terrasnoparaguay.com" on [::]:443, ignored
+Nov 26 06:21:24 cloud.bestoffernowe.com systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.
+Nov 26 06:47:22 cloud.bestoffernowe.com systemd[1]: Stopping nginx.service - A high performance web server and a reverse proxy server...
+Nov 26 06:47:22 cloud.bestoffernowe.com systemd[1]: nginx.service: Deactivated successfully.
+Nov 26 06:47:22 cloud.bestoffernowe.com systemd[1]: Stopped nginx.service - A high performance web server and a reverse proxy server.
+Nov 26 06:47:22 cloud.bestoffernowe.com systemd[1]: nginx.service: Consumed 11.493s CPU time, 268.9M memory peak, 0B memory swap peak.

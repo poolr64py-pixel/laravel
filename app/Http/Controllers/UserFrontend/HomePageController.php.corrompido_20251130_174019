@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers\UserFrontend;
+
+use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\State;
+use App\Models\Property;
+use App\Models\PropertyType;
+use App\Models\Amenity;
+use App\Models\User;
+use App\Models\Language;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class HomePageController extends Controller
+{
+    public function index(Request $request)
+    {
+        try {
+            // Identificar tenant (user_id do agent)
+            $tenantId = $this->getTenantId($request);
+            
+            // Buscar linguagem
+            $language = $this->getLanguage($request);
+            
+            // Informações básicas do tenant
+            $user = User::find($tenantId);
+            
+            if (!$user) {
+                return redirect('/')->with('error', 'Tenant não encontrado');
+            }
+
+            // Query principal das propriedades OTIMIZADA
+            $properties = Property::with([
+                'city' => function ($q) use ($language) {
+                    $q->select('id', 'name', 'state_id');
+                },
+                'propertyType',
+                'images',
+                'agent' => function ($q) {
+                    $q->select('id', 'user_id', 'name', 'avatar');
+                }
+            ])
+            ->where('user_id', $tenantId)
+            ->where('status', 'active')
+            ->select('id', 'title', 'price', 'image', 'property_type_id', 'city_id', 'user_id', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->limit(12)
+            ->get();
+
+            // Cidades do tenant
+            $all_cities = City::where('user_id', $tenantId)
+                ->with(['state'])
+                ->get();
+
+            // Informações básicas
+            $basicInfo = $user->userBasicSetting;
+
+            // Array de informações COMPLETO
+            $information = [
+                'basicInfo' => $basicInfo,
+                'language' => $language,
+                'user' => $user,
+                'heroStatic' => null,
+                'homePage' => null,
+                'sections' => [],
+                'min' => 0,
+                'max' => 999999999,
+                'currencyInfo' => (object)['base_currency_symbol' => '$'],
+                'states' => State::where('user_id', $tenantId)->get(),
+                'propertyTypes' => PropertyType::where('user_id', $tenantId)->get(),
+                'amenities' => Amenity::where('user_id', $tenantId)->limit(10)->get(),
+                'all_cities' => $all_cities,
+                'all_property_categories' => PropertyType::where('user_id', $tenantId)->get(),
+                'properties' => $properties,
+                'total_properties' => Property::where('user_id', $tenantId)->where('status', 'active')->count()
+            ];
+
+            return view('tenant_frontend.home.index-v1', $information);
+
+        } catch (\Exception $e) {
+            \Log::error('HomePageController Error: ' . $e->getMessage());
+            return redirect('/')->with('error', 'Erro ao carregar página inicial');
+        }
+    }
+
+    /**
+     * Identificar tenant pelo subdomínio ou host
+     */
+    private function getTenantId(Request $request)
+    {
+        $host = $request->getHost();
+        $websiteHost = env('WEBSITE_HOST', 'terrasnoparaguay.com');
+        
+        // Se é o site principal
+        if ($host == $websiteHost) {
+            return 1; // Admin/landlord
+        }
+        
+        // Extrair username do subdomínio
+        $parts = explode('.', $host);
+        if (count($parts) >= 2) {
+            $username = $parts[0];
+            $agent = DB::table('agents')
+                ->join('users', 'agents.user_id', '=', 'users.id')
+                ->where('users.username', $username)
+                ->select('agents.user_id')
+                ->first();
+                
+            if ($agent) {
+                return $agent->user_id;
+            }
+        }
+        
+        // Fallback
+        return 1;
+    }
+
+    /**
+     * Buscar linguagem do tenant
+     */
+    private function getLanguage(Request $request)
+    {
+        $tenantId = $this->getTenantId($request);
+        $languageCode = $request->get('lang', 'pt');
+        
+        return Language::where('user_id', $tenantId)
+            ->where('code', $languageCode)
+            ->first() ?? Language::where('user_id', $tenantId)->first();
+    }
+}

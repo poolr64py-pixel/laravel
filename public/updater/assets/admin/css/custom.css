@@ -1,0 +1,937 @@
+/* Helper class starts */
+.rtl {
+    direction: rtl !important;
+}
+
+.ltr {
+    direction: ltr !important;
+}
+
+.min-w-250 {
+    min-width: 250px;
+}
+
+.max-w-130 {
+    max-width: 130px;
+}
+
+.fw-150 {
+    width: 150px;
+}
+
+/* Helper class ends */
+
+
+
+/* sider navbar css over write start */
+.sidebar.sidebar-style-2 .nav .nav-item .selected>a {
+    background: rgba(199, 199, 199, .2);
+}
+
+/* sider navbar css over write end */
+
+
+
+/* bootstrap image thumbnail customize start */
+.img-thumbnail {
+    max-width: 400px;
+}
+
+/* bootstrap image thumbnail customize end */
+
+
+/* select2 CSS */
+
+.select2-container--default .select2-selection--single {
+    height: 38px;
+    border-color: #ebedf2;
+}
+
+.select2-container--default .select2-selection--multiple {
+    height: auto;
+    min-height: 38px;
+    border-color: #ebedf2;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px;
+    padding-left: 20px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__arrow b,
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    /* border-color: #fff transparent transparent transparent; */
+    margin-top: 6px;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+body[data-background-color="dark"] .select2-container--default .select2-selection--multiple,
+body[data-background-color="dark"] .select2-container--default .select2-selection--single {
+    background-color: #1a2035;
+    border-color: #2f374b;
+}
+
+body[data-background-color="dark"] .select2-search__field {
+    color: #fff;
+}
+
+/* image table preview for dropzone edit form start */
+#imgtable .trdb {
+    display: inline-block;
+    position: relative;
+    margin-right: 15px;
+}
+
+#imgtable .trdb button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0px 5px;
+}
+
+#imgtable .trdb td {
+    padding: 0px !important;
+}
+
+.dropzone {
+    padding: 45px 40px 45px !important;
+}
+
+/* image table preview for dropzone edit form end */
+
+
+
+/* iconpicker input field start */
+.iconpicker-popover.popover .popover-title input[type=search].iconpicker-search {
+    direction: ltr !important;
+}
+
+/* iconpicker input field end */
+
+
+/* request loader css start */
+.request-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #0000007a;
+    z-index: 10000;
+    display: none;
+}
+
+.request-loader img {
+    position: fixed;
+    display: none;
+    width: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.request-loader.show {
+    display: block;
+}
+
+.request-loader.show img {
+    display: block;
+}
+
+/* request loader css end */
+
+
+
+/* summernote css starts */
+.note-editor.note-frame .note-btn.note-image-btn,
+.note-editor.note-frame .note-btn.note-video-btn,
+.note-editor.note-frame .note-btn.note-link-btn {
+    border: 1px solid #31ce36 !important;
+    background: #31ce36 !important;
+}
+
+
+.sn-checkbox-open-in-new-window.form-check [type=checkbox]:checked,
+.sn-checkbox-open-in-new-window.form-check [type=checkbox]:not(:checked) {
+    left: 30px;
+}
+
+.form-check.sn-checkbox-open-in-new-window {
+    padding-left: 30px;
+}
+
+.sn-checkbox-use-protocol.form-check [type=checkbox]:checked,
+.sn-checkbox-use-protocol.form-check [type=checkbox]:not(:checked) {
+    left: 30px;
+}
+
+.form-check.sn-checkbox-use-protocol {
+    padding-left: 30px;
+}
+
+.form-check.sn-checkbox-use-protocol {
+    display: none;
+}
+
+.sn-checkbox-open-in-new-window.form-check {
+    display: none;
+}
+
+/* summernote css ends */
+
+
+/* summernote rtl css starts */
+.note-editor.note-frame .note-editing-area .note-editable.rtl {
+    text-align: right !important;
+}
+
+/* summernote rtl css ends */
+
+
+.list-group .list-group-item {
+    display: block;
+}
+
+#myEditor li.list-group-item {
+    cursor: move;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+
+.custom-file-label::after {
+    color: #fff;
+    background-color: #1a2035;
+    border-left: 1px solid #2f374b;
+}
+
+label.custom-file-label {
+    background-color: #1a2035;
+    border: 1px solid #2f374b;
+}
+
+.logo-header .logo .navbar-brand {
+    max-width: 150px;
+    max-height: 50px;
+}
+
+.dropdown-item button.deletebtn {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: #212529;
+    padding: 0;
+}
+
+
+/* START: CSS for Summernote Content */
+.note-editor.note-frame .note-editing-area .note-editable article,
+.note-editor.note-frame .note-editing-area .note-editable aside,
+.note-editor.note-frame .note-editing-area .note-editable details,
+.note-editor.note-frame .note-editing-area .note-editable figcaption,
+.note-editor.note-frame .note-editing-area .note-editable figure,
+.note-editor.note-frame .note-editing-area .note-editable footer,
+.note-editor.note-frame .note-editing-area .note-editable header,
+.note-editor.note-frame .note-editing-area .note-editable hgroup,
+.note-editor.note-frame .note-editing-area .note-editable menu,
+.note-editor.note-frame .note-editing-area .note-editable nav,
+.note-editor.note-frame .note-editing-area .note-editable section {
+    display: block;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable i,
+.note-editor.note-frame .note-editing-area .note-editable span,
+.note-editor.note-frame .note-editing-area .note-editable a {
+    display: inline;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable th,
+.note-editor.note-frame .note-editing-area .note-editable td {
+    font-size: 14px;
+    border-top-width: 0px;
+    border-bottom: 1px solid;
+    border-color: #ebedf2 !important;
+    padding: 0 25px !important;
+    height: 60px;
+    vertical-align: middle !important;
+    color: #000;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable a:hover,
+.note-editor.note-frame .note-editing-area .note-editable a:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable a:focus,
+.note-editor.note-frame .note-editing-area .note-editable input:focus,
+.note-editor.note-frame .note-editing-area .note-editable textarea:focus,
+.note-editor.note-frame .note-editing-area .note-editable button:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h1,
+.note-editor.note-frame .note-editing-area .note-editable h2,
+.note-editor.note-frame .note-editing-area .note-editable h3,
+.note-editor.note-frame .note-editing-area .note-editable h4 {
+    font-weight: 700;
+}
+
+/* END: CSS for Summernote Content */
+
+
+/* START:  CSS to match with frontend (brought frontend 'style.css' file) */
+.note-editor.note-frame .note-editing-area .note-editable h1,
+.note-editor.note-frame .note-editing-area .note-editable h2,
+.note-editor.note-frame .note-editing-area .note-editable h3,
+.note-editor.note-frame .note-editing-area .note-editable h4,
+.note-editor.note-frame .note-editing-area .note-editable h5,
+.note-editor.note-frame .note-editing-area .note-editable h6 {
+    font-family: "Poppins", sans-serif;
+    color: #222F5A;
+    margin: 0px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h1 {
+    font-size: 50px;
+    line-height: 65px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h2 {
+    font-size: 40px;
+    line-height: 50px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h3 {
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h4 {
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h5 {
+    font-size: 20px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable h6 {
+    font-size: 16px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable p {
+    color: #565872;
+    margin: 0px;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable body {
+    font-family: "Rubik", sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    color: #565872;
+    font-size: 16px;
+    line-height: 30px;
+    overflow-x: hidden;
+}
+
+/* END:  CSS to match with frontend (brought frontend 'style.css' file) */
+
+.w-100 {
+    width: 100%;
+}
+
+.mw-100 {
+    max-width: 100%;
+}
+
+.showImage {
+    position: relative;
+    display: inline-block;
+}
+
+.showImage .remove-image {
+    position: absolute;
+    font-weight: 700;
+    top: -23px;
+    right: -17px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.showImage .remove-image i:hover {
+    color: #fff;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -ms-transition: .3s;
+    -o-transition: .3s;
+}
+
+.showImage .remove-image i:hover {
+    color: #ff3737;
+}
+
+a.card.card-stats {
+    text-decoration: none;
+}
+
+/* Jquery Timepicker */
+
+.ui-timepicker-container.ui-timepicker-no-scrollbar.ui-timepicker-standard {
+    position: absolute;
+    max-height: 230px;
+    overflow-y: scroll;
+    max-width: 160px;
+    overflow-x: hidden;
+}
+
+.ui-timepicker-container.ui-timepicker-no-scrollbar.ui-timepicker-standard {
+    z-index: 10000 !important;
+}
+
+.ui-menu .ui-menu-item a {
+    display: block;
+    text-align: center;
+}
+
+ul.ui-timepicker-viewport {
+    padding: 0;
+}
+
+
+/* Buy plan checkout CSS */
+.card-pricing .specification-list li span {
+    font-size: 16px;
+    opacity: .9;
+}
+
+.thumb-preview {
+    max-width: 350px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #f1f1f1;
+    display: inline-block;
+}
+
+.thumb-preview img {
+    width: 100%;
+}
+
+.thumb-preview.remove {
+    position: relative;
+}
+
+.thumb-preview.remove i {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    color: #ff3737;
+    background: #fff;
+    border-radius: 50%;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.form-group .upload-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.form-group .upload-btn .img-input,
+.form-group .upload-btn .img-input2,
+.form-group .upload-btn .img-input3,
+.thumb-img-input,
+.cover-img-input,
+.section-img-input,
+.background-img-input {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    margin: 0;
+    border: solid transparent;
+    width: 112px;
+    opacity: 0;
+}
+
+/* datepicker */
+
+.datepicker td,
+.datepicker th {
+    color: #000 !important;
+}
+
+.datepicker td.active,
+.datepicker th.active {
+    color: #fff !important;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #17d909;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #17d909;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.dropdown-menu button.deletebtn {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    display: block;
+    padding-left: 25px;
+    margin-right: 19px;
+}
+
+
+/* chart css */
+.chartjs-size-monitor {
+    position: absolute;
+    inset: 0px;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: -1;
+}
+
+.chartjs-size-monitor-expand {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: -1;
+}
+
+/* Form Builder CSS */
+body[data-background-color=dark] .ui-state-default.ui-sortable-handle,
+body[data-background-color=dark] .ui-state-default.ui-state-disabled {
+    border: 1px solid rgba(181, 181, 181, .1) !important;
+    background: #202940;
+    cursor: move;
+}
+
+div#sortable form {
+    cursor: all-scroll;
+}
+
+.dis-none {
+    display: none;
+}
+
+.dis-block {
+    display: block;
+}
+
+.disabled-btn {
+    opacity: 0.2 !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.wf-150 {
+    width: 150px;
+}
+
+#imgtable .table-row td i {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    color: #ff3737;
+    background: #fff;
+    border-radius: 50%;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 6px 8px;
+    box-shadow: 0px 0px 2px #e7e7e7;
+}
+
+.tox-statusbar__branding {
+    display: none;
+}
+
+.height200 {
+    height: 200px;
+    overflow: hidden;
+}
+
+
+input[type="file"]::file-selector-button {
+    background-color: #2e90f8;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+/* =====================================================
+       Dropzone AI Image Preview – Clean & Responsive
+       ===================================================== */
+
+    .dropzone .dz-preview {
+        width: 140px;
+        height: 140px;
+        margin: 12px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropzone .dz-preview .dz-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f8f9fa;
+        border: 2px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .dropzone .dz-preview .dz-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important; /* পুরো ছবি সুন্দরভাবে দেখাবে */
+        display: block;
+        padding: 4px;
+    }
+
+    /* Hover Effect – Smooth Elevation */
+    .dropzone .dz-preview:hover .dz-image {
+        border-color: #28a745;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
+        transform: translateY(-2 proib);
+    }
+
+    /* Remove Button – Floating & Interactive */
+    .dropzone .dz-preview .rmv-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        z-index: 20;
+        background: #dc3545;
+        border: 2px solid white;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropzone .dz-preview .rmv-btn:hover {
+        background: #c82333;
+        transform: scale(1.1);
+    }
+
+    .dropzone .dz-preview .rmv-btn i {
+        color: white;
+        font-size: 12px;
+    }
+
+    .rv-btn-1 {
+        padding: 6px 12px;
+        font-size: 11px;
+        margin-top: 7px;
+        font-size: 13px;
+    }
+
+
+
+    .ai-loader-wrapper {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.ai-loader-container {
+    text-align: center;
+    max-width: 420px;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.ai-loader-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem;
+}
+
+.ai-loader-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0 0 1.5rem;
+}
+
+.ai-loader-progress-container {
+    margin: 1.5rem 0;
+}
+
+.ai-loader-progress-bar {
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ai-loader-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+}
+
+.ai-loader-progress-text {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #444;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ai-loader-counter {
+    margin: 1.25rem 0;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+}
+
+.ai-loader-counter i {
+    margin-right: 0.5rem;
+    color: #7c3aed;
+}
+
+.ai-loader-tips {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #f8f9ff;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.ai-loader-cancel-btn {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ai-loader-cancel-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.ai-loader-cancel-btn i {
+    font-size: 1rem;
+}
+.json-pretty {
+    color: #e2e8f0 !important;
+    background-color: #1a202c !important;
+    padding: 16px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    overflow-x: auto !important;
+}
+.textarea-medium {
+    height: 120px !important;
+    min-height: 70px;
+}
+
+
+
+/* Custom Tooltip with Fixed Width */
+.info-tooltip {
+    cursor: help;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.info-tooltip:hover {
+    transform: scale(1.2);
+    color: #1572e8 !important;
+}
+
+/* Fixed Width Tooltip */
+.tooltip.custom-ai-tooltip .tooltip-inner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    text-align: left;
+    
+    /* Fixed Equal Width */
+    width: 400px !important;
+    max-width: 400px !important;
+    min-width: 400px !important;
+    
+    line-height: 1.6;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Responsive Width for Mobile */
+@media (max-width: 768px) {
+    .tooltip.custom-ai-tooltip .tooltip-inner {
+        width: 90vw !important;
+        max-width: 90vw !important;
+        min-width: 90vw !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .tooltip.custom-ai-tooltip .tooltip-inner {
+        width: 85vw !important;
+        max-width: 85vw !important;
+        min-width: 85vw !important;
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+}
+
+/* Arrow Colors */
+.tooltip.custom-ai-tooltip .arrow::before {
+    border-top-color: #667eea !important;
+}
+
+.tooltip.custom-ai-tooltip.bs-tooltip-bottom .arrow::before {
+    border-bottom-color: #667eea !important;
+}
+
+.tooltip.custom-ai-tooltip.bs-tooltip-left .arrow::before {
+    border-left-color: #667eea !important;
+}
+
+.tooltip.custom-ai-tooltip.bs-tooltip-right .arrow::before {
+    border-right-color: #667eea !important;
+}
+
+/* Content Styling */
+.tooltip-inner strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 6px;
+}
+/* Card hover effect */
+.card-tooltip-trigger {
+    cursor: help;
+    transition: all 0.3s ease;
+}
+
+.card-tooltip-trigger:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}

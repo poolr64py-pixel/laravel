@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Console;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+class Kernel extends ConsoleKernel
+{
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        Commands\ExpiredUser::class,
+    ];
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('expire:user')
+            ->daily();
+        // queue work running every minute 
+        $schedule->command('queue:work --stop-when-empty')
+            ->everyMinute();
+
+        //  Single AI cleanup command for Local development - every minute for testing
+        if ($this->app->environment('local')) {
+        
+            $schedule->command('ai:cleanup --minutes=1')
+                ->everyMinute()
+                ->withoutOverlapping()
+                ->appendOutputTo(storage_path('logs/ai-cleanup.log'));
+        } else {
+            // Production - daily at 2:30 AM
+            $schedule->command('ai:cleanup --hours=24')
+                ->dailyAt('02:30')
+                ->withoutOverlapping()
+                ->appendOutputTo(storage_path('logs/ai-cleanup.log'));
+        }
+
+    }
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        $this->load(__DIR__ . '/Commands');
+
+        require base_path('routes/console.php');
+    }
+}
