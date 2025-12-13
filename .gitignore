@@ -16,4 +16,11 @@ yarn-error.log
 /storage/*.key
 .env
 .phpunit.result.cache
+*.backup
+*.save
+*.php.backup
+*.php.save
+test.php
+server.php
+fix_app_config.php
 

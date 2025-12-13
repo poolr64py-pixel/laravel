@@ -296,7 +296,8 @@ if (!function_exists('getUserHref')) {
                 ->where('user_id', $user->id)
                 ->where('page_id', $page_id)
                 ->first();
-            if (!empty($content)) {
+error_log('🔍 QUERY EXECUTADA - User encontrado: ' . ($user ? 'SIM (ID: ' . $user->id . ')' : 'NÃO'));           
+ if (!empty($content)) {
                 $href = route('frontend.dynamic_page', [getParam(), $content->slug]);
             } else {
                 $href = "#";
@@ -424,7 +425,9 @@ function getUser()
 {
     $parsedUrl = parse_url(url()->current());
     $host = $parsedUrl['host'];
-   
+    
+    
+    error_log('🔍 getUser() - host detectado: ' . $host . ' | HTTP_HOST: ' . ($_SERVER['HTTP_HOST'] ?? 'NULL'));
 
     // Se for www.domain.com ou domain.com (site principal), retorna null
     if ($host === 'www.' . config('app.website_host') || $host === config('app.website_host')) {
@@ -435,21 +438,28 @@ function getUser()
         // if the current URL contains the website domain
        
  if (strpos($host, config('app.website_host')) !== false) {
-            $host = str_replace('www.', '', $host);
+     error_log('✅ Host contém website_host'); 
+           $host = str_replace('www.', '', $host);
             // if current URL is a path based URL
             if ($host == 'terrasnoparaguay.com') {
-                $path = explode('/', $parsedUrl['path']);
+ error_log('📍 É path-based URL');             
+   $path = explode('/', $parsedUrl['path']);
                 $username = $path[1];
 }
             // if the current URL is a subdomain
             else {
-                $hostArr = explode('.', $host);
+$hostArr = explode('.', $host);            
+    $hostArr = explode('.', $host);
                 $username = $hostArr[0];
+ error_log('📍 Username extraído: ' . $username);
 \Log::info('DEBUG - Username extracted', ['username' => $username, 'host' => $host]);           
  }
-
+error_log('🔍 VERIFICAÇÃO - host: ' . $host . ' | username: ' . $username);
+error_log('🔍 COMPARAÇÃO - esperado: ' . $username . '.terrasnoparaguay.com' . ' | recebido: ' . $host);
+error_log('🔍 MATCH? ' . (($host == $username . '.' . 'terrasnoparaguay.com') ? 'SIM' : 'NÃO'));
             if (($host == $username . '.' . 'terrasnoparaguay.com') || ($host . '/' . $username == 'terrasnoparaguay.com' . '/' . $username)) {
-                $user = User::where('username', $username)
+error_log('✅ ENTROU NO IF! Fazendo query para username: ' . $username);            
+    $user = User::where('username', $username)
                     ->where('online_status', 1)
                     ->where('status', 1)
                     ->whereHas('memberships', function ($q) {
@@ -458,12 +468,14 @@ function getUser()
                             ->where('expire_date', '>=', Carbon::now()->format('Y-m-d'));
                     })
                     ->first();
-\Log::info('DEBUG - User query result', ['user_found' => !is_null($user), 'username' => $username]); 
+\Log::info('DEBUG - Returning user', ['user_id' => $user->id ?? 'null']);
                //if user expired
 \Log::info('DEBUG - Returning user', ['user_id' => $user->id ?? 'null']);
-                if (!$user) {
-                    abort(404);
-                }
+       if (!$user) {
+    error_log('❌ USER NÃO ENCONTRADO - Retornando 404 para username: ' . $username);
+    abort(404);
+}
+error_log('✅ USER ENCONTRADO - ID: ' . $user->id . ' | Username: ' . $user->username);
                 // if the current url is a subdomain
                 if ($host != 'terrasnoparaguay.com') {
                     if (!cPackageHasSubdomain($user)) {
@@ -473,7 +485,7 @@ function getUser()
  return view('errors.404');
                     }
                 }
-
+error_log('🎯 getUser() RETORNANDO - User ID: ' . ($user ? $user->id : 'NULL') . ' | Username: ' . ($user ? $user->username : 'NULL'));
                 return $user;
             }
         }

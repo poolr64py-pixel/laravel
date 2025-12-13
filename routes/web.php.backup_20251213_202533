@@ -1192,42 +1192,42 @@ $host = str_replace("www.", "", $parsedUrl['host']);
 if (array_key_exists('host', $parsedUrl)) {
     // if it is a path based URL
      if ($host == env('WEBSITE_HOST')) {
-//     $domain = $domain;
-//     // Não aplicar prefix /{username} para rotas admin ou user
-//     if (!request()->is('admin') && !request()->is('admin/*') && !request()->is('user') && !request()->is('user/*')) {
-//         $prefix = '/{username}';
-//     } else {
-//         $prefix = '';
-     }
- }
-//     // if it is a subdomain / custom domain
-//     else {
-//         if (!app()->runningInConsole()) {
-//             if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
-//                 $domain = 'www.{domain}';
-//             } else {
-//                 $domain = '{domain}';
-//             }
-//         }
-//         $prefix = '';
-//     }
-// }
-// Route::group(['domain' => $domain, 'prefix' => $prefix], function () {
-//     Route::get('/', 'Front\FrontendController@users')->name('front.user.detail.view');
-// 
-//     Route::group(['middleware' => ['routeAccess:Service']], function () {
-//         Route::get('/services', 'Front\FrontendController@userServices')->name('front.user.services');
-//         Route::get('/service/{slug}/{id}', 'Front\FrontendController@userServiceDetail')->name('front.user.service.detail');
-//     });
-//     Route::group(['middleware' => ['routeAccess:Blog']], function () {
-//         Route::get('/blogs', 'Front\FrontendController@userBlogs')->name('front.user.blogs');
-//         Route::get('/blog/{slug}/{id}', 'Front\FrontendController@userBlogDetail')->name('front.user.blog.detail');
-//     });
-//     Route::group(['middleware' => ['routeAccess:Hotel Booking', 'Demo']], function () {
-//         Route::get('/rooms', 'Front\RoomController@rooms')->name('front.user.rooms');
-//         Route::get('/room/{id}/{slug}', 'Front\RoomController@roomDetails')->name('front.user.room_details');
-//         Route::post('/room/store_review/{id}', 'Front\RoomController@storeReview')->name('front.user.room.store_review');
-//         Route::post('/room-booking/apply-coupon', 'Front\RoomController@applyCoupon')->name('front.user.apply_coupon');
+    $domain = $domain;
+    // Não aplicar prefix /{username} para rotas admin ou user
+    if (!request()->is('admin') && !request()->is('admin/*') && !request()->is('user') && !request()->is('user/*')) {
+        $prefix = '/{username}';
+    } else {
+        $prefix = '';
+    }
+}
+    // if it is a subdomain / custom domain
+    else {
+        if (!app()->runningInConsole()) {
+            if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
+                $domain = 'www.{domain}';
+            } else {
+                $domain = '{domain}';
+            }
+        }
+        $prefix = '';
+    }
+}
+Route::group(['domain' => $domain, 'prefix' => $prefix], function () {
+    Route::get('/', 'Front\FrontendController@users')->name('front.user.detail.view');
+
+    Route::group(['middleware' => ['routeAccess:Service']], function () {
+        Route::get('/services', 'Front\FrontendController@userServices')->name('front.user.services');
+        Route::get('/service/{slug}/{id}', 'Front\FrontendController@userServiceDetail')->name('front.user.service.detail');
+    });
+    Route::group(['middleware' => ['routeAccess:Blog']], function () {
+        Route::get('/blogs', 'Front\FrontendController@userBlogs')->name('front.user.blogs');
+        Route::get('/blog/{slug}/{id}', 'Front\FrontendController@userBlogDetail')->name('front.user.blog.detail');
+    });
+    Route::group(['middleware' => ['routeAccess:Hotel Booking', 'Demo']], function () {
+        Route::get('/rooms', 'Front\RoomController@rooms')->name('front.user.rooms');
+        Route::get('/room/{id}/{slug}', 'Front\RoomController@roomDetails')->name('front.user.room_details');
+        Route::post('/room/store_review/{id}', 'Front\RoomController@storeReview')->name('front.user.room.store_review');
+        Route::post('/room-booking/apply-coupon', 'Front\RoomController@applyCoupon')->name('front.user.apply_coupon');
         Route::post('/room-booking', 'Front\RoomBookingController@makeRoomBooking')->name('front.user.room_booking');
         Route::get('/room_booking/paypal/notify', 'User\Payment\PaypalController@successPayment')->name('front.user.room_booking.notify');
 
@@ -1263,7 +1263,7 @@ if (array_key_exists('host', $parsedUrl)) {
 
         Route::get('/room_booking/cancel', 'Front\RoomBookingController@cancel')->name('front.user.room_booking.cancel');
         Route::get('/room_booking/complete', 'Front\RoomBooking@complete')->name('front.user.room_booking.complete');
-   
+    });
 
     // start course management routes
     Route::group(['middleware' => ['routeAccess:Course Management', 'Demo']], function () {
@@ -1308,6 +1308,7 @@ if (array_key_exists('host', $parsedUrl)) {
         Route::get('/course-enrolment/{id}/complete/{via?}', 'Front\CourseManagement\EnrolmentController@complete')->name('front.user.course_enrolment.complete');
 
         Route::get('/course-enrolment/{id}/cancel', 'Front\CourseManagement\EnrolmentController@cancel')->name('front.user.course_enrolment.cancel');
+    });
     // end course management routes
     Route::group(['middleware' => ['routeAccess:Donation Management', 'Demo']], function () {
         Route::get('/causes', 'Front\DonationManagement\CauseController@index')->name('front.user.causes');

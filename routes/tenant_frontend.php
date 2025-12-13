@@ -8,6 +8,7 @@ use App\Http\Controllers\UserFrontend\ProjectController;
 use App\Http\Controllers\UserFrontend\PropertyController;
 use App\Http\Controllers\UserFrontend\UserController;
 // Para subdomínios
+error_log('🔵🔵 TENANT_FRONTEND.PHP CARREGADO!');
 $prefix = '';
 
 // ROTA DE TESTE - REMOVER DEPOIS
@@ -17,13 +18,16 @@ Route::get('/test-route', function() {
 
 // Rota de mudança de idioma (sem middleware para funcionar)
 Route::get('/change-language', [MiscellaneousController::class, 'changeLanguage'])->name('frontend.change_language');
-
+error_log('🔵🔵 ANTES do Route::group - middleware será: userMaintenance');
 Route::group(['prefix' => $prefix, 'middleware' => 'userMaintenance'], function () use ($prefix) {
   Route::middleware(['frontend.language'])->name('frontend.')->group(function () {
 
     Route::post('/store-subscriber', [MiscellaneousController::class, 'storeSubscriber'])->name('store_subscriber');
 
-    Route::get('/', [HomePageController::class, 'index'])->name('user.index');
+    Route::get('/', function() {
+    error_log('🏠🏠 ROTA / EXECUTADA!');
+    return app(HomePageController::class)->index();
+})->name('user.index');
     Route::get('/about-us', [HomePageController::class, 'aboutus'])->name('aboutus');
 
     // Properties route  

@@ -39,6 +39,7 @@ protected function getCustomSectionContents($tenantId, $languageId)
 }
 public function index()
 {
+error_log('🏠🏠🏠 HomePageController::index() CHAMADO!');
     $user = getUser();
     if (!$user || !$user->id) {
         return redirect('/');
@@ -175,11 +176,16 @@ $queryResult['language'] = $language;
     }
 public function aboutus(Request $request)
 {
-    $user = getUser();
-    if (!$user || !$user->id) {
-        return redirect('/');
-    }
-    
+$user = getUser();
+error_log('🏠 HomePageController@index - User: ' . ($user ? 'EXISTS' : 'NULL'));
+error_log('🏠 User ID: ' . ($user ? ($user->id ?? 'NO ID') : 'NULL'));
+error_log('🏠 User type: ' . ($user ? get_class($user) : 'NULL'));
+
+if (!$user || !$user->id) {
+    error_log('❌ REDIRECT TRIGGERED - User or ID is missing!');
+    return redirect('/');
+}
+error_log('✅ Passou da verificação! Tenant ID: ' . $user->id);    
     $tenantId = $user->id;
     $language = $this->currentLang($tenantId);
     $lang_id = $language->id;

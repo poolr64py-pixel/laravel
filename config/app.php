@@ -55,7 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-'website_host' => 'terrasnoparaguay.com',
+'website_host' => env('WEBSITE_HOST', 'terrasnoparaguay.com'),
     'asset_url' => env('ASSET_URL', null),
 
     /*
@@ -233,6 +233,6 @@ return [
 
     ],
 
-    'website_host' => 'terrasnoparaguay.com',
+    'website_host' => env('WEBSITE_HOST', 'terrasnoparaguay.com'),
 ];
 
