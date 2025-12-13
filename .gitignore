@@ -23,4 +23,5 @@ yarn-error.log
 test.php
 server.php
 fix_app_config.php
+routes/*.backup*
 
