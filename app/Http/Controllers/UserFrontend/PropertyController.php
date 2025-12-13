@@ -375,7 +375,7 @@ $information['breadcrumb'] = 'breadcrumb';
         return view('tenant_frontend.property.details', $information);
     }
 
-    public function contact($website, Request $request)
+    public function contact(Request $request)
     {
         $rules = [
             'name' => 'required',

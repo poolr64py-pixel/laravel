@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use App\Models\User\Language;
@@ -11,44 +10,53 @@ use App\Traits\Tenant\Frontend\Language as TenantFrontendLanguage;
 
 class TenantFrontendLocale
 {
-    use  TenantFrontendLanguage;
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
-       
-    {
-   \Log::info('TenantFrontendLocale middleware EXECUTANDO', ['url' => $request->url()]);       
- $locale = session('tenant_frontend_lang'); // Check if the session already has the language
-
-        $user = getUser();
- \Log::info('TenantFrontendLocale - Usuário', [
-        'encontrado' => $user ? 'SIM' : 'NÃO',
-        'user_id' => $user->id ?? 'NULL',
-        'username' => $user->username ?? 'NULL'
-    ]);
- $locale = session('tenant_frontend_lang');       
- if (!$locale) {
-            // Fetch the Tenant's default language if not already in session
-            $defaultLanguage =  $this->defaultLang($user->id);
-
-            if ($defaultLanguage) {
-                $locale = $defaultLanguage->code;
-                Session::put('tenant_frontend_lang', $defaultLanguage->code);
-            }
-        } else {
-            $chekLanguage =  $this->selectLang($user->id, $locale);
-
-            if (!$chekLanguage) {
-                $defaultLang = $this->defaultLang($user->id);
-                $locale = $defaultLang->code;
-                Session::put('tenant_frontend_lang', $locale);
-            }
-        }
-        app()->setLocale($locale);
-
+    use TenantFrontendLanguage;
+public function handle(Request $request, Closure $next): Response
+{
+    error_log('🔵 TenantFrontendLocale INICIO: ' . $request->url());
+    
+    // Pegar o user_id do domínio/tenant
+    $user = getUser();
+    $userId = $user ? $user->id : null;
+    
+    // Se não tiver usuário do domínio, tentar pegar da sessão
+    if (!$userId && session()->has('user_id')) {
+        $userId = session('user_id');
+    }
+    
+    if (!$userId) {
+        error_log('❌ TenantFrontendLocale - Sem user_id');
         return $next($request);
     }
+    
+    $locale = session('lang');
+    error_log('📝 Sessão atual: lang=' . ($locale ?? 'NULL') . ', user_id=' . $userId);
+    
+    if (!$locale) {
+        $defaultLanguage = $this->defaultLang($userId);
+        if ($defaultLanguage) {
+            $locale = $defaultLanguage->code;
+            Session::put('lang', $locale);
+            Session::save();
+            error_log('✨ Usando idioma padrão: ' . $locale);
+        }
+    } else {
+        $checkLanguage = $this->selectLang($userId, $locale);
+        if (!$checkLanguage) {
+            $defaultLang = $this->defaultLang($userId);
+            $locale = $defaultLang->code;
+            Session::put('lang', $locale);
+            Session::save();
+            error_log('⚠️ Idioma não existe, voltando ao padrão: ' . $locale);
+        } else {
+            error_log('✅ Mantendo idioma da sessão: ' . $locale);
+        }
+    }
+    
+    app()->setLocale($locale);
+    error_log('🔵 TenantFrontendLocale FIM: locale_final=' . $locale);
+    
+    return $next($request);
+}
+
 }

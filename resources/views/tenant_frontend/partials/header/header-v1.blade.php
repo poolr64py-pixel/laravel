@@ -35,9 +35,9 @@
                     </a>
                 @endif
                 <div class="collapse navbar-collapse">
-@php 
-    $menuDatas = !empty($menuInfos) && $menuInfos->count() > 0 ? (is_string($menuInfos->first()->menus) ? json_decode($menuInfos->first()->menus) : $menuInfos->first()->menus) : [];
-@endphp
+//@php 
+  //  $menuDatas = !empty($menuInfos) && $menuInfos->count() > 0 ? (is_string($menuInfos->first()->menus) ? json_decode($menuInfos->first()->menus) : $menuInfos->first()->menus) : [];
+//@endphp
 
 <ul id="mainMenu" class="navbar-nav mobile-item mx-auto">
     @foreach ($menuDatas as $menuData)
@@ -71,7 +71,7 @@
                     @if (!empty($permissions) && in_array('Additional Language', $permissions) )
                         <div class="item">
                             <div class="language">
-                                <form action="{{ route('change_language', getParam()) }}" method="GET">
+                                <form action="{{ route('frontend.change_language', getParam()) }}" method="GET">
     <select class="nice-select" name="lang_code" onchange="this.form.submit()">
         @php
             $allLanguageInfos = $allLanguageInfos ?? [];

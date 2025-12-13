@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     use TenantFrontendLanguage;
-    public function page($username, $slug)
+    public function page($slug)
     {
         $misc = new MiscellaneousController();
         $tenantId = getUser()->id;

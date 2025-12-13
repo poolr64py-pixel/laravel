@@ -72,7 +72,7 @@
                 <a href="{{ $checkWishList == false ? route('frontend.user.project.addto.wishlist', [getParam(), 'project' => $project->id]) : route('frontend.user.project.remove.wishlist', [getParam(), 'project' => $project->id]) }}"
                     class="btn-wishlist {{ $checkWishList == false ? '' : 'wishlist-active' }}" data-tooltip="tooltip"
                     data-bs-placement="top"
-                    title="{{ $checkWishList == false ? $keywords['Add to Wishlist'] : $keywords['Saved'] }}">
+                    title="{{ $checkWishList == false ? ($keywords['Add to Wishlist'] ?? 'Add to Wishlist') : ($keywords['Saved'] ?? 'Saved') }}"
                     <i class="fal fa-heart"></i>
                 </a>
             @endif

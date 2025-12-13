@@ -488,9 +488,23 @@ $host = request()->getHost();
 
     public function changeLanguage($lang): \Illuminate\Http\RedirectResponse
     {
-        session()->put('frontend_lang', $lang);
+        $user = getUser();
+        $tenantId = $user ? $user->id : null;
+        
+        // Busca no sistema de idiomas do TENANT
+        $language = \App\Models\User\Language::where('code', $lang)
+            ->where('user_id', $tenantId)
+            ->first();
+        file_put_contents('/tmp/menu_debug.txt', "=== CHANGE LANGUAGE ===\nLang code: $lang\nLanguage found: " . ($language ? "YES (id: {$language->id})" : "NO") . "\n", FILE_APPEND);
+        
+        if ($language) {
+            session()->put('lang', $lang);
+            session()->put('language_id', $language->id);
+            session()->save(); // Força salvar
+            file_put_contents('/tmp/menu_debug.txt', "Session saved: lang=$lang, language_id={$language->id}\n", FILE_APPEND);
+        }
         app()->setLocale($lang);
-        return redirect()->route('front.index');
+        return redirect()->back();
     }
 
 

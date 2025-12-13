@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\View;
 class ProjectController extends Controller
 {
     use TenantFrontendLanguage, PageHeadings;
-    public function index($username, Request $request)
+    public function index( Request $request)
     {
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();
@@ -178,7 +178,7 @@ class ProjectController extends Controller
         return view('tenant_frontend.project.index', $information);
     }
 
-    public function details($username, Request $request, $slug)
+    public function details(Request $request, $slug)
     {
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();
@@ -265,7 +265,7 @@ class ProjectController extends Controller
     }
 
 
-    public function contact($website, Request $request)
+    public function contact(Request $request)
     {
         $rules = [
             'name' => 'required',

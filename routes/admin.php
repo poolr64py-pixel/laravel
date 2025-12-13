@@ -429,7 +429,7 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                 Route::prefix('package')->controller(PackageController::class)->group(function () {
 
                     Route::get('/settings', 'settings')->name('admin.package.settings');
-                    Route::post('/settings', 'updateSettings')->name('admin.package.settings');
+                    Route::post('/settings', 'updateSettings')->name('admin.package.settings.update');
                     // Package Settings routes
                     Route::get('/features', 'features')->name('admin.package.features');
                     Route::post('/features', 'updateFeatures')->name('admin.package.features');

@@ -18,6 +18,11 @@ class FrontendLocale
   public function handle($request, Closure $next)
   {
 // \Log::info('FrontendLocale middleware (web.php)', ['url' => $request->url(), 'session_lang' => session()->get('frontend_lang')]);
+   \Log::info('FrontendLocale START', [
+        'url' => $request->url(),
+        'route' => $request->route() ? $request->route()->getName() : 'NO ROUTE',
+        'action' => $request->route() ? $request->route()->getActionName() : 'NO ACTION'
+    ]);
     if (session()->has('frontend_lang')) {
       app()->setLocale(session()->get('frontend_lang'));
     } else {
@@ -27,6 +32,7 @@ class FrontendLocale
         app()->setLocale($defaultLang->code);
       }
     }
-    return $next($request);
+\Log::info('FrontendLocale END');   
+ return $next($request);
   }
 }

@@ -68,7 +68,7 @@ if (request()->getHost()) {
             'agent.partials.side-navbar',
             'agent.partials.languages',
         ], TenantFrontLangBlade::class);
-        View::composer('agent.*', AgentComposer::class);
-        View::composer(['tenant_frontend.*', 'components.tenant.frontend.*'], TenantFrontendComposer::class);
+        View::composer('agent.*', AgentComposer::class);       
+ View::composer(['tenant_frontend.*', 'components.tenant.frontend.*'], TenantFrontendComposer::class);
     }
 }

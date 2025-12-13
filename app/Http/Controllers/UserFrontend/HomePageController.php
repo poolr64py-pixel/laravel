@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserFrontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\HomePage\HomePage;
 use App\Models\User\Property\City;
 use App\Models\User\Property\State;
 use App\Models\Property;
@@ -11,7 +12,6 @@ use App\Models\Amenity;
 use App\Models\User;
 use App\Models\Language;
 use App\Models\User\BasicSetting; 
-use App\Models\User\HomePage\HomePage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -126,7 +126,16 @@ public function index()
     
     $queryResult['keywords'] = $keywords;
       $queryResult['allLanguageInfos'] = \DB::table('user_languages')->where('user_id', $tenantId)->get();
-    return view('tenant_frontend.home.index-v1', $queryResult);
+   
+// Carregar menu e idiomas
+$language = \App\Models\User\Language::where('user_id', $tenantId)->where('is_default', 1)->first();
+$menu = \App\Models\User\Menu::where('language_id', $language->id)->first();
+$menuDatas = !empty($menu->menus) ? (is_string($menu->menus) ? json_decode($menu->menus) : $menu->menus) : [];
+
+$queryResult['menuDatas'] = $menuDatas;
+$queryResult['menu'] = $menu;
+$queryResult['language'] = $language;
+     return view('tenant_frontend.home.index-v1', $queryResult);
 }
 
     private function getTenantId(Request $request)
@@ -164,4 +173,87 @@ public function index()
             ->where('code', $languageCode)
             ->first() ?? Language::where('user_id', $tenantId)->first();
     }
+public function aboutus(Request $request)
+{
+    $user = getUser();
+    if (!$user || !$user->id) {
+        return redirect('/');
+    }
+    
+    $tenantId = $user->id;
+    $language = $this->currentLang($tenantId);
+    $lang_id = $language->id;
+    
+    $data['language'] = $language;
+    $data['basicInfo'] = BasicSetting::where('user_id', $tenantId)->first();
+    $data['user'] = $user;
+    
+    // Sections info
+    $data['secInfo'] = HomePage::where('user_id', $tenantId)->first();
+    
+    // About section
+    $data['aboutInfo'] = \App\Models\User\HomePage\AboutSection::where('user_id', $tenantId)
+        ->where('language_id', $lang_id)
+        ->first();
+    
+    // Page heading and SEO
+    $data['pageHeading'] = \App\Models\User\PageHeading::where('user_id', $tenantId)
+        ->where('language_id', $lang_id)
+        ->first();
+        
+    $data['seoInfo'] = \App\Models\User\SEO::where('user_id', $tenantId)
+        ->where('language_id', $lang_id)
+        ->first();
+    
+    // Additional sections
+    $sections = ['about_info', 'why_choose_us', 'testimonial', 'counter'];
+    foreach ($sections as $section) {
+        $data["after_" . $section] = \App\Models\User\AdditionalSection::where('user_id', $tenantId)
+            ->where('position', 'after_' . $section)
+            ->where('page_type', 'about')
+            ->orderBy('serial_number', 'asc')
+            ->get();
+    }
+    
+    // Section status
+    $aboutSectionStatus = $data['basicInfo']->about_additional_section_status ?? null;
+    if (!empty($aboutSectionStatus)) {
+        $data['aboutSec'] = json_decode($aboutSectionStatus, true);
+    } else {
+        $data['aboutSec'] = [];
+    }
+    
+    $data['aboutImg'] = null;
+    $data['breadcrumb'] = null;
+    
+    // Work steps / Process
+$data['workStepsSecInfo'] = null;
+$data['steps'] = \App\Models\User\HomePage\WorkProcess::where('user_id', $tenantId)
+    ->where('language_id', $lang_id)
+    ->orderBy('serial_number', 'asc')
+    ->get();
+$data['workStepsSecImg'] = null;
+$data['after_work_steps'] = collect([]);
+
+// Why choose us
+$data['whyChooseUsInfo'] = \App\Models\User\HomePage\WhyChooseUsSection::where('user_id', $tenantId)
+    ->where('language_id', $lang_id)
+    ->first();
+$data['whyChooseUsImg'] = null;
+
+// Testimonials
+$data['testimonials'] = \App\Models\User\HomePage\Testimonial::where('user_id', $tenantId)
+    ->where('language_id', $lang_id)
+    ->orderBy('serial_number', 'asc')
+    ->get();
+$data['after_testimonial'] = collect([]);
+
+// Counter
+$data['counters'] = \App\Models\User\HomePage\CounterInformation::where('user_id', $tenantId)
+    ->where('language_id', $lang_id)
+    ->orderBy('serial_number', 'asc')
+    ->get();
+$data['after_counter'] = collect([]);
+    return view('tenant_frontend.about', $data);
+}
 }

@@ -16,7 +16,7 @@ class BlogController extends Controller
 {
 
     use TenantFrontendLanguage, PageHeadings;
-    public function index($username, Request $request)
+    public function index(Request $request)
     {
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();
@@ -76,7 +76,7 @@ class BlogController extends Controller
         return view('tenant_frontend.blog.posts', $queryResult);
     }
 
-    public function show($username, $slug)
+    public function show($slug)
     {
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();

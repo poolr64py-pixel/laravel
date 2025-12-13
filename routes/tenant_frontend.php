@@ -9,30 +9,29 @@ use App\Http\Controllers\UserFrontend\PropertyController;
 use App\Http\Controllers\UserFrontend\UserController;
 use Illuminate\Support\Facades\Route;
 
-$domain = env('WEBSITE_HOST');
-$parsedUrl = ['host' => $_SERVER['HTTP_HOST'] ?? env('WEBSITE_HOST')];
-$host = str_replace("www.", "", $parsedUrl['host']);
+$currentHost = $_SERVER['HTTP_HOST'] ?? env('WEBSITE_HOST');
+$websiteHost = env('WEBSITE_HOST');
+$cleanHost = str_replace('www.', '', $currentHost);
+$cleanWebsiteHost = str_replace('www.', '', $websiteHost);
 
-if (array_key_exists('host', $parsedUrl)) {
-  // if it is a path based URL
-  if ($host == env('WEBSITE_HOST')) {
-    $domain = $domain;
-    $prefix = '/{username}';
-  }
-  // if it is a subdomain / custom domain
-  else {
-    // Para subdomínios, usar o host atual
-    if (!app()->runningInConsole()) {
-      $domain = $_SERVER['HTTP_HOST'];
-    }
-    $prefix = '';
-  }
+// Se for o site principal, não carregar essas rotas
+if ($cleanHost === $cleanWebsiteHost) {
+    return;
 }
-Route::group(['domain' => $domain, 'prefix' => $prefix, 'middleware' => 'userMaintenance'], function () use ($domain, $prefix) {
+
+// Para subdomínios
+$prefix = '';
+
+// ROTA DE TESTE - REMOVER DEPOIS
+Route::get('/test-route', function() {
+    return 'Rotas do tenant_frontend estão sendo carregadas! Host: ' . request()->getHost();
+});
+
+// Rota de mudança de idioma (sem middleware para funcionar)
+Route::get('/change-language', [MiscellaneousController::class, 'changeLanguage'])->name('frontend.change_language');
+
+Route::group(['prefix' => $prefix, 'middleware' => 'userMaintenance'], function () use ($prefix) {
   Route::middleware(['frontend.language'])->name('frontend.')->group(function () {
-
-
-    Route::get('/change-language', [MiscellaneousController::class, 'changeLanguage'])->name('change_language');
 
     Route::post('/store-subscriber', [MiscellaneousController::class, 'storeSubscriber'])->name('store_subscriber');
 

@@ -26,7 +26,7 @@ use App\Traits\Tenant\Frontend\PageHeadings;
 class AgentController extends Controller
 {
     use TenantFrontendLanguage, PageHeadings;
-    public function index($username, Request $request)
+    public function index(Request $request)
     {
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();
@@ -42,7 +42,7 @@ class AgentController extends Controller
         return view('tenant_frontend.agent.index', $queryResult);
     }
 
-    public function details($username, Request $request, $slug)
+    public function details(Request $request, $slug)
     {
         $tenantId = getUser()->id;
         $language = $this->currentLang($tenantId);
@@ -79,7 +79,7 @@ class AgentController extends Controller
         return view('tenant_frontend.agent.details', $queryResult);
     }
 
-    public function tenantDetails($username, Request $request)
+    public function tenantDetails(Request $request)
     {
         $tenant = getUser();
         $tenantId = $tenant->id;
