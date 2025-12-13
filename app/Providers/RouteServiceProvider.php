@@ -14,14 +14,16 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::pattern('domain', '[a-z0-9.\-]+');
         parent::boot();
-    }
+    $this->map();    
+}
 
     public function map()
     {
-        $this->mapTenantFrontendRoutes();
-        $this->mapWebRoutes();
-        $this->mapAdminRoutes();
-        $this->mapApiRoutes();
+          error_log("🔵 MAP() chamado - host: " . request()->getHost());
+        $this->mapAdminRoutes();      // Admin PRIMEIRO
+        $this->mapWebRoutes();         // Web segundo
+        $this->mapApiRoutes();         // API terceiro
+        $this->mapTenantFrontendRoutes(); // Tenant POR ÚLTIMO (wildcard)
     }
 
     protected function mapApiRoutes()
@@ -47,26 +49,34 @@ class RouteServiceProvider extends ServiceProvider
         }
     }
 
-    protected function mapAdminRoutes()
-    {
+protected function mapAdminRoutes()
+{
+    error_log("🔴 mapAdminRoutes() INICIO");
+    try {
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
+        error_log("🔴 mapAdminRoutes() SUCESSO");
+    } catch (\Exception $e) {
+        error_log("🔴 mapAdminRoutes() ERRO: " . $e->getMessage());
+        error_log("🔴 Arquivo: " . $e->getFile() . " Linha: " . $e->getLine());
     }
-
-    protected function mapTenantFrontendRoutes()
-    {
-        $host = request()->getHost();
-        $websiteHost = config('app.website_host', 'terrasnoparaguay.com');
-        $cleanHost = str_replace('www.', '', $host);
-        $cleanWebsiteHost = str_replace('www.', '', $websiteHost);
-        
-        // Só carregar rotas de tenant se NÃO for o site principal
-        if ($cleanHost !== $cleanWebsiteHost) {
-            Route::middleware("web")
-                ->namespace($this->namespace)
-                ->group(base_path("routes/tenant_frontend.php"));
-        }
+}
+protected function mapTenantFrontendRoutes()
+{
+    $host = request()->getHost();
+    $websiteHost = config('app.website_host', 'terrasnoparaguay.com');
+    $cleanHost = str_replace('www.', '', $host);
+    $cleanWebsiteHost = str_replace('www.', '', $websiteHost);
+    
+    // Apenas carregar se for SUBDOMÍNIO (não é o domínio principal)
+    if ($cleanHost !== $cleanWebsiteHost) {
+        error_log("✅ Tenant subdomínio: {$cleanHost}");
+        Route::domain($host)
+            ->middleware("web")
+            ->namespace($this->namespace)
+            ->group(base_path("routes/tenant_frontend.php"));
     }
+}
 }
 

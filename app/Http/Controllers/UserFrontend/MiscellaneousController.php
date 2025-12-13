@@ -17,45 +17,33 @@ class MiscellaneousController extends Controller
 
 public function changeLanguage(Request $request)
 {
-    $langCode = $request->input('lang_code');
+    error_log('🔄 changeLanguage CHAMADO: lang_code=' . $request->input('lang_code'));
     
-    error_log('🔴 changeLanguage: lang_code=' . $langCode);
-    error_log('🔴 Session ID ANTES: ' . session()->getId());
-    
-    if (!$langCode) {
-        return back();
-    }
-    
+    $langCode = $request['lang_code'];
     $user = getUser();
     
     if (!$user) {
-        error_log('🔴 Sem usuário');
         return back();
     }
     
-    error_log('🔴 User ID: ' . $user->id);
+    // Buscar o idioma
+    $language = Language::where([
+        ['user_id', $user->id], 
+        ['code', $langCode]
+    ])->first();
     
-    $language = Language::where('user_id', $user->id)
-        ->where('code', $langCode)
-        ->first();
-    
-    if (!$language) {
-        error_log('🔴 Idioma não encontrado');
-        return back();
+    if ($language) {
+        // Salvar em AMBAS as chaves de sessão
+        session()->put('tenant_frontend_lang', $language->code);
+        session()->put('lang', $language->code);  // ← ADICIONAR ESTA LINHA
+        session()->put('tenant_language_id', $language->id);  // ← ADICIONAR ESTA LINHA
+        app()->setLocale($language->code);
+        
+        error_log('✅ Idioma salvo: code=' . $language->code . ', id=' . $language->id);
     }
     
-    // Salvar na sessão
-    session()->put('lang', $langCode);
-    session()->put('language_id', $language->id);
-    session()->put('user_id', $user->id); // Salvar user_id também
-    session()->save();
-    
-    error_log('✅ SESSÃO SALVA: lang=' . session('lang'));
-    error_log('✅ Session ID DEPOIS: ' . session()->getId());
-    error_log('✅ Todas chaves: ' . implode(', ', array_keys(session()->all())));
-    
-    return redirect()->back();
-}
+    return back();
+}    
 
     public static function getBreadcrumb($tenantId)
     {

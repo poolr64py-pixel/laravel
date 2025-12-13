@@ -9,7 +9,7 @@
     <!-- Logo Header -->
 
     <div class="logo-header" @if (request()->cookie('user-theme') == 'dark') data-background-color="dark2" @endif>
-        <a href="{{ route('frontend.user.index', $tenant->username) }}" class="logo" target="_blank">
+        <a href="{{ Route::has('frontend.user.index') ? route('frontend.user.index', $tenant->username) : 'https://' . $tenant->username . '.' . env('WEBSITE_HOST') }}" class="logo" target="_blank">
             <img src="{{ !is_null($userBs->logo) ? asset($userBs->logo) : asset('assets/admin/img/propics/blank_user.jpg') }}"
                 alt="navbar brand" class="navbar-brand">
         </a>
@@ -70,7 +70,7 @@
 
                 <li class="mr-1">
                     <a class="btn btn-primary btn-sm btn-round" target="_blank"
-                        href="{{ route('frontend.user.index', Auth::user()->username) }}" title="View Website">
+                        href="{{ Route::has('frontend.user.index') ? route('frontend.user.index', Auth::user()->username) : 'https://' . Auth::user()->username . '.' . env('WEBSITE_HOST') }}" title="View Website">
                         <i class="fas fa-eye"></i>
                     </a>
                 </li>

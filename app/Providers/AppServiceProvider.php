@@ -32,21 +32,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//  // \Log::info('AppServiceProvider boot called');
         Paginator::useBootstrap();
-
+        
         if (!app()->runningInConsole()) {
-
             $this->composeSpecificViews();
         }
-         // Detectar domínio dinamicamente
-if (request()->getHost()) {
-    \URL::forceRootUrl('https://' . request()->getHost());
-    \URL::forceScheme('https');
-
-     
- }
-}
+    }
 
     /**
      * Compose specific views.
@@ -56,19 +47,19 @@ if (request()->getHost()) {
     protected function composeSpecificViews()
     {
         View::composer('*', GlobalComposer::class);
-
-//   // \Log::info('View compoer registered for tenant_frontend');       
- View::composer('admin.*', AdminComposer::class);
+        View::composer('admin.*', AdminComposer::class);
         View::composer('front.*', FrontendComposer::class);
         View::composer('user.*', TenantComposer::class);
-        // this is  for where use TenantFontentLanguage
+        
+        // this is for where use TenantFontentLanguage
         View::composer([
             'user.partials.languages',
             'user.partials.side-navbar',
             'agent.partials.side-navbar',
             'agent.partials.languages',
         ], TenantFrontLangBlade::class);
-        View::composer('agent.*', AgentComposer::class);       
- View::composer(['tenant_frontend.*', 'components.tenant.frontend.*'], TenantFrontendComposer::class);
+        
+        View::composer('agent.*', AgentComposer::class);
+        View::composer(['tenant_frontend.*', 'components.tenant.frontend.*'], TenantFrontendComposer::class);
     }
 }

@@ -18,6 +18,7 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        \Log::info("🔍 REDIRECT IF AUTH - guard: $guard, authenticated: " . Auth::guard($guard)->check());
         switch ($guard) {
             case 'admin':
                 if (Auth::guard($guard)->check()) {

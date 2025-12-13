@@ -72,7 +72,9 @@ class PackageController extends Controller
             return $query->where('title', 'like', '%' . $search . '%');
         })->orderBy('created_at', 'DESC')->get();
 
-        $data['features'] = json_decode($data['bex']->package_features, true);
+        $data['features'] = $data['bex'] && $data['bex']->package_features 
+            ? json_decode($data['bex']->package_features, true) 
+            : [];
 
         return view('admin.packages.index', $data);
     }

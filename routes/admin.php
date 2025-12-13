@@ -112,8 +112,8 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                 Route::get('/cookie-alert', 'Admin\BasicController@cookiealert')->name('admin.cookie.alert');
                 Route::post('/cookie-alert/{langid}/update', 'Admin\BasicController@updatecookie')->name('admin.cookie.update');
                 // basic settings seo route
-                Route::get('/seo', [App\Http\Controllers\Admin\BasicController::class, 'seo'])->name('admin.seo');
-                Route::post('/seo/update', [App\Http\Controllers\Admin\BasicController::class, 'updateSEO'])->name('admin.seo.update');
+                Route::get('/seo', 'Admin\BasicController@seo')->name('admin.seo');
+                Route::post('/seo/update', 'Admin\BasicController@updateSEO')->name('admin.seo.update');
             });
 
             Route::group(['middleware' => 'checkpermission:Subscribers'], function () {
@@ -326,7 +326,7 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                     Route::post('/blog/delete', 'delete')->name('admin.blog.delete');
                     Route::post('/blog/bulk-delete', 'bulkDelete')->name('admin.blog.bulk.delete');
                     Route::get('/blog/{langid}/getcats', 'getcats')->name('admin.blog.getcats');
-                    Route::post('/blog/auto-translate', 'autoTranslate')->name('admin.blog.auto_translate');
+                    Route::post('/blog/translate', 'translate')->name('admin.blog.translate');
                 });
             });
 
@@ -429,7 +429,7 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                 Route::prefix('package')->controller(PackageController::class)->group(function () {
 
                     Route::get('/settings', 'settings')->name('admin.package.settings');
-                    Route::post('/settings', 'updateSettings')->name('admin.package.settings.update');
+                    Route::post('/settings', 'updateSettings')->name('admin.package.settings');
                     // Package Settings routes
                     Route::get('/features', 'features')->name('admin.package.features');
                     Route::post('/features', 'updateFeatures')->name('admin.package.features');

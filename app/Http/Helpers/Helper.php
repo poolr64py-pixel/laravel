@@ -227,20 +227,26 @@ if (!function_exists('getHref')) {
     function getHref($link)
     {
         $href = "#";
+        
+        // Verifica se a rota existe antes de tentar usá-la
+        $routeExists = function($name) {
+            return \Route::has($name);
+        };
+        
         if ($link["type"] == 'home') {
-            $href = route('front.index');
+            $href = $routeExists('front.index') ? route('front.index') : '#';
         } else if ($link["type"] == 'listings') {
-            $href = route('front.user.view');
+            $href = $routeExists('front.user.view') ? route('front.user.view') : '#';
         } else if ($link["type"] == 'about') {
-            $href = route('front.user.aboutus');
+            $href = $routeExists('front.user.aboutus') ? route('front.user.aboutus') : '#';
         } else if ($link["type"] == 'pricing') {
-            $href = route('front.pricing');
+            $href = $routeExists('front.pricing') ? route('front.pricing') : '#';
         } else if ($link["type"] == 'faq') {
-            $href = route('front.faq.view');
+            $href = $routeExists('front.faq.view') ? route('front.faq.view') : '#';
         } else if ($link["type"] == 'blog') {
-            $href = route('front.blogs');
+            $href = $routeExists('front.blogs') ? route('front.blogs') : '#';
         } else if ($link["type"] == 'contact') {
-            $href = route('front.contact');
+            $href = $routeExists('front.contact') ? route('front.contact') : '#';
         } else if ($link["type"] == 'custom') {
             if (empty($link["href"])) {
                 $href = "#";
@@ -263,7 +269,7 @@ if (!function_exists('getUserHref')) {
         $href = "#";
         $user = getUser();       
  if ($link->type == 'home') {
-            $href = route('frontend.user.index', getParam());
+            $href = Route::has('frontend.user.index') ? route('frontend.user.index', getParam()) : '#';
         } else if ($link->type == 'about-us') {
             $href = route('frontend.aboutus', getParam());
         } else if ($link->type == 'properties') {
@@ -626,7 +632,7 @@ if (!function_exists('get_href')) {
         $link_href = '';
 
         if ($data->type == 'home') {
-            $link_href = route('frontend.user.index', getParam());
+            $link_href = Route::has('frontend.user.index') ? route('frontend.user.index', getParam()) : '#';
         } else if ($data->type == 'services') {
             $link_href = route('frontend.services', getParam());
         } else if ($data->type == 'products') {

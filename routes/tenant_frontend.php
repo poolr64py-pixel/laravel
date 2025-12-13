@@ -7,18 +7,6 @@ use App\Http\Controllers\UserFrontend\MiscellaneousController;
 use App\Http\Controllers\UserFrontend\ProjectController;
 use App\Http\Controllers\UserFrontend\PropertyController;
 use App\Http\Controllers\UserFrontend\UserController;
-use Illuminate\Support\Facades\Route;
-
-$currentHost = $_SERVER['HTTP_HOST'] ?? env('WEBSITE_HOST');
-$websiteHost = env('WEBSITE_HOST');
-$cleanHost = str_replace('www.', '', $currentHost);
-$cleanWebsiteHost = str_replace('www.', '', $websiteHost);
-
-// Se for o site principal, não carregar essas rotas
-if ($cleanHost === $cleanWebsiteHost) {
-    return;
-}
-
 // Para subdomínios
 $prefix = '';
 

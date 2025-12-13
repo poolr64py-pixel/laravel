@@ -17,7 +17,19 @@ class FrontendLocale
    */
   public function handle($request, Closure $next)
   {
-// \Log::info('FrontendLocale middleware (web.php)', ['url' => $request->url(), 'session_lang' => session()->get('frontend_lang')]);
+    // Pula rotas admin/user/agent APENAS no domínio principal (www.terrasnoparaguay.com)
+    $host = $request->getHost();
+    $isMainDomain = in_array($host, ['www.terrasnoparaguay.com', 'terrasnoparaguay.com']);
+    
+    if ($isMainDomain && ($request->is('admin/*') || $request->is('admin') || 
+        $request->is('user/*') || $request->is('user') ||
+        $request->is('agent/*') || $request->is('agent') ||
+        $request->is('install/*') || $request->is('install'))) {
+        \Log::info('FrontendLocale: Pulando rota admin no domínio principal');
+        \Log::info("✅ FRONTEND LOCALE - passou sem redirect");
+        return $next($request);
+    }
+
    \Log::info('FrontendLocale START', [
         'url' => $request->url(),
         'route' => $request->route() ? $request->route()->getName() : 'NO ROUTE',

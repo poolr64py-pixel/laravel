@@ -10,6 +10,19 @@ class LoadTenantMenu
 {
     public function handle(Request $request, Closure $next): Response
     {
+        // Pular rotas de admin
+    if ($request->is('admin') || $request->is('admin/*')) {
+        return $next($request);
+    }
+        // Não carrega menu tenant nas rotas de tenant login (domínio principal)
+        $host = $request->getHost();
+        $isMainDomain = in_array($host, ['www.terrasnoparaguay.com', 'terrasnoparaguay.com']);
+        
+        if ($isMainDomain && ($request->is('login') || $request->is('login/*') || 
+            $request->is('register') || $request->is('register/*'))) {
+            return $next($request);
+        }
+        
         $user = getUser();
   // DEBUG temporário
         file_put_contents('/tmp/menu_debug.txt', date('Y-m-d H:i:s') . ' - User: ' . ($user ? $user->id : 'NULL') . "\n", FILE_APPEND);        
@@ -17,8 +30,8 @@ class LoadTenantMenu
             $tenantId = $user->id;
             
             // Carregar idioma da sessão ou padrão
-            $langCode = session('lang');
-            $langId = session('language_id');
+            $langCode = session('tenant_frontend_lang');  // ← Corrigir aqui
+            $langId = session('tenant_language_id');  // ← Corrigir aqui
             error_log("🔵 LoadTenantMenu: session lang=$langCode, language_id=$langId");
             $language = null;
             

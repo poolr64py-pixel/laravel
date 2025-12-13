@@ -16,6 +16,15 @@ class RouteAccess
      */
     public function handle(Request $request, Closure $next, $page)
     {
+        // Não aplica RouteAccess em rotas admin, user login, agent, install
+        if ($request->is('admin/*') || $request->is('admin') ||
+            $request->is('login') || $request->is('login/*') ||
+            $request->is('user/*') || $request->is('agent/*') ||
+            $request->is('register') || $request->is('register/*') ||
+            $request->is('install/*')) {
+            return $next($request);
+        }
+        
         $user = getUser();
         
         // Se não houver usuário, redirecionar para home
