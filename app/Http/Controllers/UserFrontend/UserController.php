@@ -274,7 +274,7 @@ class UserController extends Controller
         return redirect()->route('frontend.user.login', getParam());
     }
 
-    public function signup($username)
+    public function signup()
     {
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();
@@ -292,7 +292,7 @@ class UserController extends Controller
         return view('tenant_frontend.signup', $queryResult);
     }
 
-    public function signupSubmit($username, SignupRequest $request,)
+    public function signupSubmit(SignupRequest $request)
     {
 
         try {

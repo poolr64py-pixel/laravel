@@ -21,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     {
           error_log("🔵 MAP() chamado - host: " . request()->getHost());
         $this->mapAdminRoutes();      // Admin PRIMEIRO
+         $this->mapTenantRoutes(); 
         $this->mapTenantFrontendRoutes();     
         $this->mapWebRoutes();         // Web segundo
         $this->mapApiRoutes();         // API terceiro
@@ -92,5 +93,12 @@ protected function mapTenantFrontendRoutes()
             ->group(base_path("routes/tenant_frontend.php"));
     }
 }
+protected function mapTenantRoutes()
+{
+    Route::middleware('web')
+        ->namespace($this->namespace)
+        ->group(base_path('routes/tenant.php'));
+}
+
 }
 

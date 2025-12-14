@@ -77,15 +77,24 @@ if ($language && !empty($language->keywords)) {
     $keywords = is_string($language->keywords) ? json_decode($language->keywords, true) : $language->keywords;
 }
 
-// Adicionar fallbacks para keywords que podem faltar
+    // Adicionar fallbacks para keywords que podem faltar
 $defaultKeywords = [
     'Add to Wishlist' => 'Add to Wishlist',
     'Saved' => 'Saved',
     'Remove from Wishlist' => 'Remove from Wishlist',
+    'Username' => 'Username',
+    'Password' => 'Password',
+    'Email' => 'Email',
+    'First Name' => 'First Name',
+    'Last Name' => 'Last Name',
+    'Phone' => 'Phone',
 ];
+$keywords = array_merge($defaultKeywords, $keywords ?? []);
 
 $keywords = array_merge($defaultKeywords, $keywords);
 view()->share('keywords', $keywords);
+error_log('🔑 Keywords compartilhadas: ' . count($keywords) . ' items');
+error_log('🔑 Username existe? ' . (isset($keywords['Username']) ? 'SIM' : 'NAO'));
             }
         }
         

@@ -8,7 +8,7 @@
 
 @section('metaKeywords')
     @if (!empty($seoInfo))
-        {{ !empty($pageHeading) ? $pageHeading->signup_page_title : $keywords['User Singup'] ?? __('User Singup') }}
+        {{ !empty($pageHeading) ? $pageHeading->signup_page_title : ($keywords['User Singup'] ?? 'User Singup') ?? __('User Singup') }}
     @endif
 @endsection
 
@@ -21,8 +21,8 @@
 @section('content')
     @includeIf('tenant_frontend.partials.breadcrumb', [
         'breadcrumb' => $breadcrumb,
-        'title' => !empty($pageHeading) ? $pageHeading->signup_page_title : $keywords['Singup'] ?? __('Singup'),
-        'subtitle' => $keywords['Singup'] ?? __('Singup'),
+        'title' => !empty($pageHeading) ? $pageHeading->signup_page_title : ($keywords['Singup'] ?? 'Singup') ?? __('Singup'),
+        'subtitle' => ($keywords['Singup'] ?? 'Singup') ?? __('Singup'),
     ])
 
     <div class="authentication-area ptb-100">
@@ -34,11 +34,11 @@
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ __(Session::get('error')) }}</div>
                 @endif
-                <form action="{{ route('frontend.user.signup_submit', getParam()) }}" method="POST">
+                <form action="{{ safeRoute('frontend.user.signup_submit', getParam()) }}" method="POST">
                     @csrf
                     <div class="form-group mb-30">
 
-                        <input type="text" placeholder="{{ $keywords['Username'] . '*' }}" class="form-control"
+                        <input type="text" placeholder="{{ (($keywords['Username'] ?? 'Username') ?? 'Username') . '*' }}" class="form-control"
                             name="username" value="{{ old('username') }}">
                         @error('username')
                             <p class="text-danger mt-1">{{ $message }}</p>
@@ -47,7 +47,7 @@
 
                     <div class="form-group mb-30">
 
-                        <input type="email" placeholder="{{ $keywords['Email Address'] . '*' }}" class="form-control"
+                        <input type="email" placeholder="{{ ($keywords['Email Address'] ?? 'Email Address') . '*' }}" class="form-control"
                             name="email_address" value="{{ old('email_address') }}">
                         @error('email_address')
                             <p class="text-danger mt-1">{{ $message }}</p>
@@ -57,7 +57,7 @@
                     <div class="form-group mb-30">
 
                         <input type="password" class="form-control" name="password"
-                            placeholder="{{ $keywords['Password'] . '*' }}" value="{{ old('password') }}">
+                            placeholder="{{ ($keywords['Password'] ?? 'Password') . '*' }}" value="{{ old('password') }}">
                         @error('password')
                             <p class="text-danger mt-1">{{ $message }}</p>
                         @enderror
@@ -65,7 +65,7 @@
 
                     <div class="form-group mb-30">
 
-                        <input type="password" class="form-control" placeholder="{{ $keywords['Confirm Password'] . '*' }}"
+                        <input type="password" class="form-control" placeholder="{{ ($keywords['Confirm Password'] ?? 'Confirm Password') . '*' }}"
                             name="password_confirmation" value="{{ old('password_confirmation') }}">
                         @error('password_confirmation')
                             <p class="text-danger mt-1">{{ $message }}</p>
@@ -85,7 +85,7 @@
 
                     <div class="form-group">
                         <button type="submit"
-                            class="btn btn-lg btn-primary radius-md w-100">{{ $keywords['signup'] }}</button>
+                            class="btn btn-lg btn-primary radius-md w-100">{{ ($keywords['signup'] ?? 'signup') }}</button>
                     </div>
                 </form>
 

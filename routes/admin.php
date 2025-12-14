@@ -507,6 +507,6 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
         });
     });
 
-    require base_path('routes/web.php');
-    require base_path('routes/tenant.php');
+   //   require base_path('routes/web.php');
+    //  require base_path('routes/tenant.php');
 

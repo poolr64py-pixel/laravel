@@ -75,8 +75,19 @@ error_log('🏠🏠🏠 HomePageController::index() CHAMADO!');
     $queryResult['propertyTypes'] = [];
     $queryResult['amenities'] = [];
     $queryResult['properties'] = [];
-    $queryResult['featured_properties'] = [];
-    $queryResult['min'] = 0;
+    // $queryResult['featured_properties'] = [];
+   // Buscar propriedades destacadas (featured)
+      // Buscar propriedades destacadas (featured) com traduções
+$queryResult['featured_properties'] = \App\Models\User\Property\Property::where('user_id', $tenantId)
+    ->where('featured', 1)
+    ->where('status', 1)
+    ->with(['contents' => function($query) use ($language) {
+        $query->where('language_id', $language->id);
+    }])
+    ->orderBy('id', 'desc')
+    ->limit(6)
+    ->get();
+     $queryResult['min'] = 0;
     $queryResult['max'] = 999999999;
     $queryResult['partners'] = [];
     $queryResult['testimonials'] = [];
