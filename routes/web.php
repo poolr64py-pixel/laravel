@@ -1,3 +1,4 @@
+<?php error_log('🚨🚨🚨 WEB.PHP SENDO CARREGADO PARA: ' . request()->getHost()); ?>
 <?php
 
 use App\Http\Controllers\User\HotelBooking\RoomController;

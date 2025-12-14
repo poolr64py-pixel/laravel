@@ -269,27 +269,27 @@ if (!function_exists('getUserHref')) {
         $href = "#";
         $user = getUser();       
  if ($link->type == 'home') {
-            $href = Route::has('frontend.user.index') ? route('frontend.user.index', getParam()) : '#';
-        } else if ($link->type == 'about-us') {
-            $href = route('frontend.aboutus', getParam());
-        } else if ($link->type == 'properties') {
-            $href = route('frontend.properties', getParam());
-        } else if ($link->type == 'projects') {
-            $href = route('frontend.projects', getParam());
-        } else if ($link->type == 'agents') {
-            $href = route('frontend.agents', getParam());
-        } else if ($link->type == 'blog') {
-            $href = route('frontend.blog', getParam());
-        } else if ($link->type == 'contact') {
-            $href = route('frontend.contact', getParam());
-        } else if ($link->type == 'faq') {
-            $href = route('frontend.faq', getParam());
-        } else if ($link->type == 'custom') {
-            if (empty($link->href)) {
-                $href = "#";
-            } else {
-                $href = $link->href;
-            }
+                    $href = Route::has('frontend.user.index') ? route('frontend.user.index', getParam()) : '#';
+    } else if ($link->type == 'about-us') {
+        $href = Route::has('frontend.aboutus') ? route('frontend.aboutus', getParam()) : '#';
+    } else if ($link->type == 'properties') {
+        $href = Route::has('frontend.properties') ? route('frontend.properties', getParam()) : '#';
+    } else if ($link->type == 'projects') {
+        $href = Route::has('frontend.projects') ? route('frontend.projects', getParam()) : '#';
+    } else if ($link->type == 'agents') {
+        $href = Route::has('frontend.agents') ? route('frontend.agents', getParam()) : '#';
+    } else if ($link->type == 'blog') {
+        $href = Route::has('frontend.blog') ? route('frontend.blog', getParam()) : '#';
+    } else if ($link->type == 'contact') {
+        $href = Route::has('frontend.contact') ? route('frontend.contact', getParam()) : '#';
+    } else if ($link->type == 'faq') {
+        $href = Route::has('frontend.faq') ? route('frontend.faq', getParam()) : '#';
+    } else if ($link->type == 'custom') {
+        if (empty($link->href)) {
+            $href = "#";
+        } else {
+            $href = $link->href;
+        }
         } else {
             $page_id = (int)$link->type;
             $content = App\Models\User\CustomPage\PageContent::query()
@@ -705,5 +705,15 @@ if (!function_exists('paytabInfo')) {
             'url'        => $paytabsInfo['api_endpoint'],
             'currency'   => $currency,
         ];
+    }
+}
+
+if (!function_exists('safeRoute')) {
+    function safeRoute($name, $parameters = [], $absolute = true)
+    {
+        if (Route::has($name)) {
+            return route($name, $parameters, $absolute);
+        }
+        return '#';
     }
 }

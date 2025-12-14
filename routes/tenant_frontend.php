@@ -9,6 +9,8 @@ use App\Http\Controllers\UserFrontend\PropertyController;
 use App\Http\Controllers\UserFrontend\UserController;
 // Para subdomínios
 error_log('🔵🔵 TENANT_FRONTEND.PHP CARREGADO!');
+error_log('🔵🔵 REQUEST URI: ' . request()->getRequestUri());
+error_log('🔵🔵 REQUEST PATH: ' . request()->path());
 $prefix = '';
 
 // ROTA DE TESTE - REMOVER DEPOIS
@@ -28,12 +30,13 @@ Route::group(['prefix' => $prefix, 'middleware' => 'userMaintenance'], function 
     error_log('🏠🏠 ROTA / EXECUTADA!');
     return app(HomePageController::class)->index();
 })->name('user.index');
-    Route::get('/about-us', [HomePageController::class, 'aboutus'])->name('aboutus');
-
+   //  Route::get('/about-us', [HomePageController::class, 'aboutus'])->name('frontend.aboutus');
+Route::get('/about-us', [HomePageController::class, 'aboutus'])->name('aboutus');
     // Properties route  
-    Route::controller(PropertyController::class)->middleware(['TFRAcessPermission:Property Management'])->group(function () {
+      Route::controller(PropertyController::class)->middleware(['TFRAcessPermission:Property Management'])->group(function () {
       Route::get('/properties', 'index')->name('properties');
-      Route::get('/property/{slug}', 'details')->name('property.details');
+    
+       Route::get('/property/{slug}', 'details')->name('property.details');
       Route::post('/property-contact', 'contact')->name('property_contact');
       Route::get('/state-cities', 'getStateCities')->name('get_state_cities');
       Route::get('/cities', 'getCities')->name('get_cities');

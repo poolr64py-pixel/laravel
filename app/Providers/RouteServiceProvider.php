@@ -44,7 +44,9 @@ class RouteServiceProvider extends ServiceProvider
         $websiteHost,
         'www.' . $websiteHost
     ]);
-    
+    error_log("ğŸ” DEBUG - host: '{$host}' | websiteHost: '{$websiteHost}'");
+error_log("ğŸ” DEBUG - array: " . json_encode([$websiteHost, 'www.' . $websiteHost]));
+error_log("ğŸ” DEBUG - in_array result: " . ($isMainDomain ? 'true' : 'false'));    
     error_log("?? mapWebRoutes - host: {$host} | isMainDomain: " . ($isMainDomain ? 'SIM' : 'NÃO'));
     
     // Só carregar rotas web se FOR o site principal
