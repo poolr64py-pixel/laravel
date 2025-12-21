@@ -20,6 +20,7 @@ use App\Models\Bcategory;
 use App\Models\Membership;
 use App\Models\Subscriber;
 use App\Models\Testimonial;
+use App\Models\User\Property\Property;
 use Illuminate\Http\Request;
 use App\Traits\CustomSection;
 use App\Models\BasicSetting as BS;
@@ -38,8 +39,9 @@ class FrontendController extends Controller
 {
     use FrontendLanguage, CustomSection;
 
-    public function index()
+    public function index(Request $request )
     {
+        \Log::info("🔥 INDEX CHAMADO", ["url" => request()->fullUrl()]);
 $host = request()->getHost();
 
         if (session()->has('frontend_lang')) {
@@ -48,6 +50,48 @@ $host = request()->getHost();
             $currentLang = $this->defaultLang();
         }
         $lang_id = $currentLang->id;
+// ================== IMÓVEIS + BUSCA ==================
+$propertyQuery = \App\Models\User\Property\Property::query()
+    ->where('status', 1)
+    ->with(['contents', 'city.cityContent']);
+
+// 🔍 Busca por texto (cidade ou título)
+if ($request->filled('q')) {
+    $search = $request->q;
+    $propertyQuery->where(function($query) use ($search, $lang_id) {
+        $query->whereHas('contents', function($q) use ($search, $lang_id) {
+            $q->where(function($sq) use ($search) {
+                  $sq->where('title', 'like', "%{$search}%")
+                     ->orWhere('description', 'like', "%{$search}%");
+              });
+        })
+        ->orWhereHas('city.cityContent', function($q) use ($search, $lang_id) {
+            $q->where('name', 'like', "%{$search}%");
+        });
+    });
+}
+
+// 🏠 Tipo
+if ($request->filled('type')) {
+    $propertyQuery->where('type', $request->type);
+}
+
+// 💰 Preço
+if ($request->filled('price_min')) {
+    $propertyQuery->where('price', '>=', $request->price_min);
+}
+
+if ($request->filled('price_max')) {
+    $propertyQuery->where('price', '<=', $request->price_max);
+}
+
+// Resultado final
+$data['properties'] = $propertyQuery
+    ->latest()
+    ->paginate(12);
+// =====================================================
+
+
         $bs = $currentLang->basic_setting;
         $be = $currentLang->basic_extended;
         $data['processes'] = Process::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
@@ -65,7 +109,8 @@ $host = request()->getHost();
         $data['testimonials'] = Testimonial::where('language_id', $lang_id)
             ->orderBy('serial_number', 'ASC')
             ->get();
-        $data['blogs'] = Blog::where('language_id', $lang_id)->orderBy('serial_number', 'asc')->take(3)->get();
+      $data['blogs'] = Blog::where('language_id', 179)->orderBy('serial_number', 'ASC')->take(6)->get();
+        \Log::info("📊 BLOGS ENVIADOS", ["count" => $data["blogs"]->count(), "lang_code" => session()->get("frontend_lang", "pt")]);
 
         $data['partners'] = Partner::where('language_id', $lang_id)
             ->orderBy('serial_number', 'ASC')
@@ -90,6 +135,8 @@ $host = request()->getHost();
             $data['homecusSec'] = $info;
         }
 
+
+        $data["currentLangId"] = $lang_id;
         return view('front.index', $data);
     }
 
@@ -103,6 +150,38 @@ $host = request()->getHost();
         }
 
         $lang_id = $currentLang->id;
+       // ================== IMÓVEIS + BUSCA ==================
+$propertyQuery = \App\Models\Property::where('status', 1)
+    ->where('language_id', $lang_id);
+
+// 🔍 Busca por texto
+if ($request->filled('q')) {
+    $propertyQuery->where(function ($q) use ($request) {
+        $q->where('title', 'like', '%' . $request->q . '%')
+          ->orWhere('city', 'like', '%' . $request->q . '%');
+    });
+}
+
+// 🏷️ Tipo
+if ($request->filled('type')) {
+    $propertyQuery->where('type', $request->type);
+}
+
+// 💰 Preço
+if ($request->filled('price_min')) {
+    $propertyQuery->where('price', '>=', $request->price_min);
+}
+
+if ($request->filled('price_max')) {
+    $propertyQuery->where('price', '<=', $request->price_max);
+}
+
+// Resultado final
+$data['properties'] = $propertyQuery
+    ->latest()
+    ->paginate(12);
+// =====================================================
+
         $bs = $currentLang->basic_setting;
         $be = $currentLang->basic_extended;
 
@@ -281,21 +360,22 @@ $host = request()->getHost();
         $lang_id = $currentLang->id;
 
 
-        $term = $request->search;
-        $category_id = $request->category;
+$term = $request->search;
+$category_id = $request->category;
 
         $data['bcats'] = Bcategory::where('language_id', $lang_id)
             ->where('status', 1)
             ->orderBy('serial_number', 'ASC')
             ->get();
 
-        $data['blogs'] = Blog::when($term, function ($query, $term) {
-            return $query->where('title', 'like', '%' . $term . '%');
-        })->when($currentLang, function ($query, $currentLang) {
-            return $query->where('language_id', $currentLang->id);
-        })->when($category_id, function ($query, $category_id) {
-            return $query->where('bcategory_id', $category_id);
-        })->orderBy('serial_number', 'ASC')
+        $data['blogs'] = Blog::where('language_id', $lang_id)
+            ->when($term, function ($query, $term) {
+                return $query->where('title', 'like', '%' . $term . '%');
+            })
+            ->when($category_id, function ($query, $category_id) {
+                return $query->where('bcategory_id', $category_id);
+            })
+            ->orderBy('serial_number', 'ASC')
             ->paginate(15);
         return view('front.blogs', $data);
     }
@@ -488,26 +568,18 @@ $host = request()->getHost();
 
     public function changeLanguage($lang): \Illuminate\Http\RedirectResponse
     {
-        $user = getUser();
-        $tenantId = $user ? $user->id : null;
-        
-        // Busca no sistema de idiomas do TENANT
-        $language = \App\Models\User\Language::where('code', $lang)
-            ->where('user_id', $tenantId)
-            ->first();
-        file_put_contents('/tmp/menu_debug.txt', "=== CHANGE LANGUAGE ===\nLang code: $lang\nLanguage found: " . ($language ? "YES (id: {$language->id})" : "NO") . "\n", FILE_APPEND);
+        // Buscar idioma na tabela global do sistema
+        $language = \App\Models\Language::where('code', $lang)->first();
         
         if ($language) {
-            session()->put('lang', $lang);
+            session()->put('frontend_lang', $lang);
             session()->put('language_id', $language->id);
-            session()->save(); // Força salvar
-            file_put_contents('/tmp/menu_debug.txt', "Session saved: lang=$lang, language_id={$language->id}\n", FILE_APPEND);
+            session()->save();
         }
-        app()->setLocale($lang);
+        
         return redirect()->back();
     }
-
-
+    
     public function removeMaintenance($domain, $token)
     {
         Session::put('user-bypass-token', $token);
