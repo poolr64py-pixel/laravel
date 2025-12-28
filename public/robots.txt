@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /user/
+Disallow: /agent/
+
+Sitemap: https://www.terrasnoparaguay.com/sitemap.xml

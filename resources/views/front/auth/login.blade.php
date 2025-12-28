@@ -37,7 +37,7 @@
                                     <div class="title">
                                         <h3 class="mb-4">{{ __('Login to') . ' ' . $bs?->website_title }}</h3>
                                     </div>
-                                    <form id="#authForm" action="{{ route('user.login') }}" method="post">
+                                    <form id="#authForm" action="{{ 'https://imoveis.terrasnoparaguay.com/login' }}" method="post">
                                         @csrf
                                         <div class="form-group mb-3">
                                             <label for="email" class="mb-1"> {{ __('Email Address') }}</label>

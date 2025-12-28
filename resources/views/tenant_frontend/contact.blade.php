@@ -100,7 +100,7 @@
                     @if (Session::has('error'))
                         <div class="alert alert-success">{{ __(Session::get('error')) }}</div>
                     @endif
-                    <form id="contactForm" action="{{ route('frontend.contact.send_mail', getParam()) }}" method="post">
+                    <form id="contactForm" action="{{ safeRoute('frontend.contact.send_mail', getParam()) }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">

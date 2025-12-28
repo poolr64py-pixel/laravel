@@ -63,7 +63,7 @@
                             <input class="form-control" type="hidden" value="{{ $min }}" id="o_min">
                             <input class="form-control" type="hidden" value="{{ $max }}" id="o_max">
                             <div class="tab-pane fade show active" id="rent">
-                                <form action="{{ route('frontend.properties', getParam()) }}" method="get">
+                                <form action="{{ safeRoute('frontend.properties', getParam()) }}" method="get">
                                     <input type="hidden" name="purpose" value="rent">
                                     <input type="hidden" name="min" value="{{ $min }}" id="min1">
                                     <input type="hidden" name="max" value="{{ $max }}" id="max1">
@@ -151,7 +151,7 @@
                                 </form>
                             </div>
                             <div class="tab-pane fade" id="sale">
-                                <form action="{{ route('frontend.properties', getParam()) }}" method="get">
+                                <form action="{{ safeRoute('frontend.properties', getParam()) }}" method="get">
                                     <input type="hidden" name="purpose" value="sale">
                                     <input type="hidden" name="min" value="{{ $min }}" id="min2">
                                     <input type="hidden" name="max" value="{{ $max }}" id="max2">

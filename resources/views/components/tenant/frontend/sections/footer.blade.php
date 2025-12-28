@@ -65,7 +65,14 @@
                                     @endforeach
                                 </li>
                             @endif
-                            @if (!empty($basicInfo->email_address))
+{{-- WHATSAPP --}}
+<li>
+    <i class="fab fa-whatsapp"></i>
+    <a href="https://wa.me/595994718400" target="_blank">
+        +595 994 718 400 (WhatsApp)
+    </a>
+</li>                           
+ @if (!empty($basicInfo->email_address))
                                 @php
                                     $emails = explode(',', $basicInfo->email_address);
                                 @endphp

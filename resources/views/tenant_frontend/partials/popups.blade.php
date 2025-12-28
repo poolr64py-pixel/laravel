@@ -38,7 +38,7 @@
 
                         <div class="subscribe-form">
                             <form class="subscriptionForm"
-                                action="{{ route('frontend.store_subscriber', getParam()) }}" method="POST">
+                                action="{{ safeRoute('frontend.store_subscriber', getParam()) }}" method="POST">
                                 @csrf
                                 <div class="form_group">
                                     <input type="email" class="form_control"
@@ -89,7 +89,7 @@
 
                             <div class="subscribe-form">
                                 <form class="subscriptionForm"
-                                    action="{{ route('frontend.store_subscriber', getParam()) }}" method="POST">
+                                    action="{{ safeRoute('frontend.store_subscriber', getParam()) }}" method="POST">
                                     @csrf
                                     <div class="form_group">
                                         <input type="email" class="form_control"

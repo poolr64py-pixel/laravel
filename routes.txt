@@ -1,0 +1,25 @@
+
+   ReflectionException 
+
+  Class "App\Http\Controllers\Front\ItemController" does not exist
+
+  at vendor/laravel/framework/src/Illuminate/Foundation/Console/RouteListCommand.php:235
+    231▕             if ($this->isFrameworkController($route)) {
+    232▕                 return false;
+    233▕             }
+    234▕ 
+  ➜ 235▕             $path = (new ReflectionClass($route->getControllerClass()))
+    236▕                 ->getFileName();
+    237▕         } else {
+    238▕             return false;
+    239▕         }
+
+      [2m+3 vendor frames [22m
+
+  4   [internal]:0
+      Illuminate\Foundation\Console\RouteListCommand::{closure:Illuminate\Foundation\Console\RouteListCommand::getRoutes():117}()
+      [2m+16 vendor frames [22m
+
+  21  artisan:35
+      Illuminate\Foundation\Console\Kernel::handle()
+

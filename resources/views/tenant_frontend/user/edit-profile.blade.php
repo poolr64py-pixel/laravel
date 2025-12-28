@@ -26,7 +26,7 @@
                                 <h4>{{ $keywords['Edit Your Profile'] }}</h4>
                             </div>
                             <div class="edit-info-area">
-                                <form action="{{ route('frontend.user.update_profile', getParam()) }}" method="POST"
+                                <form action="{{ safeRoute('frontend.user.update_profile', getParam()) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
 

@@ -35,6 +35,7 @@ class PropertyController extends Controller
     use TenantFrontendLanguage, PageHeadings;
     public function index(Request $request)
     {
+       error_log('🏠 PropertyController::index() CHAMADO!');
         $tenantId = getUser()->id;
         $misc = new MiscellaneousController();
         $language = $this->currentLang($tenantId);
@@ -42,7 +43,12 @@ class PropertyController extends Controller
 $basicInfo->base_currency_symbol = $basicInfo->base_currency_symbol ?? '$';
 $basicInfo->base_currency_symbol_position = $basicInfo->base_currency_symbol_position ?? 'left';
  \Log::info("Current language", ["lang_id" => $language->id ?? "NULL", "code" => $language->code ?? "NULL"]);
-        $queryResult['pageHeading'] = $this->pageHeading($tenantId);
+        $pageHeading = $this->pageHeading($tenantId);
+if (!$pageHeading) {
+    $pageHeading = new \stdClass();
+    $pageHeading->properties_page_title = 'Properties';
+}
+$information['pageHeading'] = $pageHeading;
 
         $information['seoInfo'] = $language->seoInfo()->select('meta_keyword_properties', 'meta_description_properties')->first();
 

@@ -4,5 +4,5 @@ declare(strict_types=1);
 
 return [
     'next'     => 'Susunod »',
-    'previous' => '«Nakaraang',
+    'previous' => '« Nakaraan',
 ];

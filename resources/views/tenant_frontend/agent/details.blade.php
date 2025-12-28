@@ -257,7 +257,7 @@
                                          <a href="mailto:{{ $agent->email }}"> {{ $agent->email }} </a>
                                      </div>
                                  </div>
-                                 <form action="{{ route('frontend.contact_agent', getParam()) }}" method="POST">
+                                 <form action="{{ safeRoute('frontend.contact_agent', getParam()) }}" method="POST">
                                      @csrf
                                      <input type="hidden" name="agent_id" value="{{ $agent->id }}">
                                      <x-tenant.frontend.agentContact />

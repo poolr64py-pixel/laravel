@@ -99,7 +99,7 @@
                                         <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
 
                                             <div class="link go-signup">
-                                                {{ __('Already a member') . '?' }} <a href="{{ route('user.login') }}">
+                                                {{ __('Already a member') . '?' }} <a href="{{ 'https://imoveis.terrasnoparaguay.com/login' }}">
                                                     {{ __('Login now') }} </a>
                                             </div>
                                             <div>

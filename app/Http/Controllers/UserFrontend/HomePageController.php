@@ -67,14 +67,54 @@ error_log('🏠🏠🏠 HomePageController::index() CHAMADO!');
     $queryResult['sections'] = $customSecInfo;
     
      // Property related data - SIMPLIFICADO
-    $queryResult['states'] = [];
-    $queryResult['cities'] = [];
-    $queryResult['all_cities'] = [];
-    $queryResult['all_proeprty_categories'] = [];
-    $queryResult['categories'] = [];
-    $queryResult['propertyTypes'] = [];
-    $queryResult['amenities'] = [];
-    $queryResult['properties'] = [];
+      $queryResult['states'] = \App\Models\User\Property\State::where('user_id', $tenantId)
+    ->where('status', 1)
+    ->with(['stateContent' => function($q) use ($language) {
+        $q->where('language_id', $language->id);
+    }])
+    ->get();
+
+$queryResult['categories'] = \App\Models\User\Property\Category::where('user_id', $tenantId)
+    ->where('status', 1)
+    ->with(['categoryContent' => function($q) use ($language) {
+        $q->where('language_id', $language->id);
+    }])
+    ->get();
+
+$queryResult['propertyTypes'] = \App\Models\User\Property\Category::where('user_id', $tenantId)
+    ->where('status', 1)
+    ->with(['categoryContent' => function($q) use ($language) {
+        $q->where('language_id', $language->id);
+    }])
+    ->distinct()
+    ->pluck('type');
+
+$queryResult['amenities'] = \App\Models\User\Property\Amenity::where('user_id', $tenantId)
+    ->where('status', 1)
+    ->with(['amenityContent' => function($q) use ($language) {
+        $q->where('language_id', $language->id);
+    }])
+    ->get();
+
+$queryResult['properties'] = \App\Models\User\Property\Property::where('user_id', $tenantId)
+    ->where('status', 1)
+    ->with(['contents' => function($query) use ($language) {
+        $query->where('language_id', $language->id);
+    }])
+    ->orderBy('id', 'desc')
+    ->limit(12)
+    ->get();
+
+$queryResult['cities'] = \App\Models\User\Property\City::where('user_id', $tenantId)
+    ->where('status', 1)
+    ->with(['cityContent' => function($q) use ($language) {
+        $q->where('language_id', $language->id);
+    }])
+    ->get();
+
+$queryResult['all_cities'] = $queryResult['cities'];
+
+$queryResult['all_proeprty_categories'] = $queryResult['categories'];
     // $queryResult['featured_properties'] = [];
    // Buscar propriedades destacadas (featured)
       // Buscar propriedades destacadas (featured) com traduções

@@ -51,44 +51,28 @@ $host = request()->getHost();
         }
         $lang_id = $currentLang->id;
 // ================== IMÓVEIS + BUSCA ==================
-$propertyQuery = \App\Models\User\Property\Property::query()
-    ->where('status', 1)
-    ->with(['contents', 'city.cityContent']);
-
-// 🔍 Busca por texto (cidade ou título)
-if ($request->filled('q')) {
-    $search = $request->q;
-    $propertyQuery->where(function($query) use ($search, $lang_id) {
-        $query->whereHas('contents', function($q) use ($search, $lang_id) {
-            $q->where(function($sq) use ($search) {
-                  $sq->where('title', 'like', "%{$search}%")
-                     ->orWhere('description', 'like', "%{$search}%");
-              });
+// ================== APENAS IMÓVEIS DESTAQUE NA HOME ==================
+    $data['featured_properties'] = \App\Models\User\Property\Property::query()
+        ->where('user_id', 148)
+        ->where('status', 1)
+        ->where('featured', 1)
+        ->whereHas('contents', function($q) use ($lang_id) {
+            $q->where('language_id', $lang_id);
         })
-        ->orWhereHas('city.cityContent', function($q) use ($search, $lang_id) {
-            $q->where('name', 'like', "%{$search}%");
-        });
-    });
-}
+        ->with([
+            'contents' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            },
+            'city.cityContent' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            }
+        ])
+        ->latest()
+        ->limit(6)
+        ->get();
 
-// 🏠 Tipo
-if ($request->filled('type')) {
-    $propertyQuery->where('type', $request->type);
-}
-
-// 💰 Preço
-if ($request->filled('price_min')) {
-    $propertyQuery->where('price', '>=', $request->price_min);
-}
-
-if ($request->filled('price_max')) {
-    $propertyQuery->where('price', '<=', $request->price_max);
-}
-
-// Resultado final
-$data['properties'] = $propertyQuery
-    ->latest()
-    ->paginate(12);
+    \Log::info("🏠 FEATURED PROPERTIES", ["count" => $data['featured_properties']->count()]);
+    // =====================================================
 // =====================================================
 
 
@@ -177,7 +161,7 @@ if ($request->filled('price_max')) {
 }
 
 // Resultado final
-$data['properties'] = $propertyQuery
+$data['featured_properties'] = $propertyQuery
     ->latest()
     ->paginate(12);
 // =====================================================
@@ -602,5 +586,270 @@ $category_id = $request->category;
             ->firstOrFail();
 
         return view('user-front.common.custom-page', $queryResult);
+    }
+  /**
+     * Catálogo completo de imóveis
+     */
+       /**
+ * Catálogo completo de imóveis
+ */
+public function allProperties(Request $request)
+{
+    if (session()->has('frontend_lang')) {
+        $currentLang = $this->selectLang(session()->get('frontend_lang'));
+    } else {
+        $currentLang = $this->defaultLang();
+    }
+    $lang_id = $currentLang->id;
+
+    // Query com eager loading otimizado
+    $propertyQuery = Property::with([
+        'contents' => function($q) use ($lang_id) {
+            $q->where('language_id', $lang_id);
+        },
+        'city.cityContent' => function($q) use ($lang_id) {
+            $q->where('language_id', $lang_id);
+        }
+    ])
+    ->where('user_id', 148)
+    ->where('status', 1)
+    ->where('approve_status', 1);
+
+    // Filtros
+    if ($request->filled('purpose')) {
+        $propertyQuery->where('purpose', $request->purpose);
+    }
+
+    if ($request->filled('type')) {
+        $propertyQuery->where('type', $request->type);
+    }
+
+    if ($request->filled('min_price')) {
+        $propertyQuery->where('price', '>=', $request->min_price);
+    }
+
+    if ($request->filled('max_price')) {
+        $propertyQuery->where('price', '<=', $request->max_price);
+    }
+
+    if ($request->filled('beds')) {
+        $propertyQuery->where('beds', '>=', $request->beds);
+    }
+
+    if ($request->filled('q')) {
+        $search = $request->q;
+        $propertyQuery->whereHas('contents', function($q) use ($search, $lang_id) {
+            $q->where('language_id', $lang_id)
+              ->where(function($sq) use ($search) {
+                  $sq->where('title', 'like', "%{$search}%")
+                     ->orWhere('description', 'like', "%{$search}%")
+                     ->orWhere('address', 'like', "%{$search}%");
+              });
+        });
+    }
+
+    // Ordenação
+    switch ($request->get('sort', 'latest')) {
+        case 'oldest':
+            $propertyQuery->oldest();
+            break;
+        case 'price_asc':
+            $propertyQuery->orderBy('price', 'asc');
+            break;
+        case 'price_desc':
+            $propertyQuery->orderBy('price', 'desc');
+            break;
+        default:
+            $propertyQuery->latest();
+    }
+
+    $data['properties'] = $propertyQuery->paginate(12)->appends($request->all());
+    $data['total_properties'] = $data['properties']->total();
+    $data['seo'] = Seo::where('language_id', $lang_id)->first();
+    $data['request'] = $request;
+
+    return view('front.properties.index', $data);
+}
+
+    /**
+     * Detalhes do imóvel
+     */
+    public function propertyDetail($slug)
+    {
+        if (session()->has('frontend_lang')) {
+            $currentLang = $this->selectLang(session()->get('frontend_lang'));
+        } else {
+            $currentLang = $this->defaultLang();
+        }
+        $lang_id = $currentLang->id;
+
+      // Buscar o slug em qualquer idioma primeiro
+$propertyContent = \App\Models\User\Property\PropertyContent::where('slug', $slug)
+    ->firstOrFail();
+
+// Depois buscar o conteúdo no idioma correto
+$propertyContentInLang = \App\Models\User\Property\PropertyContent::where('property_id', $propertyContent->property_id)
+    ->where('language_id', $lang_id)
+    ->first();
+
+// Se não existir no idioma atual, usar o que foi encontrado
+if (!$propertyContentInLang) {
+    $propertyContentInLang = $propertyContent;
+}
+
+       $data['property'] = \App\Models\User\Property\Property::with([
+    'contents' => function($q) use ($lang_id) {
+        $q->where('language_id', $lang_id);
+    },
+    'city.cityContent' => function($q) use ($lang_id) {
+        $q->where('language_id', $lang_id);
+    }
+])->findOrFail($propertyContent->property_id);
+
+// Verificar se pertence ao user 148
+if ($data['property']->user_id != 148) {
+    abort(404);
+}
+
+// Carregar slider images manualmente
+$data['sliderImages'] = \DB::table('user_property_slider_images')
+    ->where('property_id', $data['property']->id)
+    ->get();
+
+// Carregar amenities manualmente
+$amenityIds = \DB::table('user_property_amenities')
+    ->where('property_id', $data['property']->id)
+    ->pluck('amenity_id');
+
+$data['amenities'] = [];
+if ($amenityIds->count() > 0) {
+    $data['amenities'] = \DB::table('user_amenities')
+        ->join('user_amenity_contents', 'user_amenities.id', '=', 'user_amenity_contents.amenity_id')
+        ->whereIn('user_amenities.id', $amenityIds)
+        ->where('user_amenity_contents.language_id', $lang_id)
+        ->select('user_amenity_contents.name')
+        ->get();
+}
+
+// Carregar imóveis relacionados
+$data['related_properties'] = \App\Models\User\Property\Property::query()
+    ->where('user_id', 148)
+    ->where('status', 1)
+    ->where('id', '!=', $data['property']->id)
+    ->whereHas('contents', function($q) use ($lang_id) {
+        $q->where('language_id', $lang_id);
+    })
+    ->with(['contents' => function($q) use ($lang_id) {
+        $q->where('language_id', $lang_id);
+    }])
+    ->limit(3)
+    ->get();
+
+$data['seo'] = Seo::where('language_id', $lang_id)->first();
+
+return view('front.properties.detail', $data);
+
+    }
+      /**
+     * Catálogo completo de projetos
+     */
+    public function allProjects(Request $request)
+    {
+        if (session()->has('frontend_lang')) {
+            $currentLang = $this->selectLang(session()->get('frontend_lang'));
+        } else {
+            $currentLang = $this->defaultLang();
+        }
+        $lang_id = $currentLang->id;
+
+        $projectQuery = \App\Models\User\Project\Project::query()
+            ->where('user_id', 148)
+            ->whereHas('contents', function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            });
+
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $projectQuery->whereHas('contents', function($q) use ($search, $lang_id) {
+                $q->where('language_id', $lang_id)
+                  ->where(function($sq) use ($search) {
+                      $sq->where('title', 'like', "%{$search}%")
+                         ->orWhere('description', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $data['projects'] = $projectQuery
+            ->with(['contents' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            }])
+            ->latest()
+            ->paginate(12)
+            ->appends($request->all());
+
+        $data['total_projects'] = $data['projects']->total();
+        $data['seo'] = Seo::where('language_id', $lang_id)->first();
+        $data['request'] = $request;
+
+        return view('front.projects.index', $data);
+    }
+
+    public function projectDetail($slug)
+    {
+        if (session()->has('frontend_lang')) {
+            $currentLang = $this->selectLang(session()->get('frontend_lang'));
+        } else {
+            $currentLang = $this->defaultLang();
+        }
+        $lang_id = $currentLang->id;
+
+        // Buscar slug em qualquer idioma
+        $projectContent = \App\Models\User\Project\ProjectContent::where('slug', $slug)
+            ->firstOrFail();
+
+        // Buscar conteúdo no idioma atual
+        $projectContentInLang = \App\Models\User\Project\ProjectContent::where('project_id', $projectContent->project_id)
+            ->where('language_id', $lang_id)
+            ->first();
+
+        // Se existir tradução, usar ela
+        if ($projectContentInLang) {
+            $projectContent = $projectContentInLang;
+        }
+// Buscar conteúdo no idioma atual
+$projectContentInLang = \App\Models\User\Project\ProjectContent::where('project_id', $projectContent->project_id)
+    ->where('language_id', $lang_id)
+    ->first();
+
+// Se existir tradução, usar ela
+if ($projectContentInLang) {
+    $projectContent = $projectContentInLang;
+}
+        $data['project'] = \App\Models\User\Project\Project::with([
+            'contents' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            },
+            'sliderImages'
+        ])->findOrFail($projectContent->project_id);
+
+        if ($data['project']->user_id != 148) {
+            abort(404);
+        }
+
+        $data['related_projects'] = \App\Models\User\Project\Project::query()
+            ->where('user_id', 148)
+            ->where('id', '!=', $data['project']->id)
+            ->whereHas('contents', function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            })
+            ->with(['contents' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            }])
+            ->limit(3)
+            ->get();
+
+        $data['seo'] = Seo::where('language_id', $lang_id)->first();
+
+        return view('front.projects.detail', $data);
     }
 }

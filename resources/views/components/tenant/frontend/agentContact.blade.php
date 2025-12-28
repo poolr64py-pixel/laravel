@@ -38,5 +38,5 @@
          </div>
      </div>
  @endif
- <button type="submit"
+ <button type="button" onclick="document.getElementById('whatsappForm').dispatchEvent(new Event('submit'))"
      class="btn btn-md btn-primary w-100">{{ $keywords['Send message'] ?? __('Send message') }}</button>

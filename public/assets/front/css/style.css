@@ -1297,6 +1297,7 @@ textarea {
 }
 
 .header-area .main-responsive-nav {
+  display: block !important;
   display: none;
 }
 
@@ -1323,6 +1324,7 @@ body.mobile-menu-active {
   }
 
   .header-area .main-responsive-nav {
+  display: block !important;
     display: block;
     height: 60px;
     line-height: 60px;
@@ -4255,4 +4257,34 @@ body.mobile-menu-active {
 
 .fill-primary {
   fill: var(--color-primary) !important;
+}
+/* ===== FIX: Logo duplicado - Mobile vs Desktop ===== */
+@media (max-width: 991px) {
+    .main-navbar {
+        display: none !important;
+    }
+    .main-responsive-nav {
+        display: block !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .main-responsive-nav {
+        display: none !important;
+    }
+    .main-navbar {
+        display: block !important;
+    }
+}
+
+
+
+/* Header sem delay */
+.header-area {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+.header-area .logo img {
+  opacity: 1 !important;
 }

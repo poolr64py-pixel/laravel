@@ -32,7 +32,7 @@
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ __(Session::get('error')) }}</div>
                 @endif
-                <form action="{{ route('frontend.agent.forget.mail', getParam()) }}" method="POST">
+                <form action="{{ safeRoute('frontend.agent.forget.mail', getParam()) }}" method="POST">
                     @csrf
                     <div class="title">
                         <h4 class="mb-20">{{ $keywords['Forget Password'] ?? __('Forget Password') }}</h4>

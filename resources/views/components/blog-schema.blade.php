@@ -11,8 +11,8 @@
   "headline": {{ json_encode($content->title, JSON_UNESCAPED_UNICODE) }},
   "description": {{ json_encode(Str::limit($cleanDescription, 300), JSON_UNESCAPED_UNICODE) }},
   "image": ["{{ $imageUrl }}"],
-  "datePublished": "{{ $blog->created_at->toIso8601String() }}",
-  "dateModified": "{{ $blog->updated_at->toIso8601String() }}",
+  "datePublished": "{{ $blog->created_at ? $blog->created_at->toIso8601String() : now()->toIso8601String() }}",
+"dateModified": "{{ $blog->updated_at ? $blog->updated_at->toIso8601String() : now()->toIso8601String() }}",
   "author": {"@type": "Person", "name": {{ json_encode($authorName, JSON_UNESCAPED_UNICODE) }}},
   "publisher": {
     "@type": "Organization",
@@ -27,6 +27,6 @@
 <meta property="og:description" content="{{ Str::limit($cleanDescription, 155) }}">
 <meta property="og:image" content="{{ $imageUrl }}">
 <meta property="og:url" content="{{ url()->current() }}">
-<meta property="article:published_time" content="{{ $blog->created_at->toIso8601String() }}">
+<meta property="article:published_time" content="{{ $blog->created_at ? $blog->created_at->toIso8601String() : now()->toIso8601String() }}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="{{ url()->current() }}">

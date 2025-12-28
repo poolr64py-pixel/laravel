@@ -14,11 +14,11 @@
 @section('og:tag')
     <meta property="og:title" content="{{ $details->title }}">
     <meta property="og:image" content="{{ asset(\App\Constants\Constant::WEBSITE_BLOG_IMAGE . '/' . $details->image) }}">
-    <meta property="og:url" content="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $details->slug]) }}">
+    <meta property="og:url" content="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $details->slug]) }}">
 @endsection
 
 @section('og-meta')
-    @include('components.blog-schema', ['blog' => $blog, 'content' => $blogContent])
+    @include('components.blog-schema', ['blog' => $details, 'content' => $details])
 @endsection
 
 @section('content')
@@ -49,7 +49,7 @@
                                         {{ \Carbon\Carbon::parse($details->created_at)->locale($currentLanguageInfo?->code)->translatedFormat('d F, Y') }}
                                     </li>
                                     <li><a
-                                            href="{{ route('frontend.blog', [getParam(), 'category' => $details->categorySlug]) }}">
+                                            href="{{ safeRoute('frontend.blog', [getParam(), 'category' => $details->categorySlug]) }}">
                                             <i class="fal fa-list"></i>
                                             {{ $details->categoryName }}</a></li>
                                     <li><a href="#" data-bs-toggle="modal" data-bs-target="#socialMediaModal"><i
@@ -80,7 +80,7 @@
                         <div class="widget widget-search radius-md mb-30">
 
                             <h4 class="title mb-15">{{ $keywords['Search Posts'] ?? __('Search Posts') }}</h4>
-                            <form class="search-form radius-md" action="{{ route('frontend.blog', getParam()) }}"
+                            <form class="search-form radius-md" action="{{ safeRoute('frontend.blog', getParam()) }}"
                                 method="GET">
                                 <input type="search" class="search-input"placeholder="{{ __('Search By Title') }}"
                                     name="title"
@@ -101,7 +101,7 @@
                                 @foreach ($categories as $category)
                                     <li class="d-flex align-items-center justify-content-between">
                                         <a
-                                            href="{{ route('frontend.blog', [getParam(), 'category' => $category->slug]) }}"><i
+                                            href="{{ safeRoute('frontend.blog', [getParam(), 'category' => $category->slug]) }}"><i
                                                 class="fal fa-folder"></i>
                                             {{ $category->name }}</a>
                                         <span class="tqy">({{ $category->postCount }})</span>
@@ -115,7 +115,7 @@
                             @foreach ($recent_blogs as $blog)
                                 <article class="article-item mb-30">
                                     <div class="image">
-                                        <a href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
+                                        <a href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
                                             class="lazy-container ratio ratio-1-1">
 
                                             <img class="lazyload" src="{{ asset('assets/front/images/placeholder.png') }}"
@@ -131,7 +131,7 @@
                                         </ul>
                                         <h6>
                                             <a
-                                                href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}">
+                                                href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}">
                                                 {{ strlen($blog->title) > 40 ? mb_substr($blog->title, 0, 40, 'UTF-8') . '...' : $blog->title }}
                                             </a>
                                         </h6>

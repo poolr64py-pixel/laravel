@@ -23,7 +23,7 @@
                 </div>
             @enderror
 
-            <form action="{{ route('frontend.pay', getParam()) }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ safeRoute('frontend.pay', getParam()) }}" method="POST" enctype="multipart/form-data"
                 id="payment-form">
                 @csrf
                 <div class="row">

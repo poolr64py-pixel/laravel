@@ -429,10 +429,10 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                 Route::prefix('package')->controller(PackageController::class)->group(function () {
 
                     Route::get('/settings', 'settings')->name('admin.package.settings');
-                    Route::post('/settings', 'updateSettings')->name('admin.package.settings');
+                    Route::post('/settings', 'updateSettings')->name('admin.package.settings.update');
                     // Package Settings routes
                     Route::get('/features', 'features')->name('admin.package.features');
-                    Route::post('/features', 'updateFeatures')->name('admin.package.features');
+                    Route::post('/features', 'updateFeatures')->name('admin.package.features.update');
                     // Package routes
                     Route::get('packages', 'index')->name('admin.package.index');
                     Route::post('/upload', 'upload')->name('admin.package.upload');
@@ -465,7 +465,7 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
             Route::controller(CustomDomainController::class)->middleware('checkpermission:Custom Domains')->group(function () {
                 Route::get('/domains', 'index')->name('admin.custom-domain.index');
                 Route::get('/domain/texts', 'texts')->name('admin.custom-domain.texts');
-                Route::post('/domain/texts', 'updateTexts')->name('admin.custom-domain.texts');
+                Route::post('/domain/texts', 'updateTexts')->name('admin.custom-domain.texts.update');
                 Route::post('/domain/status', 'status')->name('admin.custom-domain.status');
                 Route::post('/domain/mail', 'mail')->name('admin.custom-domain.mail');
                 Route::post('/domain/delete', 'delete')->name('admin.custom-domain.delete');
@@ -504,9 +504,30 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                 Route::post('/store-temp-file', 'User\SupportTicketController@storeTempFile')->name('admin.support_tickets.store_temp_file');
             });
             // support-ticket route end
+
+            // Property Management
+            Route::get('properties', 'Admin\PropertyController@index')->name('admin.property.index');
+            Route::get('properties/create', 'Admin\PropertyController@create')->name('admin.property.create');
+            Route::post('properties/store', 'Admin\PropertyController@store')->name('admin.property.store');
+            Route::get('properties/{id}/edit', 'Admin\PropertyController@edit')->name('admin.property.edit');
+            Route::post('properties/update/{id}', 'Admin\PropertyController@update')->name('admin.property.update');
+            Route::post('properties/update-status', 'Admin\PropertyController@updateStatus')->name('admin.property.update_status');
+            Route::post('properties/update-featured', 'Admin\PropertyController@updateFeatured')->name('admin.property.update_featured');
+            Route::post('properties/delete', 'Admin\PropertyController@delete')->name('admin.property.delete');
+            Route::post('properties/bulk-delete', 'Admin\PropertyController@bulkDelete')->name('admin.property.bulk_delete');
+ 
+        // Project Management
+            Route::get('projects', 'Admin\ProjectController@index')->name('admin.project.index');
+            Route::get('projects/create', 'Admin\ProjectController@create')->name('admin.project.create');
+            Route::post('projects/store', 'Admin\ProjectController@store')->name('admin.project.store');
+            Route::get('projects/{id}/edit', 'Admin\ProjectController@edit')->name('admin.project.edit');
+            Route::post('projects/update/{id}', 'Admin\ProjectController@update')->name('admin.project.update');
+            Route::post('projects/update-status', 'Admin\ProjectController@updateStatus')->name('admin.project.update_status');
+            Route::post('projects/update-featured', 'Admin\ProjectController@updateFeatured')->name('admin.project.update_featured');
+            Route::post('projects/delete', 'Admin\ProjectController@delete')->name('admin.project.delete');
+            Route::post('projects/bulk-delete', 'Admin\ProjectController@bulkDelete')->name('admin.project.bulk_delete');
         });
     });
-
    //   require base_path('routes/web.php');
     //  require base_path('routes/tenant.php');
 

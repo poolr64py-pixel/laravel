@@ -1,4 +1,5 @@
 @extends('front.layout')
+@section('meta-description', 'Encontre os melhores imóveis e terrenos no Paraguai. Casas, apartamentos, terrenos e projetos para venda e aluguel. Terras no Paraguay - Seu imóvel ideal está aqui!')
 @section('pagename')
     - {{ __('Home') }}
 @endsection
@@ -61,7 +62,7 @@
             <div class="section-title title-center mb-4">
                 <h2 class="title">Buscar Imóveis</h2>
             </div>
-            <form method="GET" action="{{ route('front.home') }}">
+            <form method="GET" action="{{ route('front.properties') }}">
                 <div class="row g-3">
                     <div class="col-md-4">
                         <input type="text" name="q" class="form-control" placeholder="Buscar cidade ou título" value="{{ request('q') }}">
@@ -96,11 +97,11 @@
         </div>
         <div class="row">
            
- @forelse ($properties as $property)
-                @php
- $content = $property->contents->first();
-    $cityContent = $property->city ? $property->city->cityContent->first() : null;
-                @endphp
+ @forelse ($featured_properties as $property)
+@php
+    $content = $property->contents ? $property->contents->first() : null;
+    $cityContent = ($property->city && $property->city->cityContent) ? $property->city->cityContent->first() : null;
+@endphp
                 @if($content)
         <div class="col-md-4 mb-4">
             <div class="property-card shadow-sm" style="border-radius: 8px; overflow: hidden;">
@@ -119,7 +120,7 @@
                     </strong>
                     <div class="mt-3">
                         @if(!empty($content->slug))
-                            <a href="{{ url('/property/' . $content->slug) }}"
+                            <a href="{{ route('front.property.detail', $content->slug) }}"
                                class="btn btn-primary btn-sm w-100">Ver Detalhes</a>
                         @else
                             <a href="#" class="btn btn-secondary btn-sm w-100 disabled">Sem Detalhes</a>
@@ -229,9 +230,10 @@
                         @if ($testimonials && $testimonials->isNotEmpty())
                             <div class="swiper testimonial-slider mb-30" data-aos="fade-up">
                                 <div class="swiper-wrapper">
-                                    @php
-                                        $totalTestomanials = count($testimonials);
-                                    @endphp
+@php
+    $content = $property->contents ? $property->contents->first() : null;
+    $cityContent = ($property->city && $property->city->cityContent) ? $property->city->cityContent->first() : null;
+@endphp
                                     @foreach ($testimonials as $testimonial)
                                         <div class="swiper-slide">
                                             <div class="slider-item bg-primary-light">
@@ -293,20 +295,10 @@
         <div class="row">
             <p>DEBUG: Lang = {{ session()->get("frontend_lang", "pt") }} | Blogs count = {{ count($blogs) }}</p>
             @foreach($blogs as $blog)
-            @php
-                $currentLangCode = session()->get("frontend_lang", "pt");
-                if (!in_array($currentLangCode, ["pt", "en", "es"])) {
-                    $currentLangCode = "pt";
-                }
-                if ($currentLangCode !== "pt") {
-                    $translatedTitle = \App\Helpers\TranslateHelper::translate($blog->title, "pt", $currentLangCode);
-                    $excerpt = strip_tags($blog->content);
-                    $translatedExcerpt = \App\Helpers\TranslateHelper::translate($excerpt, "pt", $currentLangCode);
-                } else {
-                    $translatedTitle = $blog->title;
-                    $translatedExcerpt = strip_tags($blog->content);
-                }
-            @endphp
+@php
+    $content = $property->contents ? $property->contents->first() : null;
+    $cityContent = ($property->city && $property->city->cityContent) ? $property->city->cityContent->first() : null;
+@endphp
             <div class="col-md-4 mb-4">
                 <div class="blog-card shadow-sm" style="border-radius: 8px; overflow: hidden; background: white;">
                     @if($blog->main_image)
@@ -319,10 +311,10 @@
                             <i class="far fa-calendar"></i> {{ $blog->created_at->format('d/m/Y') }}
                         </div>
                         <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">
-                            {{ Str::limit($translatedTitle, 60) }}
+                           {{ Str::limit($blog->title ?? 'Título indisponível', 60) }}
                         </h4>
                         <p style="color: #666; margin-bottom: 1.5rem;">
-                            {{ Str::limit($translatedExcerpt, 100) }}
+                            {{ Str::limit($blog->excerpt ?? $blog->content ?? 'Sem descrição disponível', 100) }}
                         </p>
                         <a href="{{ route('front.blogdetails', ['slug' => $blog->slug, 'id' => $blog->id]) }}" 
                            class="btn btn-primary btn-sm">

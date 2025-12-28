@@ -21,7 +21,7 @@
                 @if (Session::has('warning'))
                     <div class="alert alert-success">{{ Session::get('warning') }}</div>
                 @endif
-                <form action="{{ route('frontend.user.reset_password_submit', getParam()) }}" method="POST">
+                <form action="{{ safeRoute('frontend.user.reset_password_submit', getParam()) }}" method="POST">
                     @csrf
                     <input type="hidden" name="reset_token" value="{{ $token }}">
                     <div class="title">

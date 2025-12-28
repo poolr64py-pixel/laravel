@@ -81,6 +81,8 @@ $menuInfos = $menuInfos ?? [];
 
 
 
+    <!-- Lightbox2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
 </head>
 
 <body>
@@ -145,6 +147,15 @@ $menuInfos = $menuInfos ?? [];
         @includeIf('tenant_frontend.partials.scripts.scripts-v3')
     @endif
 
+    <!-- Lightbox2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <script>
+        lightbox.option({
+            resizeDuration: 200,
+            wrapAround: true,
+            albumLabel: "Imagem %1 de %2"
+        })
+    </script>
 </body>
 
 </html>

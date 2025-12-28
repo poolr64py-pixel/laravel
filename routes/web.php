@@ -1,10 +1,16 @@
-<?php error_log('🚨🚨🚨 WEB.PHP SENDO CARREGADO PARA: ' . request()->getHost()); ?>
 <?php
 
 use App\Http\Controllers\User\HotelBooking\RoomController;
 use App\Http\Controllers\User\HotelBooking\RoomManagementController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Front\FrontendController;
+
+// Home / página inicial
+Route::get('/', [FrontendController::class, 'index'])->name('front.home');
+
+// Detalhes do imóvel
+//Route::get('/property/{slug}', [FrontendController::class, 'propertyShow'])->name('front.property.show');
 
 $domain = env('WEBSITE_HOST');
 if (!app()->runningInConsole()) {
@@ -60,6 +66,10 @@ Route::domain($domain)->group(function () {
         Route::get('/contact', 'Front\FrontendController@contactView')->name('front.contact');
         Route::get('/faq', 'Front\FrontendController@faqs')->name('front.faq.view');
         Route::get('/blog', 'Front\FrontendController@blogs')->name('front.blogs');
+        Route::get('/imoveis', 'Front\FrontendController@allProperties')->name('front.properties');
+Route::get('/imoveis/{slug}', 'Front\FrontendController@propertyDetail')->name('front.property.detail');
+Route::get('/projetos', 'Front\FrontendController@allProjects')->name('front.projects');
+Route::get('/projetos/{slug}', 'Front\FrontendController@projectDetail')->name('front.project.detail');
         Route::get('/pricing', 'Front\FrontendController@pricing')->name('front.pricing');
         Route::get('/blog-details/{slug}/{id}', 'Front\FrontendController@blogdetails')->name('front.blogdetails');
         Route::get('/registration/step-1/{status}/{id}', 'Front\FrontendController@step1')->name('front.register.view');
@@ -1090,6 +1100,24 @@ Route::domain($domain)->group(function () {
             // Admin Blog Routes
         });
 
+
+        // Property Management Routes
+        Route::group(['middleware' => 'checkpermission:Properties'], function () {
+            Route::get('/properties', 'Admin\PropertyController@index')->name('admin.property.index');
+            Route::get('/properties/create', 'Admin\PropertyController@create')->name('admin.property.create');
+            Route::post('/property/update-status', 'Admin\PropertyController@updateStatus')->name('admin.property.update_status');
+            Route::post('/property/update-featured', 'Admin\PropertyController@updateFeatured')->name('admin.property.update_featured');
+            Route::post('/property/delete', 'Admin\PropertyController@delete')->name('admin.property.delete');
+            Route::post('/property/bulk-delete', 'Admin\PropertyController@bulkDelete')->name('admin.property.bulk_delete');
+        });
+
+        // Project Management Routes
+        Route::group(['middleware' => 'checkpermission:Projects'], function () {
+            Route::get('/projects', 'Admin\ProjectController@index')->name('admin.project.index');
+            Route::post('/project/update-status', 'Admin\ProjectController@updateStatus')->name('admin.project.update_status');
+            Route::post('/project/delete', 'Admin\ProjectController@delete')->name('admin.project.delete');
+            Route::post('/project/bulk-delete', 'Admin\ProjectController@bulkDelete')->name('admin.project.bulk_delete');
+        });
         Route::group(['middleware' => 'checkpermission:Sitemap'], function () {
         });
 
@@ -1563,3 +1591,74 @@ Route::get('/debug-route-test', function() {
     return 'Route funcionando! Host: ' . request()->getHost();
 });
 
+Route::get('/pt/cadastro-imoveis', function () {
+    return '<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro RE/MAX Paraguai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); min-height:100vh; padding:20px; }
+        .container { max-width:600px; margin:0 auto; background:white; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.1); overflow:hidden; }
+        .header { background:linear-gradient(135deg,#ff6b6b,#feca57); padding:40px 30px; text-align:center; color:white; }
+        .header h1 { font-size:2.2em; margin-bottom:10px; }
+        .header p { opacity:0.9; font-size:1.1em; }
+        .form { padding:40px 30px; }
+        .field { margin-bottom:25px; }
+        label { display:block; font-weight:600; color:#333; margin-bottom:8px; font-size:0.95em; }
+        input, textarea, select { width:100%; padding:15px; border:2px solid #e1e5e9; border-radius:12px; font-size:16px; transition:all 0.3s; }
+        input:focus, textarea:focus, select:focus { outline:none; border-color:#667eea; box-shadow:0 0 0 3px rgba(102,126,234,0.1); }
+        textarea { height:120px; resize:vertical; }
+        .file-input { padding:12px; background:#f8f9fa; border:2px dashed #dee2e6; text-align:center; cursor:pointer; transition:all 0.3s; }
+        .file-input:hover { border-color:#667eea; background:#f0f2ff; }
+        .submit-btn { width:100%; padding:18px; background:linear-gradient(135deg,#11998e,#38ef7d); color:white; border:none; border-radius:12px; font-size:1.2em; font-weight:600; cursor:pointer; transition:all 0.3s; }
+        .submit-btn:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(17,153,142,0.4); }
+        .features { margin-top:30px; padding-top:25px; border-top:1px solid #eee; }
+        .features ul { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+        .features li { text-align:center; padding:15px; background:#f8f9fa; border-radius:10px; }
+        .features li i { font-size:1.5em; color:#11998e; margin-bottom:5px; display:block; }
+        @media (max-width:640px) { .container { margin:10px; border-radius:15px; } .header { padding:30px 20px; } .form { padding:30px 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 Cadastro RE/MAX</h1>
+            <p>Cadastre suas propriedades Paraguai para brasileiros</p>
+        </div>
+        <form class="form">
+            <div class="field">
+                <label>🏠 Título Português *</label>
+                <input type="text" placeholder="Casa 3q Luque RE/MAX - R$XXX.XXX" required>
+            </div>
+            <div class="field">
+                <label>💰 Preço USD</label>
+                <input type="number" placeholder="150000">
+            </div>
+            <div class="field">
+                <label>📍 Cidade</label>
+                <select><option>Assunção</option><option>Luque</option><option>Ciudad del Este</option></select>
+            </div>
+            <div class="field">
+                <label>📷 Fotos (máx 10)</label>
+                <input type="file" multiple accept="image/*" class="file-input">
+            </div>
+            <div class="field">
+                <label>📝 Descrição curta</label>
+                <textarea placeholder="Casa premium em Luque, ideal para brasileiros investir..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">🚀 Cadastrar Imóvel AGORA</button>
+        </form>
+        <div class="features">
+            <ul>
+                <li><span>🌎</span>3 idiomas</li>
+                <li><span>⚡</span>Grátis</li>
+                <li><span>📱</span>Mobile</li>
+                <li><span>🔍</span>SEO otimizado</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>';
+});

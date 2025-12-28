@@ -32,7 +32,7 @@
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ __(Session::get('error')) }}</div>
                 @endif
-                <form action="{{ route('agent.login_submit', getParam()) }}" method="POST">
+                <form action="{{ safeRoute('agent.login_submit', getParam()) }}" method="POST">
                     @csrf
                     <div class="title">
                         <h4 class="mb-20">{{ $keywords['Login'] ?? __('Login') }}</h4>
@@ -64,7 +64,7 @@
                     <div class="row align-items-center mb-20">
                         <div class="col-4 col-xs-12">
                             <div class="link">
-                                <a href="{{ route('frontend.agent.forget.password', getParam()) }}">
+                                <a href="{{ safeRoute('frontend.agent.forget.password', getParam()) }}">
                                     {{ $keywords['Forgot password?'] ?? __('Forgot password?') }} </a>
                             </div>
                         </div>

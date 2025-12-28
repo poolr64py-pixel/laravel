@@ -18,7 +18,7 @@
 @section('og:tag')
     <meta property="og:title" content="{{ $project->title }}">
     <meta property="og:image" content="{{ asset('assets/img//project/featured/' . $project->featured_image) }}">
-    <meta property="og:url" content="{{ route('frontend.project.details', [getParam(), 'slug' => $project->slug]) }}">
+    <meta property="og:url" content="{{ safeRoute('frontend.project.details', [getParam(), 'slug' => $project->slug]) }}">
 @endsection
 
 @section('og-meta')
@@ -51,14 +51,14 @@
                                     class="fal fa-user"></i>
                                 @if ($project->agent_id == 0)
                                     @if ($project->user->show_profile)
-                                        <a class="color-white" href="{{ route('frontend.tenant.details', [getParam()]) }}">
+                                        <a class="color-white" href="{{ safeRoute('frontend.tenant.details', [getParam()]) }}">
                                             {{ $project->user->username }}</a>
                                     @else
                                         {{ $project->user->username }}
                                     @endif
                                 @else
                                     <a class="color-white"
-                                        href="{{ route('frontend.agent.details', [getParam(), 'agentusername' => $project->agent->username]) }}">{{ $project->agent->username }}</a>
+                                        href="{{ safeRoute('frontend.agent.details', [getParam(), 'agentusername' => $project->agent->username]) }}">{{ $project->agent->username }}</a>
                                 @endif
                             </span>
                         </p>
@@ -250,7 +250,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('frontend.project.contact', getParam()) }}" method="POST">
+                    <form id="whatsappProjectForm" onsubmit="return false;">
                         @csrf
                         @if (!empty($project->agent))
                             <input type="hidden" name="user_id" value="{{ $project->agent->user_id }}">
@@ -261,6 +261,22 @@
                         @endif
                         <input type="hidden" name="project_id" value="{{ $project->id }}">
                         <x-tenant.frontend.agentContact />
+<script>
+document.getElementById("whatsappProjectForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const WHATSAPP = "595994718400";
+    const name = this.querySelector("input[name='name']")?.value || "";
+    const email = this.querySelector("input[name='email']")?.value || "";
+    const phone = this.querySelector("input[name='phone']")?.value || "";
+    const message = this.querySelector("textarea[name='message']")?.value || "";
+    let msg = "*Interesse em Projeto*\n\n";
+    if(name) msg += "*Nome:* " + name + "\n";
+    if(email) msg += "*Email:* " + email + "\n";
+    if(phone) msg += "*Telefone:* " + phone + "\n";
+    if(message) msg += "*Mensagem:* " + message;
+    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank");
+});
+</script>
                     </form>
                 </div>
             </div>

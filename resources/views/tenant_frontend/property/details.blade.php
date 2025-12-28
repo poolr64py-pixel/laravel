@@ -1,24 +1,15 @@
- @extends('tenant_frontend.layout')
-
- @section('pageHeading')
-     {{ $propertyContent->title }}
- @endsection
-
- @section('metaKeywords')
-     @if ($propertyContent)
-         {{ $propertyContent->meta_keyword }}
-     @endif
- @endsection
-
- @section('metaDescription')
-     @if ($propertyContent)
-         {{ $propertyContent->meta_description }}
-     @endif
- @endsection
-
- @section('og:tag')
-    @include('components.property-schema', ['property' => $propertyContent, 'content' => $propertyContent, 'language' => $language, 'currencyInfo' => $currencyInfo])
-    <!-- SEO SCHEMA TESTE -->
+    const name = this.querySelector("input[name='name']")?.value || "";
+    const email = this.querySelector("input[name='email']")?.value || "";
+    const phone = this.querySelector("input[name='phone']")?.value || "";
+    const message = this.querySelector("textarea[name='message']")?.value || "";
+    let msg = "*Interesse em Imóvel*\n\n*Imóvel:* " + title + "\n*Link:* " + url + "\n\n";
+    if(name) msg += "*Nome:* " + name + "\n";
+    if(email) msg += "*Email:* " + email + "\n";
+    if(phone) msg += "*Telefone:* " + phone + "\n";
+    if(message) msg += "*Mensagem:* " + message;
+    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank");
+});
+</script>
 @endsection
 
  @section('content')
@@ -70,7 +61,7 @@
                              <div class="col-md-8">
                                  <div class="d-flex align-items-center justify-content-between mb-10">
                                      <span class="product-category text-sm"> <a
-                                             href="{{ route('frontend.properties', [ 'category' => $propertyContent->categoryContent?->slug]) }}">
+                                             href="{{ safeRoute('frontend.properties', [ 'category' => $propertyContent->categoryContent?->slug]) }}">
                                              {{ $propertyContent->categoryContent?->name }}</a></span>
                                  </div>
                                  <h3 class="product-title">
@@ -126,10 +117,10 @@
                                  </div>
                                  @if (!empty($agent))
                                      <a
-                                         href="{{ route('frontend.agent.details', [ 'agentusername' => $agent->username]) }}">
+                                         href="{{ safeRoute('frontend.agent.details', [ 'agentusername' => $agent->username]) }}">
                                      @else
                                          <a
-                                             href="{{ route('frontend.agent.details', [ 'agentusername' => $user->username, 'admin' => 'true']) }}">
+                                             href="{{ safeRoute('frontend.agent.details', [ 'agentusername' => $user->username, 'admin' => 'true']) }}">
                                  @endif
                                  <div class="user mb-20">
                                      <div class="user-img">
@@ -288,12 +279,12 @@
                                          <div class="lazy-container ratio ratio-1-1 rounded-pill">
                                              @if (!empty($agent))
                                                  <a
-                                                     href="{{ route('frontend.agent.details', [ 'agentusername' => $agent->username]) }}">
+                                                     href="{{ safeRoute('frontend.agent.details', [ 'agentusername' => $agent->username]) }}">
 
                                                      <img class="lazyload" src="{{ asset($agent->image) }}">
                                                  </a>
                                              @else
-                                                 <a href="{{ route('frontend.tenant.details') }}">
+                                                 <a href="{{ safeRoute('frontend.tenant.details') }}">
 
                                                      <img class="lazyload" src="{{ asset($user->photo) }}">
                                                  </a>
@@ -303,10 +294,10 @@
                                      </div>
                                      <div class="user-info">
                                          <h4 class="mb-0">
-                                             <a @if (!empty($agent)) href="{{ route('frontend.agent.details', [ 'agentusername' => $agent->username]) }}"> {{ $agent->agentInfo?->full_name }}
+                                             <a @if (!empty($agent)) href="{{ safeRoute('frontend.agent.details', [ 'agentusername' => $agent->username]) }}"> {{ $agent->agentInfo?->full_name }}
                                            
                                             @else
-                                              href="{{ route('frontend.tenant.details') }}">   {{ $user->first_name . ' ' . $user->last_name }} @endif
+                                              href="{{ safeRoute('frontend.tenant.details') }}">   {{ $user->first_name . ' ' . $user->last_name }} @endif
                                                  </a>
                                          </h4>
                                          
@@ -336,20 +327,43 @@
                                      </div>
                                  </div>
 
-                                 <form action="{{ route('frontend.property_contact') }}" method="POST">
-                                     @csrf
-                                     @if (!empty($agent))
-                                         <input type="hidden" name="user_id" value="{{ $agent->user_id }}">
-                                         <input type="hidden" name="agent_id"
-                                             value="{{ !empty($agent) ? $agent->id : '' }}">
-                                     @else
-                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                     @endif
-                                     <input type="hidden" name="property_id"
-                                         value="{{ $propertyContent->propertyId }}">
+                                     <form id="whatsappForm" onsubmit="return false;">
+    @csrf
+    @if (!empty($agent))
+        <input type="hidden" name="user_id" value="{{ $agent->user_id }}">
+        <input type="hidden" name="agent_id" value="{{ !empty($agent) ? $agent->id : '' }}">
+    @else
+        <input type="hidden" name="user_id" value="{{ $user->id }}">
+    @endif
+    <input type="hidden" name="property_id" value="{{ $propertyContent->propertyId }}">
+    <input type="hidden" id="property_title" value="{{ $propertyContent->title }}">
+    <input type="hidden" id="property_url" value="{{ url()->current() }}">
 
-                                     <x-tenant.frontend.agentContact :basicInfo="$basicInfo" />
-                                 </form>
+    <x-tenant.frontend.agentContact :basicInfo="$basicInfo" />
+</form>
+
+<script>
+document.querySelectorAll("form").forEach(f => f.onsubmit = e => e.preventDefault());
+document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const WHATSAPP = '595994718400'; // ALTERE AQUI
+    const title = document.getElementById('property_title').value;
+    const url = document.getElementById('property_url').value;
+    const name = document.querySelector('input[name="name"]')?.value || '';
+    const email = document.querySelector('input[name="email"]')?.value || '';
+    const phone = document.querySelector('input[name="phone"]')?.value || '';
+    const message = document.querySelector('textarea[name="message"]')?.value || '';
+    
+    let msg = `*Interesse em Imóvel*\n\n*Imóvel:* ${title}\n*Link:* ${url}\n\n`;
+    if(name) msg += `*Nome:* ${name}\n`;
+    if(email) msg += `*Email:* ${email}\n`;
+    if(phone) msg += `*Telefone:* ${phone}\n`;
+    if(message) msg += `*Mensagem:* ${message}`;
+    
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+});
+</script>
                              </div>
                          @endif
                         
@@ -366,7 +380,7 @@
                                          @foreach ($relatedProperty as $property)
                                              <div class="product-default product-inline mt-20">
                                                  <figure class="product-img">
-                                                     <a href="{{ route('frontend.property.details', $property->slug) }}"
+                                                     <a href="{{ safeRoute('frontend.property.details', $property->slug) }}"
                                                          class="lazy-container ratio ratio-1-1 radius-md">
                                                          <img class="lazyload" src="assets/images/placeholder.png"
                                                              data-src="{{ asset('assets/img/property/featureds/' . $property->featured_image) }}">
@@ -374,7 +388,7 @@
                                                  </figure>
                                                  <div class="product-details">
                                                      <h6 class="product-title"><a
-                                                             href="{{ route('frontend.property.details', ['slug' => $property->slug]) }}">{{ $property->title }}</a>
+                                                             href="{{ safeRoute('frontend.property.details', ['slug' => $property->slug]) }}">{{ $property->title }}</a>
                                                      </h6>
                                                      <span class="product-location icon-start"> <i
                                                              class="fal fa-map-marker-alt"></i>
@@ -436,4 +450,5 @@
 
     
      <x-tenant.frontend.social-share />
+<script>
  @endsection

@@ -12,6 +12,7 @@ class PageController extends Controller
     use TenantFrontendLanguage;
     public function page($slug)
     {
+   error_log('🔴🔴 PageController::page() CHAMADO com slug: ' . $slug);
         $misc = new MiscellaneousController();
         $tenantId = getUser()->id;
         $language = $misc->currentLang($tenantId);

@@ -13,7 +13,7 @@
             <div class="logo">
 
                 @if (!empty($basicInfo->logo))
-                    <a href="{{ route('frontend.user.index', getParam()) }}">
+                    <a href="{{ safeRoute('frontend.user.index', getParam()) }}">
                         <img src="{{ asset(  $basicInfo->logo) }}">
                     </a>
                 @endif
@@ -30,14 +30,14 @@
             <nav class="navbar navbar-expand-lg">
       
                 @if (!empty($basicInfo->logo))
-                    <a href="{{ route('frontend.user.index', getParam()) }}" class="navbar-brand">
+                    <a href="{{ safeRoute('frontend.user.index', getParam()) }}" class="navbar-brand">
                         <img src="{{ asset(  $basicInfo->logo) }}">
                     </a>
                 @endif
                 <div class="collapse navbar-collapse">
-//@php 
-  //  $menuDatas = !empty($menuInfos) && $menuInfos->count() > 0 ? (is_string($menuInfos->first()->menus) ? json_decode($menuInfos->first()->menus) : $menuInfos->first()->menus) : [];
-//@endphp
+ @php 
+//    $menuDatas = !empty($menuInfos) && $menuInfos->count() > 0 ? (is_string($menuInfos->first()->menus) ? json_decode($menuInfos->first()->menus) : $menuInfos->first()->menus) : [];
+@endphp
 
 <ul id="mainMenu" class="navbar-nav mobile-item mx-auto">
     @foreach ($menuDatas as $menuData)
@@ -71,7 +71,7 @@
                     @if (!empty($permissions) && in_array('Additional Language', $permissions) )
                         <div class="item">
                             <div class="language">
-                                <form action="{{ route('frontend.change_language', getParam()) }}" method="GET">
+                                <form action="{{ safeRoute('frontend.change_language', getParam()) }}" method="GET">
     <select class="nice-select" name="lang_code" onchange="this.form.submit()">
         @php
             $allLanguageInfos = $allLanguageInfos ?? [];
@@ -103,17 +103,17 @@
                                 <ul class="dropdown-menu radius-0">
                                     @if (!Auth::guard('customer')->check())
                                         <li><a class="dropdown-item"
-                                                href="{{ route('frontend.user.login', getParam()) }}">{{ $keywords['Login'] ?? __('Login') }}</a>
+                                                href="{{ safeRoute('frontend.user.login', getParam()) }}">{{ $keywords['Login'] ?? __('Login') }}</a>
                                         </li>
                                         <li><a class="dropdown-item"
-                                                href="{{ route('frontend.user.signup', getParam()) }}">{{ $keywords['Signup'] ?? __('Signup') }}</a>
+                                                href="{{ safeRoute('frontend.user.signup', getParam()) }}">{{ $keywords['Signup'] ?? __('Signup') }}</a>
                                         </li>
                                     @else
                                         <li><a class="dropdown-item"
-                                                href="{{ route('frontend.user.dashboard', getParam()) }}">{{ $keywords['Dashboard'] ?? __('Dashboard') }}</a>
+                                                href="{{ safeRoute('frontend.user.dashboard', getParam()) }}">{{ $keywords['Dashboard'] ?? __('Dashboard') }}</a>
                                         </li>
                                         <li><a class="dropdown-item"
-                                                href="{{ route('frontend.user.logout', getParam()) }}">{{ $keywords['Logout'] ?? __('Logout') }}</a>
+                                                href="{{ safeRoute('frontend.user.logout', getParam()) }}">{{ $keywords['Logout'] ?? __('Logout') }}</a>
                                         </li>
                                     @endif
                                 </ul>

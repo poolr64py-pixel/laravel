@@ -208,4 +208,26 @@ class Project extends Model
     {
         return $this->hasMany(Wishlist::class, 'project_id', 'id');
     }
+      public function sliderImages()
+    {
+        return $this->hasMany(\App\Models\User\Project\ProjectGalleryImage::class, 'project_id');
+    }
+
+    /**
+     * Accessor: Get current content
+     */
+    public function getCurrentContentAttribute()
+    {
+        return $this->contents->first();
+    }
+
+    /**
+     * Accessor: Get project URL
+     */
+    public function getUrlAttribute()
+    {
+        $content = $this->current_content;
+        return $content ? route('front.project.detail', $content->slug) : '#';
+    }
 }
+

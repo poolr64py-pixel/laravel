@@ -260,4 +260,36 @@ class Property extends Model
     {
         return $this->hasMany(Wishlist::class, 'property_id', 'id');
     }
+/**
+     * Accessor: Get city name in current language
+     */
+    public function getCityNameAttribute()
+    {
+        return $this->city?->cityContent?->first()?->name ?? 'Not specified';
+    }
+
+    /**
+     * Accessor: Get current content (first available)
+     */
+    public function getCurrentContentAttribute()
+    {
+        return $this->contents->first();
+    }
+
+    /**
+     * Accessor: Get property URL
+     */
+    public function getUrlAttribute()
+    {
+        $content = $this->current_content;
+        return $content ? route('front.property.detail', $content->slug) : '#';
+    }
+
+    /**
+     * Accessor: Get formatted price
+     */
+    public function getFormattedPriceAttribute()
+    {
+        return 'USD ' . number_format($this->price, 0, ',', '.');
+    }
 }

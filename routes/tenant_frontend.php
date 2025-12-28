@@ -69,7 +69,7 @@ Route::get('/about-us', [HomePageController::class, 'aboutus'])->name('aboutus')
    // Route::get('/payment-form', 'UserFrontend\PayController@index')->name('payment_form');
 
 
-    Route::prefix('/blog')->middleware(['TFRAcessPermission:Blog'])->group(function () {
+      Route::prefix('/blog')->group(function () {
       Route::get('', 'UserFrontend\BlogController@index')->name('blog');
 
       Route::get('/post/{slug}', 'UserFrontend\BlogController@show')->name('blog.post_details');

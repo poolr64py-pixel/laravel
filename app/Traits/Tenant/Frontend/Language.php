@@ -19,7 +19,7 @@ trait Language
 
   public function currentLang($tenantId)
   {
-    $langCode = session('tenant_frontend_lang');
+    $langCode = session('lang');
 
     if ($langCode) {
       $language = $this->getLanguageInstance()->where('code', $langCode)->where('user_id', $tenantId)->first();

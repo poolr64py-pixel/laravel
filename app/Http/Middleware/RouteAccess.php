@@ -26,12 +26,14 @@ class RouteAccess
         }
         
         $user = getUser();
-        
+        error_log('🔍🔍 RouteAccess - Page: ' . $page . ' | User: ' . ($user ? 'ID=' . $user->id : 'NULL'));
+error_log('🔍🔍 RouteAccess - Request URI: ' . $request->getRequestUri());        
         // Se não houver usuário, redirecionar para home
-        if (!$user || !$user->id) {
-            return redirect('/');
-        }
-        
+         if (!$user || !$user->id) {
+    error_log('❌❌ RouteAccess: Sem usuário! Redirecionando para home. Page: ' . $page);
+    error_log('❌❌ User: ' . ($user ? json_encode(['id' => $user->id, 'username' => $user->username]) : 'NULL'));
+    return redirect('/');
+}        
         $packagePermissions = UserPermissionHelper::packagePermission($user->id);
         
         \Log::info('RouteAccess Debug', [

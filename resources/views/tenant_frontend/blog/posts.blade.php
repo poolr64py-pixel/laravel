@@ -36,14 +36,14 @@
                                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                                     <article class="card mb-30">
                                         <div class="card-image">
-                                            <a href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
+                                            <a href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
                                                 class="lazy-container ratio ratio-16-9">
                                                 <img class="lazyload"
                                                     src="{{ asset('assets/front/images/placeholder.png') }}"
                                                     data-src="{{ asset(\App\Constants\Constant::WEBSITE_BLOG_IMAGE . '/' . $blog->image) }}">
                                             </a>
                                             <a
-                                                href="{{ route('frontend.blog', [getParam(), 'category' => $blog->category_slug]) }}">
+                                                href="{{ safeRoute('frontend.blog', [getParam(), 'category' => $blog->category_slug]) }}">
                                                 <span class="tag">{{ $blog->category_name }}</span></a>
                                         </div>
                                         <div class="content">
@@ -56,14 +56,14 @@
                                             </ul>
                                             <h3 class="card-title">
                                                 <a
-                                                    href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}">
+                                                    href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}">
                                                     {{ @$blog->title }}
                                                 </a>
                                             </h3>
                                             <p class="card-text">
                                                 {{ strlen(strip_tags($blog->content)) > 90 ? mb_substr(strip_tags($blog->content), 0, 90, 'UTF-8') . '...' : strip_tags($blog->content) }}
                                             </p>
-                                            <a href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
+                                            <a href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
                                                 class="card-btn">{{ $keywords['Read More'] ?? __('Read More') }}</a>
                                         </div>
                                     </article>
@@ -85,7 +85,7 @@
                         <div class="widget widget-search radius-md mb-30">
 
                             <h4 class="title mb-15">{{ $keywords['Search Posts'] ?? __('Search Posts') }}</h4>
-                            <form class="search-form radius-md" action="{{ route('frontend.blog', getParam()) }}"
+                            <form class="search-form radius-md" action="{{ safeRoute('frontend.blog', getParam()) }}"
                                 method="GET">
                                 <input type="search"
                                     class="search-input"placeholder="{{ $keywords['Search By Title'] ?? __('Search By Title') }}"
@@ -112,7 +112,7 @@
                                 @foreach ($categories as $category)
                                     <li class="d-flex align-items-center justify-content-between">
                                         <a
-                                            href="{{ route('frontend.blog', [getParam(), 'category' => $category->slug]) }}"><i
+                                            href="{{ safeRoute('frontend.blog', [getParam(), 'category' => $category->slug]) }}"><i
                                                 class="fal fa-folder"></i>
                                             {{ $category->name }}</a>
                                         <span class="tqy">({{ $category->postCount }})</span>
@@ -126,7 +126,7 @@
                             @foreach ($recent_blogs as $blog)
                                 <article class="article-item mb-30">
                                     <div class="image">
-                                        <a href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
+                                        <a href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}"
                                             class="lazy-container ratio ratio-1-1">
 
                                             <img class="lazyload" src="{{ asset('assets/front/images/placeholder.png') }}"
@@ -142,7 +142,7 @@
                                         </ul>
                                         <h6>
                                             <a
-                                                href="{{ route('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}">
+                                                href="{{ safeRoute('frontend.blog.post_details', [getParam(), 'slug' => $blog->slug]) }}">
                                                 {{ strlen($blog->title) > 40 ? mb_substr($blog->title, 0, 40, 'UTF-8') . '...' : $blog->title }}
                                             </a>
                                         </h6>

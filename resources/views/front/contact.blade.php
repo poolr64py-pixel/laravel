@@ -1,4 +1,5 @@
 @extends('front.layout')
+@section('meta-description', 'Entre em contato com a Terras no Paraguay. Tire suas dúvidas sobre imóveis, projetos e investimentos no Paraguai.')
 
 @section('meta-description', !empty($seo) ? $seo->contact_meta_description : '')
 @section('meta-keywords', !empty($seo) ? $seo->contact_meta_keywords : '')

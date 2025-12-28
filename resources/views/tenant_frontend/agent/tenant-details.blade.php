@@ -249,7 +249,7 @@
                                          <a href="mailto:{{ $tenant->email }}"> {{ $tenant->email }} </a>
                                      </div>
                                  </div>
-                                 <form action="{{ route('frontend.property_contact', getParam()) }}" method="POST">
+                                 <form action="{{ safeRoute('frontend.property_contact', getParam()) }}" method="POST">
                                      @csrf
                                     
                                      <input type="hidden" name="user_id" value="{{ $tenant->id }}">

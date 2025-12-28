@@ -1,0 +1,249 @@
+@extends('admin.layout')
+
+@section('content')
+<div class="page-header">
+    <h4 class="page-title">{{ __('Add New Property') }}</h4>
+    <ul class="breadcrumbs">
+        <li class="nav-home">
+            <a href="{{ route('admin.dashboard') }}">
+                <i class="flaticon-home"></i>
+            </a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.property.index') }}">{{ __('Properties') }}</a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            <a href="#">{{ __('Add Property') }}</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">{{ __('Add New Property') }}</div>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.property.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="alert alert-info">
+                        <strong>{{ __('Notice') }}:</strong> {{ __('Property will be created for user ID 148 (main site)') }}
+                    </div>
+
+                    <h3>{{ __('Basic Information') }}</h3>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Price') }} * (USD)</label>
+                                <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price') }}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Purpose') }} *</label>
+                                <select name="purpose" class="form-control" required>
+                                    <option value="">{{ __('Select') }}</option>
+                                    <option value="sale" {{ old('purpose') == 'sale' ? 'selected' : '' }}>{{ __('Sale') }}</option>
+                                    <option value="rent" {{ old('purpose') == 'rent' ? 'selected' : '' }}>{{ __('Rent') }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Type') }} *</label>
+                                <select name="type" class="form-control" required>
+                                    <option value="">{{ __('Select') }}</option>
+                                    <option value="house" {{ old('type') == 'house' ? 'selected' : '' }}>{{ __('House') }}</option>
+                                    <option value="apartment" {{ old('type') == 'apartment' ? 'selected' : '' }}>{{ __('Apartment') }}</option>
+                                    <option value="villa" {{ old('type') == 'villa' ? 'selected' : '' }}>{{ __('Villa') }}</option>
+                                    <option value="office" {{ old('type') == 'office' ? 'selected' : '' }}>{{ __('Office') }}</option>
+                                    <option value="land" {{ old('type') == 'land' ? 'selected' : '' }}>{{ __('Land') }}</option>
+                                    <option value="commercial" {{ old('type') == 'commercial' ? 'selected' : '' }}>{{ __('Commercial') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Bedrooms') }}</label>
+                                <input type="number" name="beds" class="form-control" value="{{ old('beds', 0) }}" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Bathrooms') }}</label>
+                                <input type="number" name="bath" class="form-control" value="{{ old('bath', 0) }}" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Area') }} (m²)</label>
+                                <input type="number" step="0.01" name="area" class="form-control" value="{{ old('area', 0) }}" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Category') }}</label>
+                                <select name="category_id" class="form-control">
+                                    <option value="">{{ __('Select Category') }}</option>
+                                    @if(isset($categories))
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->categoryContent->first()->name ?? 'N/A' }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Country') }}</label>
+                                <select name="country_id" class="form-control">
+                                    <option value="">{{ __('Select Country') }}</option>
+                                    @if(isset($countries))
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
+                                                {{ $country->countryContent->first()->name ?? 'N/A' }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Video URL') }}</label>
+                                <input type="url" name="video_url" class="form-control" value="{{ old('video_url') }}" placeholder="https://youtube.com/...">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Featured Image') }}</label>
+                                <input type="file" name="featured_image" class="form-control" accept="image/*">
+                                <small class="text-muted">{{ __('Max size: 5MB') }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Latitude') }}</label>
+                                <input type="text" name="latitude" class="form-control" value="{{ old('latitude') }}" placeholder="-25.2637">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Longitude') }}</label>
+                                <input type="text" name="longitude" class="form-control" value="{{ old('longitude') }}" placeholder="-57.5759">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="featured" name="featured" value="1" {{ old('featured') ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="featured">{{ __('Featured Property') }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4">{{ __('Content (Multi-language)') }}</h3>
+                    <hr>
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        @foreach($langs as $index => $lang)
+                            <li class="nav-item">
+                                <a class="nav-link {{ $index == 0 ? 'active' : '' }}" data-toggle="tab" href="#lang{{ $lang->id }}" role="tab">
+                                    {{ $lang->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="tab-content mt-3">
+                        @foreach($langs as $index => $lang)
+                            <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="lang{{ $lang->id }}" role="tabpanel">
+                                <div class="form-group">
+                                    <label>{{ __('Title') }} * ({{ $lang->code }})</label>
+                                    <input type="text" name="title_{{ $lang->code }}" class="form-control" 
+                                           value="{{ old('title_' . $lang->code) }}" 
+                                           {{ $lang->code == 'pt' ? 'required' : '' }}>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{ __('Address') }} ({{ $lang->code }})</label>
+                                    <input type="text" name="address_{{ $lang->code }}" class="form-control" value="{{ old('address_' . $lang->code) }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{ __('Description') }} ({{ $lang->code }})</label>
+                                    <textarea name="description_{{ $lang->code }}" class="form-control" rows="5">{{ old('description_' . $lang->code) }}</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{ __('Meta Keywords') }} ({{ $lang->code }})</label>
+                                    <input type="text" name="meta_keyword_{{ $lang->code }}" class="form-control" value="{{ old('meta_keyword_' . $lang->code) }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{ __('Meta Description') }} ({{ $lang->code }})</label>
+                                    <textarea name="meta_description_{{ $lang->code }}" class="form-control" rows="3">{{ old('meta_description_' . $lang->code) }}</textarea>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> {{ __('Save Property') }}
+                        </button>
+                        <a href="{{ route('admin.property.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> {{ __('Cancel') }}
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

@@ -51,7 +51,7 @@
 
 
                                         <h4 class="agent-title"><a
-                                                href="{{ route('frontend.tenant.details', [getParam()]) }}">{{ $tenant->full_name }}</a>
+                                                href="{{ safeRoute('frontend.tenant.details', [getParam()]) }}">{{ $tenant->full_name }}</a>
                                         </h4>
                                         <ul class="agent-info list-unstyled p-0">
 
@@ -72,7 +72,7 @@
                                                 </li>
                                             @endif
                                         </ul>
-                                        <a href="{{ route('frontend.tenant.details', [getParam()]) }}"
+                                        <a href="{{ safeRoute('frontend.tenant.details', [getParam()]) }}"
                                             class="btn-text">{{ $keywords['View Profile'] ?? __('View Profile') }}</a>
                                     </div>
                                 </div>

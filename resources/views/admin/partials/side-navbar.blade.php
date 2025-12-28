@@ -587,6 +587,50 @@
                             @endif
 
                             @if (empty($admin->role) || (!empty($permissions) && in_array('Contact Page', $permissions)))
+
+                            @if (empty($admin->role) || (!empty($permissions) && in_array('Properties', $permissions)))
+                                {{-- Properties --}}
+                                <li class="submenu
+                                    @if (request()->routeIs('admin.property.index')) selected @endif">
+                                    <a data-toggle="collapse" href="#properties">
+                                        <span class="sub-item">{{ __('Properties') }}</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse
+                                        @if (request()->routeIs('admin.property.index')) show @endif"
+                                        id="properties">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li class="@if (request()->routeIs('admin.property.index')) active @endif">
+                                                <a href="{{ route('admin.property.index') }}">
+                                                    <span class="sub-item">{{ __('Manage Properties') }}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endif
+
+                            @if (empty($admin->role) || (!empty($permissions) && in_array('Projects', $permissions)))
+                                {{-- Projects --}}
+                                <li class="submenu
+                                    @if (request()->routeIs('admin.project.index')) selected @endif">
+                                    <a data-toggle="collapse" href="#projects">
+                                        <span class="sub-item">{{ __('Projects') }}</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse
+                                        @if (request()->routeIs('admin.project.index')) show @endif"
+                                        id="projects">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li class="@if (request()->routeIs('admin.project.index')) active @endif">
+                                                <a href="{{ route('admin.project.index') }}">
+                                                    <span class="sub-item">{{ __('Manage Projects') }}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endif
                                 {{-- Contact Page --}}
                                 <li class="   @if (request()->path() == 'admin/contact') active @endif">
                                     <a href="{{ route('admin.contact.index') . '?language=' . $currentLang->code }}">

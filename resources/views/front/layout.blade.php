@@ -63,6 +63,16 @@
         }
     </style>
 
+    {{-- Google Analytics --}}
+    @if(!empty($bs->google_analytics_id))
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $bs->google_analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "{{ $bs->google_analytics_id }}");
+    </script>
+    @endif
 </head>
 
 <body>

@@ -1,0 +1,67 @@
+/* Ajustes para página de imóveis */
+
+/* Título da página */
+.page-title-area h2 {
+    font-size: 2rem !important;
+    margin-top: 1rem !important;
+}
+
+/* Cards de imóveis */
+.property-card {
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Badges */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Espaçamento dos cards */
+.property-content {
+    padding: 1rem !important;
+}
+
+/* Título do imóvel */
+.property-title a {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Preço */
+.property-price h5 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* Features (quartos, banheiros, área) */
+.property-features {
+    font-size: 0.875rem;
+}
+
+/* Filtros */
+.property-filter {
+    padding: 2rem 0;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    margin-bottom: 0;
+    background: transparent;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .page-title-area h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .property-card {
+        margin-bottom: 1rem;
+    }
+}

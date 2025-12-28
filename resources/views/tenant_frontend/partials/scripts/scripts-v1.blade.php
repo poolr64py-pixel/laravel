@@ -1,7 +1,7 @@
 <script>
     'use strict';
-    const baseURL = "{{ route('frontend.user.index', getParam()) }}";
-    const tenantBaseURL = "{{ route('frontend.user.index', getParam()) }}";
+    const baseURL = "{{ safeRoute('frontend.user.index', getParam()) }}";
+    const tenantBaseURL = "{{ safeRoute('frontend.user.index', getParam()) }}";
     const all_model = "{{ __('All') }}";
     const read_more = "{{ __('Read More') }}";
     const read_less = "{{ __('Read Less') }}";

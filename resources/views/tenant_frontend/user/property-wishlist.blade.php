@@ -55,19 +55,19 @@
                                                             @endphp
 
                                                             <td class="pl-3">
-                                                                <a href="{{ route('frontend.property.details', ['slug' => $slug]) }}"
+                                                                <a href="{{ safeRoute('frontend.property.details', ['slug' => $slug]) }}"
                                                                     target="_blank">
                                                                     {{ strlen($title) > 50 ? mb_substr($title, 0, 50, 'UTF-8') . '...' : $title }}
                                                                 </a>
                                                             </td>
                                                             <td class="pl-3">
-                                                                <a href="{{ route('frontend.property.details', ['slug' => $slug]) }}"
+                                                                <a href="{{ safeRoute('frontend.property.details', ['slug' => $slug]) }}"
                                                                     class="btn btn-primary " target="_blank">
                                                                     {{ $keywords['Details'] ?? __('Details') }}
                                                                 </a>
 
                                                                 <form
-                                                                    action="{{ route('frontend.user.property.remove.wishlist', [getParam(), 'property' => $propertyId]) }}"
+                                                                    action="{{ safeRoute('frontend.user.property.remove.wishlist', [getParam(), 'property' => $propertyId]) }}"
                                                                     method="GET" class="d-inline">
                                                                     @csrf
                                                                     <button type="submit"

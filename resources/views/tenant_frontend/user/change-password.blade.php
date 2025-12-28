@@ -28,7 +28,7 @@
                                     </div>
 
                                     <div class="edit-info-area">
-                                        <form action="{{ route('frontend.user.update_password', getParam()) }}"
+                                        <form action="{{ safeRoute('frontend.user.update_password', getParam()) }}"
                                             method="POST">
                                             @csrf
                                             <div class="row">

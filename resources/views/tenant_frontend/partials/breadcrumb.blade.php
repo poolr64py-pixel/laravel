@@ -5,7 +5,7 @@
             <h1 class="color-white"> {{ !empty($title) ? $title : '' }}</h1>
             <ul class="list-unstyled">
                 <li class="d-inline-block"><a
-                        href="{{ route('front.index', getParam()) }}"
+                        href="{{ safeRoute('front.index', getParam()) }}"
                 <li class="d-inline-block"> >> </li>
                 <li class="d-inline-block active">{{ !empty($subtitle) ? $subtitle : '' }}</li>
             </ul>

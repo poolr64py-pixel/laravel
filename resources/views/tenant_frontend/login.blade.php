@@ -32,7 +32,7 @@
 
                         @if ($basicInfo->google_login_status == 1)
                             <a class="text-center w-100 pt-2 py-2 bg-google"
-                                href="{{ route('frontend.user.login.google', getParam()) }}">
+                                href="{{ safeRoute('frontend.user.login.google', getParam()) }}">
                                 <i class="fab fa-google"></i>
                                 {{ __('Login with Google') }}</a>
                         @endif
@@ -44,7 +44,7 @@
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ __(Session::get('error')) }}</div>
                 @endif
-                <form action="{{ route('frontend.user.login_submit', getParam()) }}" method="POST">
+                <form action="{{ safeRoute('frontend.user.login_submit', getParam()) }}" method="POST">
                     @csrf
                     <div class="title">
                         <h4 class="mb-20">{{ $keywords['Login'] ?? __('Login') }}</h4>
@@ -76,14 +76,14 @@
                     <div class="row align-items-center justify-content-between mb-20">
                         <div class="col-4 col-xs-12">
                             <div class="link">
-                                <a href="{{ route('frontend.user.forget_password', getParam()) }}">
+                                <a href="{{ safeRoute('frontend.user.forget_password', getParam()) }}">
                                     {{ $keywords['Forgot password?'] ?? __('Forgot password?') }} </a>
                             </div>
                         </div>
                         <div class="col-8 col-xs-12">
                             <div class="link go-signup">
                                 {{ $keywords["Don't have an account?"] ?? __("Don't have an account?") }} <a
-                                    href="{{ route('frontend.user.signup', getParam()) }}">{{ $keywords['Click Here'] ?? __('Click Here') }}</a>
+                                    href="{{ safeRoute('frontend.user.signup', getParam()) }}">{{ $keywords['Click Here'] ?? __('Click Here') }}</a>
                                 {{ $keywords['to Signup'] ?? __('to Signup') }}
                             </div>
                         </div>

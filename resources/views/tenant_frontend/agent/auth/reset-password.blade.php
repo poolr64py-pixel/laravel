@@ -18,7 +18,7 @@
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ Session::get('error') }}</div>
                 @endif
-                <form action="{{ route('frontend.agent.update-forget-password', getParam()) }}" method="POST">
+                <form action="{{ safeRoute('frontend.agent.update-forget-password', getParam()) }}" method="POST">
                     @csrf
 
                     <input type="hidden" name="token" value="{{ request()->input('token') }}">

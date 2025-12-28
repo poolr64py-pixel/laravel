@@ -508,7 +508,7 @@
         var property_contents = @json($property_contents);
         var properties = property_contents.data;
         var imgUrl = "{{ asset('/') }}";
-        const categoryUrl = "{{ route('frontend.get_categories', getParam()) }}";
+        const categoryUrl = "{{ safeRoute('frontend.get_categories', getParam()) }}";
     </script>
     <!-- Leaflet Map JS -->
     <script src="{{ asset('/assets/tenant-front/js/vendors/leaflet.js') }}"></script>

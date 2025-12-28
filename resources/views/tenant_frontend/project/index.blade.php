@@ -77,7 +77,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form action="{{ route('frontend.properties', getParam()) }}" method="get"
+                                <form action="{{ safeRoute('frontend.properties', getParam()) }}" method="get"
                                     id="searchForm" class="w-100">
 
 
@@ -325,7 +325,7 @@
         var jsonProjects = @json($projects);
         var projects = jsonProjects.data;
         var imgUrl = "{{ asset('/') }}";
-        const categoryUrl = "{{ route('frontend.project.get_categories', getParam()) }}";
+        const categoryUrl = "{{ safeRoute('frontend.project.get_categories', getParam()) }}";
     </script>
     <!-- Leaflet Map JS -->
     <script src="{{ asset('/assets/tenant-front/js/vendors/leaflet.js') }}"></script>

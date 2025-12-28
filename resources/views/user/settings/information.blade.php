@@ -118,7 +118,9 @@
                                                 <label for="image"><strong> {{ __('Logo') }} </strong></label>
                                             </div>
                                             <div class="col-md-12 showImage3 mb-3" id="">
-                                                <img src="{{ $data->logo ? asset($data->logo) : asset('assets/admin/img/noimage.jpg') }}"
+  {{-- DEBUG: {{ $data->logo }} --}}
+    {{-- DEBUG ASSET: {{ asset($data->logo) }} --}}                                          
+      <img src="{{ $data->logo ? asset($data->logo) . '?v=' . time() : asset('assets/admin/img/noimage.jpg') }}"
                                                     alt="..." class="img-thumbnail">
                                             </div>
                                             <input type="file" name="logo" id="image3" class="form-control">

@@ -137,7 +137,8 @@ class BasicController extends Controller
     {
         $data = BasicSetting::where('user_id', Auth::guard('web')->user()->id)
             ->first();
-        $themes = DB::table('themes')->where('is_active', 1)->get();
+     \Log::info('LOGO PATH', ['logo' => $data->logo, 'full_data' => $data]);       
+ $themes = DB::table('themes')->where('is_active', 1)->get();
         return view('user.settings.information', compact('data', 'themes'));
     }
     public function updateInfo(Request $request)
@@ -188,9 +189,8 @@ class BasicController extends Controller
             $updatedData['favicon'] = $filename;
         }
 
-
         if ($request->hasFile('logo')) {
-            $filename = UploadFile::update(Constant::WEBSITE_LOGO, $request->file('logo'), $basicSettings->logo);
+            $filename = UploadFile::update(Constant::WEBSITE_LOGO, $request->file('logo'), $basicSettings->getRawOriginal('logo'));
             if (!empty($basicSettings->logo)) {
                 @unlink(public_path($basicSettings->logo));
             }

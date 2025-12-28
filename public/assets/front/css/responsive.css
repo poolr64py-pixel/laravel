@@ -414,3 +414,12 @@
     left: 5px;
   }
 }
+/* Menu Mobile Fix */
+@media (max-width: 1199px) {
+  .main-responsive-nav {
+    display: block !important;
+  }
+  .menu-toggler {
+    display: block !important;
+  }
+}
