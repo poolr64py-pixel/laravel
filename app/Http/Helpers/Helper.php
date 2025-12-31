@@ -226,15 +226,16 @@ if (!function_exists('hex2rgb')) {
 if (!function_exists('getHref')) {
     function getHref($link)
     {
-        $href = "#";
-        
+        $href = url('/'); // CORRIGIDO: usar URL raiz em vez de #
+     
         // Verifica se a rota existe antes de tentar usá-la
         $routeExists = function($name) {
             return \Route::has($name);
         };
         
         if ($link["type"] == 'home') {
-            $href = $routeExists('front.index') ? route('front.index') : '#';
+           //  $href = $routeExists('front.index') ? route('front.index') : '#';
+       $href = url('/');
         } else if ($link["type"] == 'listings') {
             $href = $routeExists('front.user.view') ? route('front.user.view') : '#';
         } else if ($link["type"] == 'about') {
