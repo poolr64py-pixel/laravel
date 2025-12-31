@@ -19,9 +19,8 @@ class RouteServiceProvider extends ServiceProvider
 
     public function map()
     {
-          error_log("ðŸ”µ MAP() chamado - host: " . request()->getHost());
         $this->mapAdminRoutes();      // Admin PRIMEIRO
-         $this->mapTenantRoutes(); 
+        // $this->mapTenantRoutes(); 
         $this->mapTenantFrontendRoutes();     
         $this->mapWebRoutes();         // Web segundo
         $this->mapApiRoutes();         // API terceiro
@@ -45,14 +44,9 @@ class RouteServiceProvider extends ServiceProvider
         $websiteHost,
         'www.' . $websiteHost
     ]);
-    error_log("ðŸ” DEBUG - host: '{$host}' | websiteHost: '{$websiteHost}'");
-error_log("ðŸ” DEBUG - array: " . json_encode([$websiteHost, 'www.' . $websiteHost]));
-error_log("ðŸ” DEBUG - in_array result: " . ($isMainDomain ? 'true' : 'false'));    
-    error_log("?? mapWebRoutes - host: {$host} | isMainDomain: " . ($isMainDomain ? 'SIM' : 'NÃO'));
     
     // Só carregar rotas web se FOR o site principal
     if ($isMainDomain) {
-        error_log("? Carregando rotas WEB (site principal)");
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
@@ -60,15 +54,11 @@ error_log("ðŸ” DEBUG - in_array result: " . ($isMainDomain ? 'true' : 'false'))
 }
 protected function mapAdminRoutes()
 {
-    error_log("ðŸ”´ mapAdminRoutes() INICIO");
     try {
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
-        error_log("ðŸ”´ mapAdminRoutes() SUCESSO");
     } catch (\Exception $e) {
-        error_log("ðŸ”´ mapAdminRoutes() ERRO: " . $e->getMessage());
-        error_log("ðŸ”´ Arquivo: " . $e->getFile() . " Linha: " . $e->getLine());
     }
 }
 protected function mapTenantFrontendRoutes()
@@ -82,11 +72,9 @@ protected function mapTenantFrontendRoutes()
         'www.' . $websiteHost
     ]);
     
-    error_log("?? mapTenantFrontendRoutes - host: {$host} | isMainDomain: " . ($isMainDomain ? 'SIM' : 'NÃO'));
     
     // Carregar rotas tenant se NÃO for o domínio principal
     if (!$isMainDomain) {
-        error_log("? Carregando rotas TENANT para: {$host}");
         Route::domain($host)
             ->middleware("web")
             ->namespace($this->namespace)

@@ -4,15 +4,6 @@ use App\Http\Controllers\User\HotelBooking\RoomController;
 use App\Http\Controllers\User\HotelBooking\RoomManagementController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\Front\FrontendController;
-
-// Home / página inicial
-Route::get('/', [FrontendController::class, 'index'])->name('front.home');
-
-// Detalhes do imóvel
-//Route::get('/property/{slug}', [FrontendController::class, 'propertyShow'])->name('front.property.show');
-
-$domain = env('WEBSITE_HOST');
 if (!app()->runningInConsole()) {
     if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
         $domain = 'www.' . env('WEBSITE_HOST');
@@ -48,6 +39,12 @@ Route::get('myfatoorah/cancel', 'MyFatoorahController@cancel')->name('myfatoorah
         Route::get('/check/{username}/username', 'Front\FrontendController@checkUsername')->name('imoveis.username.check');
         Route::get('/p/{slug}', 'Front\FrontendController@dynamicPage')->name('imoveis.dynamicPage');
    });*/
+$domain = env("WEBSITE_HOST");
+if (!app()->runningInConsole()) {
+    if (substr($_SERVER["HTTP_HOST"], 0, 4) === "www.") {
+        $domain = "www." . env("WEBSITE_HOST");
+    }
+}
 Route::domain($domain)->group(function () {
     Route::prefix('update')->group(function () {
         Route::get('/version', 'UpdateController@upversion')->name('update.version');
@@ -228,10 +225,10 @@ Route::get('/projetos/{slug}', 'Front\FrontendController@projectDetail')->name('
         Route::get('/action-section', 'User\ActionController@index')->name('user.home_page.action_section');
         Route::post('/update-action-section', 'User\ActionController@update')->name('user.home_page.update_action_section');
         // home page brand-section route start
-        Route::get('/home_page/brand_section', 'User\BrandSectionController@brandSection')->name('user.home_page.brand_section');
-        Route::post('/home_page/brand_section/store_brand', 'User\BrandSectionController@storeBrand')->name('user.home_page.brand_section.store_brand');
-        Route::post('/home_page/brand_section/update_brand', 'User\BrandSectionController@updateBrand')->name('user.home_page.brand_section.update_brand');
-        Route::post('/home_page/brand_section/delete_brand', 'User\BrandSectionController@deleteBrand')->name('user.home_page.brand_section.delete_brand');
+//         Route::get('/home_page/brand_section', 'User\BrandSectionController@brandSection')->name('user.home_page.brand_section');
+//         Route::post('/home_page/brand_section/store_brand', 'User\BrandSectionController@storeBrand')->name('user.home_page.brand_section.store_brand');
+//         Route::post('/home_page/brand_section/update_brand', 'User\BrandSectionController@updateBrand')->name('user.home_page.brand_section.update_brand');
+//         Route::post('/home_page/brand_section/delete_brand', 'User\BrandSectionController@deleteBrand')->name('user.home_page.brand_section.delete_brand');
         Route::get('/home_page/update_intro_section', 'User\AchievementController@updateHomePageSection')->name('user.home_page.update_intro_section');
         // home page hero-section static-version route
         Route::get('/home_page/hero/static_version', 'User\HeroStaticController@staticVersion')->name('user.home_page.hero.static_version');
@@ -1221,41 +1218,35 @@ $host = str_replace("www.", "", $parsedUrl['host']);
 if (array_key_exists('host', $parsedUrl)) {
     // if it is a path based URL
      if ($host == env('WEBSITE_HOST')) {
-//     $domain = $domain;
-//     // Não aplicar prefix /{username} para rotas admin ou user
-//     if (!request()->is('admin') && !request()->is('admin/*') && !request()->is('user') && !request()->is('user/*')) {
-//         $prefix = '/{username}';
-//     } else {
-//         $prefix = '';
-     }
- }
-//     // if it is a subdomain / custom domain
-//     else {
-//         if (!app()->runningInConsole()) {
-//             if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
-//                 $domain = 'www.{domain}';
-//             } else {
-//                 $domain = '{domain}';
-//             }
-//         }
-//         $prefix = '';
-//     }
-// }
-// Route::group(['domain' => $domain, 'prefix' => $prefix], function () {
-//     Route::get('/', 'Front\FrontendController@users')->name('front.user.detail.view');
+       $domain = $domain; // mantém o www.terrasnoparaguay.com
+    $prefix = '';
+    }
+    else {
+        if (!app()->runningInConsole()) {
+            if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
+                $domain = 'www.{domain}';
+            } else {
+                $domain = '{domain}';
+            }
+        }
+        $prefix = '';
+    }
+}
+       Route::group(['domain' => $domain, 'prefix' => $prefix], function () {
+    Route::get('/', 'Front\FrontendController@index')->name('front.user.detail.view');
 // 
-//     Route::group(['middleware' => ['routeAccess:Service']], function () {
-//         Route::get('/services', 'Front\FrontendController@userServices')->name('front.user.services');
-//         Route::get('/service/{slug}/{id}', 'Front\FrontendController@userServiceDetail')->name('front.user.service.detail');
-//     });
-//     Route::group(['middleware' => ['routeAccess:Blog']], function () {
-//         Route::get('/blogs', 'Front\FrontendController@userBlogs')->name('front.user.blogs');
-//         Route::get('/blog/{slug}/{id}', 'Front\FrontendController@userBlogDetail')->name('front.user.blog.detail');
-//     });
-//     Route::group(['middleware' => ['routeAccess:Hotel Booking', 'Demo']], function () {
-//         Route::get('/rooms', 'Front\RoomController@rooms')->name('front.user.rooms');
-//         Route::get('/room/{id}/{slug}', 'Front\RoomController@roomDetails')->name('front.user.room_details');
-//         Route::post('/room/store_review/{id}', 'Front\RoomController@storeReview')->name('front.user.room.store_review');
+    Route::group(['middleware' => ['routeAccess:Service']], function () {
+        Route::get('/services', 'Front\FrontendController@userServices')->name('front.user.services');
+        Route::get('/service/{slug}/{id}', 'Front\FrontendController@userServiceDetail')->name('front.user.service.detail');
+    });
+    Route::group(['middleware' => ['routeAccess:Blog']], function () {
+        Route::get('/blogs', 'Front\FrontendController@userBlogs')->name('front.user.blogs');
+        Route::get('/blog/{slug}/{id}', 'Front\FrontendController@userBlogDetail')->name('front.user.blog.detail');
+    });
+    Route::group(['middleware' => ['routeAccess:Hotel Booking', 'Demo']], function () {
+        Route::get('/rooms', 'Front\RoomController@rooms')->name('front.user.rooms');
+        Route::get('/room/{id}/{slug}', 'Front\RoomController@roomDetails')->name('front.user.room_details');
+        Route::post('/room/store_review/{id}', 'Front\RoomController@storeReview')->name('front.user.room.store_review');
 //         Route::post('/room-booking/apply-coupon', 'Front\RoomController@applyCoupon')->name('front.user.apply_coupon');
         Route::post('/room-booking', 'Front\RoomBookingController@makeRoomBooking')->name('front.user.room_booking');
         Route::get('/room_booking/paypal/notify', 'User\Payment\PaypalController@successPayment')->name('front.user.room_booking.notify');
@@ -1468,7 +1459,7 @@ if (array_key_exists('host', $parsedUrl)) {
         Route::get('/job/{slug}/{id}', 'Front\FrontendController@userJobDetail')->name('front.user.job.detail');
     });
     Route::post('/subscribe', 'User\SubscriberController@store')->name('front.user.subscriber');
-    Route::get('/contact', 'Front\CustomerController@contact')->name('front.user.contact');
+//     Route::get('/contact', 'Front\CustomerController@contact')->name('front.user.contact');
     Route::post('/contact/message', 'Front\FrontendController@contactMessage')->name('front.contact.message')->middleware('Demo');
     Route::group(['middleware' => ['routeAccess:Team']], function () {
         Route::get('/team', 'Front\FrontendController@userTeam')->name('front.user.team');
@@ -1574,91 +1565,14 @@ if (array_key_exists('host', $parsedUrl)) {
     Route::group(['middleware' => ['routeAccess:Custom Page']], function () {
         Route::get('/{slug}', 'Front\FrontendController@userCPage')->name('front.user.cpage');
     });
+});
 })->where('username', '(?!admin|user).*');
 
 Route::get('/debug-host-check', function() {
+});
     return response()->json([
         'HTTP_HOST' => request()->getHost(),
-        'WEBSITE_HOST_env' => env('WEBSITE_HOST'),
-        'APP_URL' => env('APP_URL'),
-        'host_sem_www' => str_replace("www.", "", request()->getHost()),
-        'eh_dominio_principal' => (str_replace("www.", "", request()->getHost()) == env('WEBSITE_HOST')) ? 'SIM' : 'NÃO',
-        'domain_usado_nas_rotas' => 'verificar routes/web.php',
-    ]);
+  ]);
 });
 
-Route::get('/debug-route-test', function() {
-    return 'Route funcionando! Host: ' . request()->getHost();
-});
-
-Route::get('/pt/cadastro-imoveis', function () {
-    return '<!DOCTYPE html>
-<html>
-<head>
-    <title>Cadastro RE/MAX Paraguai</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); min-height:100vh; padding:20px; }
-        .container { max-width:600px; margin:0 auto; background:white; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.1); overflow:hidden; }
-        .header { background:linear-gradient(135deg,#ff6b6b,#feca57); padding:40px 30px; text-align:center; color:white; }
-        .header h1 { font-size:2.2em; margin-bottom:10px; }
-        .header p { opacity:0.9; font-size:1.1em; }
-        .form { padding:40px 30px; }
-        .field { margin-bottom:25px; }
-        label { display:block; font-weight:600; color:#333; margin-bottom:8px; font-size:0.95em; }
-        input, textarea, select { width:100%; padding:15px; border:2px solid #e1e5e9; border-radius:12px; font-size:16px; transition:all 0.3s; }
-        input:focus, textarea:focus, select:focus { outline:none; border-color:#667eea; box-shadow:0 0 0 3px rgba(102,126,234,0.1); }
-        textarea { height:120px; resize:vertical; }
-        .file-input { padding:12px; background:#f8f9fa; border:2px dashed #dee2e6; text-align:center; cursor:pointer; transition:all 0.3s; }
-        .file-input:hover { border-color:#667eea; background:#f0f2ff; }
-        .submit-btn { width:100%; padding:18px; background:linear-gradient(135deg,#11998e,#38ef7d); color:white; border:none; border-radius:12px; font-size:1.2em; font-weight:600; cursor:pointer; transition:all 0.3s; }
-        .submit-btn:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(17,153,142,0.4); }
-        .features { margin-top:30px; padding-top:25px; border-top:1px solid #eee; }
-        .features ul { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
-        .features li { text-align:center; padding:15px; background:#f8f9fa; border-radius:10px; }
-        .features li i { font-size:1.5em; color:#11998e; margin-bottom:5px; display:block; }
-        @media (max-width:640px) { .container { margin:10px; border-radius:15px; } .header { padding:30px 20px; } .form { padding:30px 20px; } }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🏠 Cadastro RE/MAX</h1>
-            <p>Cadastre suas propriedades Paraguai para brasileiros</p>
-        </div>
-        <form class="form">
-            <div class="field">
-                <label>🏠 Título Português *</label>
-                <input type="text" placeholder="Casa 3q Luque RE/MAX - R$XXX.XXX" required>
-            </div>
-            <div class="field">
-                <label>💰 Preço USD</label>
-                <input type="number" placeholder="150000">
-            </div>
-            <div class="field">
-                <label>📍 Cidade</label>
-                <select><option>Assunção</option><option>Luque</option><option>Ciudad del Este</option></select>
-            </div>
-            <div class="field">
-                <label>📷 Fotos (máx 10)</label>
-                <input type="file" multiple accept="image/*" class="file-input">
-            </div>
-            <div class="field">
-                <label>📝 Descrição curta</label>
-                <textarea placeholder="Casa premium em Luque, ideal para brasileiros investir..."></textarea>
-            </div>
-            <button type="submit" class="submit-btn">🚀 Cadastrar Imóvel AGORA</button>
-        </form>
-        <div class="features">
-            <ul>
-                <li><span>🌎</span>3 idiomas</li>
-                <li><span>⚡</span>Grátis</li>
-                <li><span>📱</span>Mobile</li>
-                <li><span>🔍</span>SEO otimizado</li>
-            </ul>
-        </div>
-    </div>
-</body>
-</html>';
-});
+// DEBUG - deletar depois
