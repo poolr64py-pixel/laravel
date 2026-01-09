@@ -24,4 +24,11 @@ test.php
 server.php
 fix_app_config.php
 routes/*.backup*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/logs/*
 
+# Keep .gitkeep files
+!/storage/framework/cache/.gitkeep
+!/storage/framework/sessions/.gitkeep
+!/storage/logs/.gitkeep
