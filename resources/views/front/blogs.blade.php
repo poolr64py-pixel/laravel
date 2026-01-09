@@ -1,9 +1,7 @@
 @extends('front.layout')
-@section('pagename')
-    - {{ __('Blog') }}
-@endsection
-@section('meta-description', !empty($seo) ? $seo->blogs_meta_description : '')
-@section('meta-keywords', !empty($seo) ? $seo->blogs_meta_keywords : '')
+@section('page-title', $seo->blogs_meta_title ?? 'Blog - Dicas e Novidades sobre Imóveis no Paraguai | Terras no Paraguay')
+@section('meta-description', $seo->blogs_meta_description ?? 'Leia nosso blog com dicas, novidades e guias sobre imóveis no Paraguai.')
+@section('meta-keywords', $seo->blogs_meta_keywords ?? 'blog imóveis paraguai, dicas investimento paraguai')
 @section('content')
     @includeIf('front.partials.breadcrumb', [
         'title' => __('Blog'),
@@ -35,7 +33,7 @@
                     <div class="col-md-6 col-lg-4">
                         <article class="card mb-30" data-aos="fade-up" data-aos-delay="100">
                             <div class="card-image">
-                                <a href="{{ route('front.blogdetails', ['id' => $blog->id, 'slug' => $blog->slug]) }}"
+                                <a href="{{ route('front.blogdetails', ['id' => $blog->id, 'slug' => (empty($blog->slug) || strpos($blog->slug, '__') !== false ? 'blog-'.$blog->id : $blog->slug)]) }}"
                                     class="lazy-container ratio-16-9">
                                     <img class="lazyload lazy-image"
                                         src="{{ asset('assets/front/img/blogs/' . $blog->main_image) }}"
@@ -52,14 +50,14 @@
                             </div>
                             <div class="content">
                                 <h5 class="card-title lc-2">
-                                    <a href="{{ route('front.blogdetails', ['id' => $blog->id, 'slug' => $blog->slug]) }}">
+                                    <a href="{{ route('front.blogdetails', ['id' => $blog->id, 'slug' => (empty($blog->slug) || strpos($blog->slug, '__') !== false ? 'blog-'.$blog->id : $blog->slug)]) }}">
                                         {{ $translatedTitle }}
                                     </a>
                                 </h5>
                                 <p class="card-text lc-2">
                                     {{ $translatedExcerpt }}
                                 </p>
-                                <a href="{{ route('front.blogdetails', ['id' => $blog->id, 'slug' => $blog->slug]) }}"
+                                <a href="{{ route('front.blogdetails', ['id' => $blog->id, 'slug' => (empty($blog->slug) || strpos($blog->slug, '__') !== false ? 'blog-'.$blog->id : $blog->slug)]) }}"
                                     class="card-btn">{{ __('Read More') }}</a>
                             </div>
                         </article>

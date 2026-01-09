@@ -18,7 +18,7 @@ class City extends Model
     }
     public function cityContent()
     {
-        return $this->hasOne(CityContent::class, 'city_id', 'id');
+        return $this->hasMany(CityContent::class, 'city_id', 'id');
     }
 
     public function getContent($langId)

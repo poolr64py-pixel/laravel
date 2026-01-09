@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="{{ !empty($currentLang) ? $currentLang->code : 'en' }}" @if (!empty($currentLang) && $currentLang->rtl == 1) dir="rtl" @endif>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,26 +38,6 @@
     @endif
 
 </head>
-<script>
-$(document).ready(function() {
-    setTimeout(function() {
-        // Remove todos os event handlers dos links do sidebar
-        $('.sidebar').find('a').each(function() {
-            var href = $(this).attr('href');
-            if (href && href !== '#' && !$(this).attr('data-toggle')) {
-                $(this).off('click');
-                $(this).on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    window.location.href = $(this).attr('href');
-                    return false;
-                });
-            }
-        });
-    }, 1000);
-});
-</script>
 <body @if (request()->cookie('admin-theme') == 'dark') data-background-color="dark" @endif>
     <div class="wrapper">
 
@@ -85,18 +65,34 @@ $(document).ready(function() {
     @includeif('admin.partials.scripts')
     @yield('scripts')
     @stack('scripts')
-    <script>
-            $(document).on('focusin', function(e) {
-         if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
-            e.stopImmediatePropagation();
-         }
-      });
-    </script>
 
  
     <div class="request-loader">
         <img src="{{ asset('assets/admin/img/loader.gif') }}" alt="">
     </div> 
+<script>
+$(document).ready(function() {
+    setTimeout(function() {
+        $('.sidebar').find('a').each(function() {
+            var href = $(this).attr('href');
+            if (href && href !== '#' && !$(this).attr('data-toggle')) {
+                $(this).off('click');
+                $(this).on('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    window.location.href = $(this).attr('href');
+                    return false;
+                });
+            }
+        });
+    }, 1000);
+});
+</script>
+<script>
+var imgupload = "{{ route('admin.summernote.upload') }}";
+</script>
+<script>console.log("jQuery carregado:", typeof jQuery);</script>
 </body>
 
 </html>

@@ -65,8 +65,9 @@
                                             <th scope="col">{{ __('Price') }}</th>
                                             <th scope="col">{{ __('Type') }}</th>
                                             <th scope="col">{{ __('Purpose') }}</th>
-                                            <th scope="col">{{ __('Featured') }}</th>
+                                            <th scope="col">{{ __('Em Destaque') }}</th>
                                             <th scope="col">{{ __('Status') }}</th>
+                                            <th scope="col">{{ __('Approved') }}</th>
                                             <th scope="col">{{ __('Actions') }}</th>
                                         </tr>
                                     </thead>
@@ -108,11 +109,21 @@
                                                             <option value="0" {{ $property->status == 0 ? 'selected' : '' }}>{{ __('Inactive') }}</option>
                                                         </select>
                                                     </form>
+                                                   <td>
+    <form class="d-inline-block" action="{{ route('admin.property.update_approve') }}" method="post">
+        @csrf
+        <input type="hidden" name="property_id" value="{{ $property->id }}">
+        <select name="approve_status" class="form-control form-control-sm" onchange="this.form.submit()">
+            <option value="1" {{ $property->approve_status == 1 ? 'selected' : '' }}>{{ __('Approved') }}</option>
+            <option value="0" {{ $property->approve_status == 0 ? 'selected' : '' }}>{{ __('Pending') }}</option>
+        </select>
+    </form>
+</td>
                                                 </td>
                                                 <td>
                                                  <!-- DEPOIS -->
 <a class="btn btn-secondary btn-sm"
-   href="{{ url('/user/property-management/properties/' . $property->id . '/edit?language=pt') }}">
+   href="{{ route('admin.property.edit', ['id' => $property->id]) . '?language=' . request('language', 'pt') }}">
     <i class="fas fa-edit"></i>
 </a>                                                    
                                                     <form class="deleteform d-inline-block" action="{{ route('admin.property.delete') }}" method="post">

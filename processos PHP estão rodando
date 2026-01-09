@@ -1,0 +1,14 @@
+[0;1;32m●[0m mysql.service - Percona Server
+     Loaded: loaded (]8;;file://cloud.bestoffernowe.com/usr/lib/systemd/system/mysql.service/usr/lib/systemd/system/mysql.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Mon 2025-12-29 10:17:46 -03; 4 days ago
+   Main PID: 3644134 (mysqld)
+     Status: "[0;1;36mServer is operational[0m"
+      Tasks: 45 (limit: 2260)
+     Memory: 41.6M (peak: 376.2M swap: 368.4M swap peak: 386.1M)
+        CPU: 37min 55.446s
+     CGroup: /system.slice/mysql.service
+             └─[0;38;5;245m3644134 /usr/sbin/mysqld[0m
+
+Dec 29 10:17:44 cloud.bestoffernowe.com systemd[1]: Starting mysql.service - Percona Server...
+Dec 29 10:17:44 cloud.bestoffernowe.com (mysqld)[3644134]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mmysql.service: Referenced but unset environment variable evaluates to an empty string: MYSQLD_OPTS[0m
+Dec 29 10:17:46 cloud.bestoffernowe.com systemd[1]: Started mysql.service - Percona Server.

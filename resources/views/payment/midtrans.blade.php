@@ -20,7 +20,7 @@
     @endif
 
     <script>
-        var baseUrl = "{{ route('front.index') }}";
+        var baseUrl = "{{ url('/') }}";
         let notifyUrl = "{{ route('membership.midtrans.success') }}";
         let cancleUrl = "{{ route('membership.midtrans.payment.cancel') }}";
         $(document).ready(function() {

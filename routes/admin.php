@@ -290,7 +290,7 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
                 Route::post('register/user/bulk-delete', 'bulkDelete')->name('register.user.bulk.delete');
                 Route::get('register/user/{id}/changePassword', 'changePass')->name('register.user.changePass');
                 Route::post('register/user/updatePassword', 'updatePassword')->name('register.user.updatePassword');
-                Route::post('register/user/secret-login', 'secretLogin')->name('register.user.secretLogin');
+                Route::post('register/user/secret-login', 'secretLogin')->name('register.user.secretLogin.admin');
                 //Register User end
             });
 
@@ -510,7 +510,7 @@ if (!app()->runningInConsole() && isset($_SERVER['HTTP_HOST'])) {
             Route::get('properties/create', 'Admin\PropertyController@create')->name('admin.property.create');
             Route::post('properties/store', 'Admin\PropertyController@store')->name('admin.property.store');
             Route::get('properties/{id}/edit', 'Admin\PropertyController@edit')->name('admin.property.edit');
-            Route::post('properties/update/{id}', 'Admin\PropertyController@update')->name('admin.property.update');
+            Route::post('properties/{id}', 'Admin\PropertyController@update')->name('admin.property.update');
             Route::post('properties/update-status', 'Admin\PropertyController@updateStatus')->name('admin.property.update_status');
             Route::post('properties/update-featured', 'Admin\PropertyController@updateFeatured')->name('admin.property.update_featured');
             Route::post('properties/delete', 'Admin\PropertyController@delete')->name('admin.property.delete');

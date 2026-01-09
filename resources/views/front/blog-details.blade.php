@@ -1,5 +1,6 @@
 @extends('front.layout')
-
+@section('page-title', $blog->title . ' | Blog Terras no Paraguay')
+@section('meta-description', Str::limit(strip_tags($blog->content ?? ''), 155))
 @section('pagename')
     - {{ __('Blog Details') }}
 @endsection

@@ -1102,10 +1102,25 @@ Route::get('/projetos/{slug}', 'Front\FrontendController@projectDetail')->name('
         Route::group(['middleware' => 'checkpermission:Properties'], function () {
             Route::get('/properties', 'Admin\PropertyController@index')->name('admin.property.index');
             Route::get('/properties/create', 'Admin\PropertyController@create')->name('admin.property.create');
+            Route::get('/properties/{id}/edit', 'Admin\PropertyController@edit')->name('admin.property.edit');
+Route::put('/properties/{id}', 'Admin\PropertyController@update')->name('admin.property.update');
+Route::post('/properties', 'Admin\PropertyController@store')->name('admin.property.store');
             Route::post('/property/update-status', 'Admin\PropertyController@updateStatus')->name('admin.property.update_status');
             Route::post('/property/update-featured', 'Admin\PropertyController@updateFeatured')->name('admin.property.update_featured');
+            Route::post('/property/update-approve', 'Admin\PropertyController@updateApproveStatus')->name('admin.property.update_approve');
+            Route::post('/property/delete-image', 'Admin\PropertyController@deleteImage')->name('admin.property.delete_image');
             Route::post('/property/delete', 'Admin\PropertyController@delete')->name('admin.property.delete');
             Route::post('/property/bulk-delete', 'Admin\PropertyController@bulkDelete')->name('admin.property.bulk_delete');
+        });
+
+        // Blog Management Routes
+        Route::group(['middleware' => 'checkpermission:Blogs'], function () {
+            Route::get('/blogs', 'Admin\\BlogController@index')->name('admin.blog.index');
+            Route::get('/blog/create', 'Admin\\BlogController@create')->name('admin.blog.create');
+            Route::post('/blog/store', 'Admin\\BlogController@store')->name('admin.blog.store');
+            Route::get('/blog/{id}/edit', 'Admin\\BlogController@edit')->name('admin.blog.edit');
+            Route::post('/blog/update', 'Admin\\BlogController@update')->name('admin.blog.update');
+            Route::post('/blog/delete', 'Admin\\BlogController@delete')->name('admin.blog.delete');
         });
 
         // Project Management Routes
@@ -1555,24 +1570,44 @@ if (array_key_exists('host', $parsedUrl)) {
         Route::get('anet/cancel', 'User\Payment\AuthorizenetController@cancelPayment')->name('customer.itemcheckout.anet.cancel');
         Route::get('/offline/success', 'Front\UsercheckoutController@offlineSuccess')->name('customer.itemcheckout.offline.success');
         Route::get('/trial/success', 'Front\CheckoutController@trialSuccess')->name('customer.itemcheckout.trial.success');
-        Route::post('paytm/payment-status', "User\Payment\PaytmController@paymentStatus")->name('customer.itemcheckout.paytm.status');
-    });
-    Route::get('/vcard/{id}', 'Front\FrontendController@vcard')->name('front.user.vcard');
-    Route::get('/vcard-import/{id}', 'Front\FrontendController@vcardImport')->name('front.user.vcardImport');
-    Route::get('/user/changelanguage', 'Front\FrontendController@changeUserLanguage')->name('changeUserLanguage');
-    // user logout attempt route
-    Route::get('/logout',  'Front\CustomerController@logoutSubmit')->name('customer.logout');
-    Route::group(['middleware' => ['routeAccess:Custom Page']], function () {
-        Route::get('/{slug}', 'Front\FrontendController@userCPage')->name('front.user.cpage');
-    });
-});
-})->where('username', '(?!admin|user).*');
+        // Paytm payment status
+Route::post('paytm/payment-status', "User\Payment\PaytmController@paymentStatus")
+    ->name('paytm.payment.status');
 
+// VCard rotas
+Route::get('/vcard/{id}', 'Front\FrontendController@vcard')
+    ->name('front.user.vcard');
+
+Route::get('/vcard-import/{id}', 'Front\FrontendController@vcardImport')
+    ->name('front.user.vcard_import');
+
+Route::get('/user/changelanguage', 'Front\FrontendController@changeUserLanguage')
+    ->name('front.user.changelanguage');
 Route::get('/debug-host-check', function() {
-});
     return response()->json([
         'HTTP_HOST' => request()->getHost(),
-  ]);
+    ]);
 });
 
-// DEBUG - deletar depois
+// Custom Page middleware
+Route::group(['middleware' => ['routeAccess:Custom Page']], function () {
+    Route::get('/{slug}', 'Front\FrontendController@userCPage')
+        ->name('front.user.cpage');
+});
+
+// Se tiver grupo de username (opcional)
+Route::group([], function() {
+    // colocar rotas que precisam da restrição
+})->where('username', '(?!admin|user).*');
+
+// DEBUG
+Route::get('/debug-host-check', function() {
+    return response()->json([
+        'HTTP_HOST' => request()->getHost(),
+    ]);
+});
+
+});
+});
+});
+});

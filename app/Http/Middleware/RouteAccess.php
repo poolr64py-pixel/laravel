@@ -21,6 +21,9 @@ class RouteAccess
             $request->is('login') || $request->is('login/*') ||
             $request->is('user/*') || $request->is('agent/*') ||
             $request->is('register') || $request->is('register/*') ||
+            $request->is('imoveis') || $request->is('imoveis/*') ||
+            $request->is('projetos') || $request->is('projetos/*') ||
+            $request->is('contact') ||
             $request->is('install/*')) {
             return $next($request);
         }

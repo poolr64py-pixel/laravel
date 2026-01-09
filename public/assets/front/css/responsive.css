@@ -423,3 +423,32 @@
     display: block !important;
   }
 }
+
+
+/* FIX MENU MOBILE - Added 30/12/2024 */
+@media (max-width: 1199px) {
+  /* Menu mobile precisa ficar acima de tudo */
+  body.mobile-menu-active .mobile-menu {
+    height: 100vh !important;
+    visibility: visible !important;
+    overflow-y: auto !important;
+    z-index: 9999 !important;
+  }
+  
+  /* Navbar responsivo precisa ficar acima do menu */
+  .main-responsive-nav {
+    position: relative;
+    z-index: 10000 !important;
+    background: var(--color-white);
+  }
+  
+  /* Garantir que o menu fique com fundo branco */
+  .mobile-menu {
+    background: var(--color-white) !important;
+  }
+  
+  .mobile-menu .mobile-menu-wrapper {
+    background: var(--color-white) !important;
+  }
+}
+/* Updated: 1767113555 */

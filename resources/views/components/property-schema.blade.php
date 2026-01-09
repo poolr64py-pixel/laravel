@@ -40,7 +40,7 @@
   },
   @if($property->beds)"numberOfBedrooms": "{{ $property->beds }}",@endif
   @if($property->bath)"numberOfBathroomsTotal": "{{ $property->bath }}",@endif
-  @if($property->area)"floorSize": {"@type": "QuantitativeValue", "value": "{{ $property->area }}", "unitCode": "FTK"}@endif
+  @if($property->area)"floorSize": {"@type": "QuantitativeValue", "value": "{{ $property->area }}", "unitCode": "MTK"}@endif
 }
 </script>
 <meta property="og:type" content="product">

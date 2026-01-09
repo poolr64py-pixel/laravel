@@ -1,0 +1,47 @@
+[90m= [39m[34;4mIlluminate\Support\Collection[39;24m {#6747
+    [34mall[39m: [
+      {#6750
+        +"[1mid[22m": [35m75[39m,
+        +"[1mslug[22m": "[32mblues-modern-house[39m",
+        +"[1mproperty_id[22m": [35m39[39m,
+        +"[1mlanguage_id[22m": [35m176[39m,
+        +"[1mtitle[22m": "[32mBlues Modern House[39m",
+      },
+      {#6754
+        +"[1mid[22m": [35m83[39m,
+        +"[1mslug[22m": "[32mblues-modern-house[39m",
+        +"[1mproperty_id[22m": [35m46[39m,
+        +"[1mlanguage_id[22m": [35m176[39m,
+        +"[1mtitle[22m": "[32mBlues Modern House[39m",
+      },
+      {#6752
+        +"[1mid[22m": [35m98[39m,
+        +"[1mslug[22m": "[32mblues-modern-house[39m",
+        +"[1mproperty_id[22m": [35m51[39m,
+        +"[1mlanguage_id[22m": [35m176[39m,
+        +"[1mtitle[22m": "[32mBlues Modern House[39m",
+      },
+      {#6753
+        +"[1mid[22m": [35m120[39m,
+        +"[1mslug[22m": "[32mblues-modern-house[39m",
+        +"[1mproperty_id[22m": [35m59[39m,
+        +"[1mlanguage_id[22m": [35m176[39m,
+        +"[1mtitle[22m": "[32mBlues Modern House[39m",
+      },
+      {#6755
+        +"[1mid[22m": [35m149[39m,
+        +"[1mslug[22m": "[32mblues-modern-house[39m",
+        +"[1mproperty_id[22m": [35m51[39m,
+        +"[1mlanguage_id[22m": [35m179[39m,
+        +"[1mtitle[22m": "[32mBlues Modern House[39m",
+      },
+      {#6756
+        +"[1mid[22m": [35m164[39m,
+        +"[1mslug[22m": "[32mblues-modern-house[39m",
+        +"[1mproperty_id[22m": [35m51[39m,
+        +"[1mlanguage_id[22m": [35m178[39m,
+        +"[1mtitle[22m": "[32mBlues Modern House[39m",
+      },
+    ],
+  }
+

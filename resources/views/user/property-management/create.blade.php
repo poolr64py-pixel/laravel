@@ -214,7 +214,6 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="">{{ __('Amenities') }} <span
@@ -230,7 +229,6 @@
 
                                         </div>
                                     </div>
-
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>{{ __('Price') . ' (' . $userBs->base_currency_text . ')' }}
@@ -243,7 +241,15 @@
                                             </p>
                                         </div>
                                     </div>
-
+                                         <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>{{ __('Currency') }} <span class="text-danger">*</span></label>
+                                            <select name="currency" class="form-control" required>
+                                                <option value="USD">USD - Dólar</option>
+                                                <option value="PYG">PYG - Guaraníes</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     @if (request('type') == 'residential')
                                         <div class="col-lg-3">
                                             <div class="form-group">
@@ -282,7 +288,6 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>{{ __('Latitude') }} <span
@@ -297,7 +302,6 @@
                                             </p>
                                         </div>
                                     </div>
-
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>{{ __('Longitude') }} <span
@@ -312,9 +316,7 @@
                                                     {{ __('See Example') }} </a>
                                             </p>
                                         </div>
-                                    </div>
-
-                                    
+                                    </div>                                    
                                     <div class="col-lg-3">
                                         <div class="form-group ">
                                             <label for="">{{ __('Agent') }}</label>
@@ -332,11 +334,7 @@
                                             </p>
                                         </div>
                                     </div>
-
-
-
                                 </div>
-
                                 <div id="accordion" class="mt-3">
                                     @foreach ($languages as $language)
                                         <div class="version">
@@ -351,7 +349,6 @@
                                                     </button>
                                                 </h5>
                                             </div>
-
                                             <div id="collapse{{ $language->id }}"
                                                 class="collapse {{ $language->is_default == 1 ? 'show' : '' }}"
                                                 aria-labelledby="heading{{ $language->id }}" data-parent="#accordion">
@@ -367,10 +364,6 @@
                                                                     placeholder="{{ __('Enter Title') }}">
                                                             </div>
                                                         </div>
-
-
-
-
                                                         <div class="col-lg-12">
                                                             <div
                                                                 class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">
@@ -383,9 +376,7 @@
                                                                     placeholder="{{ __('Enter Address') }}">
                                                             </div>
                                                         </div>
-
                                                     </div>
-
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div

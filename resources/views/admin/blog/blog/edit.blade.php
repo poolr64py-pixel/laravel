@@ -13,6 +13,59 @@
         text-align: right;
     }
 </style>
+@push('scripts')
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+    $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+
+    $('.summernote').summernote({ height: 300 });
+
+    
+
+    $('#submitBtn').click(function(e) {
+
+        e.preventDefault();
+
+        const form = $('#ajaxForm')[0];
+
+        const formData = new FormData(form);
+
+        
+
+        $.ajax({
+
+            url: $(form).attr('action'),
+
+            method: 'POST',
+
+            data: formData,
+
+            processData: false,
+
+            contentType: false,
+
+            beforeSend: function() { $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Atualizando...'); },
+
+            success: function(res) { console.log("Resposta:", res); if(res == 'success') location.href = '{{ route("admin.blog", ["language" => request("language")]) }}'; else alert(res); },
+
+            error: function(xhr) { console.log("Erro:", xhr); alert('Erro: ' + xhr.status); $('#submitBtn').prop('disabled', false).html('Atualizar'); }
+
+        });
+
+    });
+
+});
+
+</script>
+
+@endpush
 @endsection
 @endif
 
@@ -127,4 +180,57 @@
     </div>
   </div>
 
+@push('scripts')
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+    $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+
+    $('.summernote').summernote({ height: 300 });
+
+    
+
+    $('#submitBtn').click(function(e) {
+
+        e.preventDefault();
+
+        const form = $('#ajaxForm')[0];
+
+        const formData = new FormData(form);
+
+        
+
+        $.ajax({
+
+            url: $(form).attr('action'),
+
+            method: 'POST',
+
+            data: formData,
+
+            processData: false,
+
+            contentType: false,
+
+            beforeSend: function() { $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Atualizando...'); },
+
+            success: function(res) { console.log("Resposta:", res); if(res == 'success') location.href = '{{ route("admin.blog.index", ["language" => request("language")]) }}'; else alert(res); },
+
+            error: function(xhr) { console.log("Erro:", xhr); alert('Erro: ' + xhr.status); $('#submitBtn').prop('disabled', false).html('Atualizar'); }
+
+        });
+
+    });
+
+});
+
+</script>
+
+@endpush
 @endsection

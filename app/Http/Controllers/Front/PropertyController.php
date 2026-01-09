@@ -16,9 +16,9 @@ class PropertyController extends Controller
      */
     public function index(Request $request)
     {
-        // Idioma padrão: Português (179)
-        $lang_id = 179;
-
+      // Pegar idioma ativo
+        $lang_code = session('frontend_lang', 'pt');
+        $lang_id = $lang_code == 'pt' ? 179 : ($lang_code == 'en' ? 176 : 178);
         // Query base - APENAS user_id = 148
         $propertyQuery = Property::query()
             ->where('status', 1)
@@ -150,11 +150,21 @@ class PropertyController extends Controller
             'city.cityContent' => function($q) use ($lang_id) {
                 $q->where('language_id', $lang_id);
             },
+            'state.stateContent' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            },
+            'country.countryContent' => function($q) use ($lang_id) {
+                $q->where('language_id', $lang_id);
+            },
             'amenities',
             'sliderImages',
             'user'
         ])->findOrFail($propertyContent->property_id);
-
+        
+        // Adicionar nomes para facilitar na view
+        $data['property']->city_name = $data['property']->city?->cityContent->first()?->name;
+        $data['property']->state_name = $data['property']->state?->stateContent->first()?->name;
+        $data['property']->country_name = $data['property']->country?->countryContent->first()?->name;
         // Imóveis relacionados
         $data['related_properties'] = Property::query()
             ->where('status', 1)

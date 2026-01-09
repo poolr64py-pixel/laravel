@@ -1,10 +1,7 @@
 @extends('front.layout')
-@section('meta-description', 'Navegue por nossa seleção completa de imóveis no Paraguai: casas, apartamentos, terrenos comerciais e residenciais para venda e aluguel.')
-
-@section('pagename')
-    - {{ __('Imóveis') }}
-@endsection
-
+@section('page-title', 'Todos os Imóveis no Paraguai - Casas, Apartamentos e Terrenos | Terras no Paraguay')
+@section('meta-description', 'Navegue por todos os imóveis disponíveis no Paraguai. Casas, apartamentos, terrenos e projetos para venda e aluguel com os melhores preços.')
+@section('meta-keywords', 'imóveis paraguai, casas venda paraguai, apartamentos paraguai, terrenos paraguai')
 @section('content')
     @includeIf('front.partials.breadcrumb', [
         'title' => __('Imóveis'),
@@ -136,6 +133,8 @@
                             <div class="property-image position-relative">
                                 <a href="{{ $property->url }}">
                                     <img src="{{ asset('assets/img/property/featureds/' . $property->featured_image) }}"
+                                            loading="lazy"
+                                            decoding="async"
                                          alt="{{ $property->current_content?->title ?? 'Property' }}" 
                                          class="img-fluid w-100"
                                          style="height: 250px; object-fit: cover;">
@@ -149,12 +148,23 @@
                             </div>
                             <div class="property-content p-3">
                                 <div class="property-price mb-2">
-                                    <h5 class="text-primary mb-0">USD {{ number_format($property->price, 0, ',', '.') }}</h5>
+                                    <h5 class="text-primary mb-0">
+    @if(($property->currency ?? 'USD') == 'PYG')
+        Gs. {{ number_format($property->price, 0, '.', '.') }}
+    @else
+        US$ {{ number_format($property->price, 0, ',', '.') }}
+    @endif
+</h5>
                                 </div>
                                 <h6 class="property-title">
-                                    <a href="{{ route('front.property.detail', $property->current_content->slug) }}" class="text-decoration-none text-dark">
-                                        {{ $property->current_content?->title ?? 'No title' }}
-                                    </a>
+
+                                 @if($property->current_content && $property->current_content->slug)
+                                <a href="{{ route('front.property.detail', $property->current_content->slug) }}" class="text-decoration-none text-dark">
+                                  {{ $property->current_content->title ?? 'No title' }}
+                     </a>
+                     @else
+                        <span class="text-muted">{{ __('Conteúdo não disponível neste idioma') }}</span>
+                         @endif
                                 </h6>
                                 <p class="text-muted small mb-3">
                                     <i class="fas fa-map-marker-alt"></i>

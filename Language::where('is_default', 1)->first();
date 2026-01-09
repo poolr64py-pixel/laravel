@@ -1,0 +1,1919 @@
+ID: 22 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 47
+            [user_id] => 148
+            [category_id] => 22
+            [language_id] => 300
+            [name] => House
+            [slug] => house
+            [created_at] => 2025-04-07 20:08:49
+            [updated_at] => 2025-04-07 20:08:49
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 47
+            [user_id] => 148
+            [category_id] => 22
+            [language_id] => 300
+            [name] => House
+            [slug] => house
+            [created_at] => 2025-04-07 20:08:49
+            [updated_at] => 2025-04-07 20:08:49
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 23 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 49
+            [user_id] => 148
+            [category_id] => 23
+            [language_id] => 300
+            [name] => Apartment
+            [slug] => apartment
+            [created_at] => 2025-04-07 20:10:00
+            [updated_at] => 2025-04-07 20:10:00
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 49
+            [user_id] => 148
+            [category_id] => 23
+            [language_id] => 300
+            [name] => Apartment
+            [slug] => apartment
+            [created_at] => 2025-04-07 20:10:00
+            [updated_at] => 2025-04-07 20:10:00
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 24 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 51
+            [user_id] => 148
+            [category_id] => 24
+            [language_id] => 300
+            [name] => Hotel
+            [slug] => hotel
+            [created_at] => 2025-04-07 20:10:45
+            [updated_at] => 2025-04-07 20:10:45
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 51
+            [user_id] => 148
+            [category_id] => 24
+            [language_id] => 300
+            [name] => Hotel
+            [slug] => hotel
+            [created_at] => 2025-04-07 20:10:45
+            [updated_at] => 2025-04-07 20:10:45
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 25 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 53
+            [user_id] => 148
+            [category_id] => 25
+            [language_id] => 300
+            [name] => Condo
+            [slug] => condo
+            [created_at] => 2025-04-07 20:13:55
+            [updated_at] => 2025-04-07 20:13:55
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 53
+            [user_id] => 148
+            [category_id] => 25
+            [language_id] => 300
+            [name] => Condo
+            [slug] => condo
+            [created_at] => 2025-04-07 20:13:55
+            [updated_at] => 2025-04-07 20:13:55
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 26 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 55
+            [user_id] => 148
+            [category_id] => 26
+            [language_id] => 300
+            [name] => Villa
+            [slug] => villa
+            [created_at] => 2025-04-07 22:05:00
+            [updated_at] => 2025-04-07 22:05:00
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 55
+            [user_id] => 148
+            [category_id] => 26
+            [language_id] => 300
+            [name] => Villa
+            [slug] => villa
+            [created_at] => 2025-04-07 22:05:00
+            [updated_at] => 2025-04-07 22:05:00
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 27 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 57
+            [user_id] => 148
+            [category_id] => 27
+            [language_id] => 300
+            [name] => Town
+            [slug] => town
+            [created_at] => 2025-04-07 22:05:40
+            [updated_at] => 2025-04-07 22:05:40
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 57
+            [user_id] => 148
+            [category_id] => 27
+            [language_id] => 300
+            [name] => Town
+            [slug] => town
+            [created_at] => 2025-04-07 22:05:40
+            [updated_at] => 2025-04-07 22:05:40
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 28 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 59
+            [user_id] => 149
+            [category_id] => 28
+            [language_id] => 302
+            [name] => House
+            [slug] => house
+            [created_at] => 2025-04-12 17:11:26
+            [updated_at] => 2025-04-12 17:11:26
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 59
+            [user_id] => 149
+            [category_id] => 28
+            [language_id] => 302
+            [name] => House
+            [slug] => house
+            [created_at] => 2025-04-12 17:11:26
+            [updated_at] => 2025-04-12 17:11:26
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 29 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 61
+            [user_id] => 149
+            [category_id] => 29
+            [language_id] => 302
+            [name] => Apartment
+            [slug] => apartment
+            [created_at] => 2025-04-12 17:11:56
+            [updated_at] => 2025-04-12 17:11:56
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 61
+            [user_id] => 149
+            [category_id] => 29
+            [language_id] => 302
+            [name] => Apartment
+            [slug] => apartment
+            [created_at] => 2025-04-12 17:11:56
+            [updated_at] => 2025-04-12 17:11:56
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 30 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 63
+            [user_id] => 149
+            [category_id] => 30
+            [language_id] => 302
+            [name] => Hotel
+            [slug] => hotel
+            [created_at] => 2025-04-12 17:13:28
+            [updated_at] => 2025-04-12 17:13:28
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 63
+            [user_id] => 149
+            [category_id] => 30
+            [language_id] => 302
+            [name] => Hotel
+            [slug] => hotel
+            [created_at] => 2025-04-12 17:13:28
+            [updated_at] => 2025-04-12 17:13:28
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 31 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 65
+            [user_id] => 149
+            [category_id] => 31
+            [language_id] => 302
+            [name] => Condo
+            [slug] => condo
+            [created_at] => 2025-04-12 17:14:00
+            [updated_at] => 2025-04-12 17:14:00
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 65
+            [user_id] => 149
+            [category_id] => 31
+            [language_id] => 302
+            [name] => Condo
+            [slug] => condo
+            [created_at] => 2025-04-12 17:14:00
+            [updated_at] => 2025-04-12 17:14:00
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 32 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 67
+            [user_id] => 149
+            [category_id] => 32
+            [language_id] => 302
+            [name] => Villa
+            [slug] => villa
+            [created_at] => 2025-04-12 17:14:28
+            [updated_at] => 2025-04-12 17:14:28
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 67
+            [user_id] => 149
+            [category_id] => 32
+            [language_id] => 302
+            [name] => Villa
+            [slug] => villa
+            [created_at] => 2025-04-12 17:14:28
+            [updated_at] => 2025-04-12 17:14:28
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 33 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 69
+            [user_id] => 149
+            [category_id] => 33
+            [language_id] => 302
+            [name] => Town
+            [slug] => town
+            [created_at] => 2025-04-12 17:15:07
+            [updated_at] => 2025-04-12 17:15:07
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 69
+            [user_id] => 149
+            [category_id] => 33
+            [language_id] => 302
+            [name] => Town
+            [slug] => town
+            [created_at] => 2025-04-12 17:15:07
+            [updated_at] => 2025-04-12 17:15:07
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 34 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 71
+            [user_id] => 150
+            [category_id] => 34
+            [language_id] => 304
+            [name] => Shop
+            [slug] => shop
+            [created_at] => 2025-04-14 23:03:43
+            [updated_at] => 2025-04-14 23:03:43
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 71
+            [user_id] => 150
+            [category_id] => 34
+            [language_id] => 304
+            [name] => Shop
+            [slug] => shop
+            [created_at] => 2025-04-14 23:03:43
+            [updated_at] => 2025-04-14 23:03:43
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 35 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 73
+            [user_id] => 150
+            [category_id] => 35
+            [language_id] => 304
+            [name] => House
+            [slug] => house
+            [created_at] => 2025-04-14 23:04:52
+            [updated_at] => 2025-04-14 23:04:52
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 73
+            [user_id] => 150
+            [category_id] => 35
+            [language_id] => 304
+            [name] => House
+            [slug] => house
+            [created_at] => 2025-04-14 23:04:52
+            [updated_at] => 2025-04-14 23:04:52
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 36 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 75
+            [user_id] => 150
+            [category_id] => 36
+            [language_id] => 304
+            [name] => Apartment
+            [slug] => apartment
+            [created_at] => 2025-04-14 23:05:24
+            [updated_at] => 2025-04-14 23:05:24
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 75
+            [user_id] => 150
+            [category_id] => 36
+            [language_id] => 304
+            [name] => Apartment
+            [slug] => apartment
+            [created_at] => 2025-04-14 23:05:24
+            [updated_at] => 2025-04-14 23:05:24
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 37 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 77
+            [user_id] => 150
+            [category_id] => 37
+            [language_id] => 304
+            [name] => Villa
+            [slug] => villa
+            [created_at] => 2025-04-14 23:05:58
+            [updated_at] => 2025-04-14 23:05:58
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 77
+            [user_id] => 150
+            [category_id] => 37
+            [language_id] => 304
+            [name] => Villa
+            [slug] => villa
+            [created_at] => 2025-04-14 23:05:58
+            [updated_at] => 2025-04-14 23:05:58
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 38 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 79
+            [user_id] => 150
+            [category_id] => 38
+            [language_id] => 304
+            [name] => Hotel
+            [slug] => hotel
+            [created_at] => 2025-04-14 23:06:35
+            [updated_at] => 2025-04-14 23:06:35
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 79
+            [user_id] => 150
+            [category_id] => 38
+            [language_id] => 304
+            [name] => Hotel
+            [slug] => hotel
+            [created_at] => 2025-04-14 23:06:35
+            [updated_at] => 2025-04-14 23:06:35
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 39 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 81
+            [user_id] => 150
+            [category_id] => 39
+            [language_id] => 304
+            [name] => Condo
+            [slug] => condo
+            [created_at] => 2025-04-14 23:07:27
+            [updated_at] => 2025-04-14 23:07:27
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 81
+            [user_id] => 150
+            [category_id] => 39
+            [language_id] => 304
+            [name] => Condo
+            [slug] => condo
+            [created_at] => 2025-04-14 23:07:27
+            [updated_at] => 2025-04-14 23:07:27
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+
+ID: 40 - Content: App\Models\User\Property\CategoryContent Object
+(
+    [connection:protected] => mysql
+    [table] => user_property_category_contents
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 83
+            [user_id] => 150
+            [category_id] => 40
+            [language_id] => 304
+            [name] => Town
+            [slug] => town
+            [created_at] => 2025-04-14 23:08:04
+            [updated_at] => 2025-04-14 23:08:04
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 83
+            [user_id] => 150
+            [category_id] => 40
+            [language_id] => 304
+            [name] => Town
+            [slug] => town
+            [created_at] => 2025-04-14 23:08:04
+            [updated_at] => 2025-04-14 23:08:04
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [usesUniqueIds] => 
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+        )
+
+)
+

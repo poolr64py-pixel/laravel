@@ -1,4 +1,3 @@
-<header class="header-area" >
     <div class="mobile-menu">
         <div class="container">
             <div class="mobile-menu-wrapper"></div>

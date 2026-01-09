@@ -1,5 +1,9 @@
 @extends('front.layout')
+@section('page-title', ($content->title ?? 'Imóvel') . ' - ' . ($property->purpose == 'sale' ? 'Venda' : 'Aluguel') . ' USD ' . number_format($property->price, 0, ',', '.') . ' | Terras no Paraguay')
 
+@section('meta-description', Str::limit(strip_tags($content->description ?? ''), 155))
+
+@section('meta-keywords', 'imóvel paraguai, ' . strtolower($content->title ?? '') . ', ' . ($property->purpose == 'sale' ? 'venda' : 'aluguel') . ' paraguai')
 {{-- Usando accessors profissionais do model --}}
 @section('pageHeading')
     {{ $property->current_content?->title }}
@@ -24,7 +28,7 @@ function sendWhatsAppProperty(form) {
                 <h2>{{ $property->current_content?->title }}</h2>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('front.home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('front.properties') }}">Imóveis</a></li>
                         <li class="breadcrumb-item active">{{ Str::limit($property->current_content?->title, 30) }}</li>
                     </ol>
@@ -38,23 +42,74 @@ function sendWhatsAppProperty(form) {
             <div class="row">
                 <div class="col-lg-8">
 
-              {{-- Imagem Principal --}}
-<div class="mb-4">
-    <img id="mainImage" src="{{ asset('assets/img/property/featureds/'.$property->featured_image) }}" 
-         class="img-fluid rounded" style="width:100%;height:400px;object-fit:cover;cursor:pointer;">
-</div>
-                    @if(isset($sliderImages) && count($sliderImages) > 0)
-    <div class="row g-2 mb-4">
-        @foreach($sliderImages as $image)
-            <div class="col-3">
-                <img src="{{ asset('assets/img/property/slider-images/' . $image->image) }}"
-                     class="img-fluid rounded gallery-thumb" 
-                     style="height:100px;object-fit:cover;width:100%;cursor:pointer;border:2px solid transparent;transition:all 0.3s;"
-                     onclick="changeMainImage('{{ asset('assets/img/property/slider-images/' . $image->image) }}', this)">
+            {{-- GALERIA DE FOTOS COM CARROSSEL --}}
+<div class="property-gallery mb-5">
+    {{-- IMAGEM PRINCIPAL --}}
+    <div class="main-image-container mb-3 position-relative">
+        @if(isset($sliderImages) && $sliderImages->count() > 0)
+            <img id="mainImage" 
+                 src="{{ asset('assets/img/property/slider-images/' . $sliderImages->first()->image) }}" 
+                 class="img-fluid rounded" 
+                 style="width:100%; height:500px; object-fit:cover; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            
+            <div style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); color: white; padding: 8px 15px; border-radius: 20px; font-size: 14px;">
+                📸 <span id="currentPhoto">1</span> / {{ $sliderImages->count() }}
             </div>
-        @endforeach
+        @else
+            <img id="mainImage" 
+                 src="{{ asset('assets/img/property/featureds/'.$property->featured_image) }}" 
+                 class="img-fluid rounded" 
+                 style="width:100%; height:500px; object-fit:cover;">
+        @endif
     </div>
-@endif
+
+    @if(isset($sliderImages) && $sliderImages->count() > 0)
+    <div class="gallery-carousel">
+        <h5 class="mb-3">📸 Galeria ({{ $sliderImages->count() }} fotos)</h5>
+        
+        <div class="carousel-container position-relative">
+            <button class="carousel-arrow carousel-arrow-left" onclick="scrollCarousel(-1)" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(0,0,0,0.6); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px;">
+                ‹
+            </button>
+            
+            <div id="thumbnailCarousel" style="display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 10px; padding: 10px 50px; scrollbar-width: none;">
+                @foreach($sliderImages as $index => $image)
+                    <img src="{{ asset('assets/img/property/slider-images/' . $image->image) }}" 
+                         class="gallery-thumb {{ $index == 0 ? 'active' : '' }}" 
+                         style="min-width: 120px; width: 120px; height: 80px; object-fit: cover; cursor: pointer; border: 3px solid {{ $index == 0 ? '#007bff' : '#ddd' }}; border-radius: 8px; transition: all 0.3s;"
+                         onclick="changeMainImage('{{ asset('assets/img/property/slider-images/' . $image->image) }}', this, {{ $index }})">
+                @endforeach
+            </div>
+            
+            <button class="carousel-arrow carousel-arrow-right" onclick="scrollCarousel(1)" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(0,0,0,0.6); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px;">
+                ›
+            </button>
+        </div>
+    </div>
+    @endif
+</div>
+
+<style>
+#thumbnailCarousel::-webkit-scrollbar { display: none; }
+.gallery-thumb:hover { border-color: #007bff !important; transform: scale(1.05); }
+.gallery-thumb.active { border-color: #007bff !important; box-shadow: 0 0 10px rgba(0,123,255,0.5); }
+.carousel-arrow:hover { background: rgba(0,0,0,0.8) !important; }
+</style>
+
+<script>
+function changeMainImage(imageSrc, thumbElement, index) {
+    const mainImg = document.getElementById('mainImage');
+    mainImg.style.opacity = '0.5';
+    setTimeout(() => { mainImg.src = imageSrc; mainImg.style.opacity = '1'; }, 150);
+    document.querySelectorAll('.gallery-thumb').forEach(t => { t.classList.remove('active'); t.style.borderColor = '#ddd'; });
+    thumbElement.classList.add('active');
+    thumbElement.style.borderColor = '#007bff';
+    document.getElementById('currentPhoto').textContent = index + 1;
+}
+function scrollCarousel(direction) {
+    document.getElementById('thumbnailCarousel').scrollLeft += (direction * 250);
+}
+</script>
                                      </div>
 
                     <div class="property-info mb-4 p-4 bg-white rounded shadow-sm">
@@ -67,19 +122,41 @@ function sendWhatsAppProperty(form) {
                                 @endif
                             </div>
                             <div class="property-price">
-                                <h3 class="text-primary mb-0">USD {{ number_format($property->price, 0, ',', '.') }}</h3>
+                                <h3 class="text-primary mb-0">
+    @if(($property->currency ?? 'USD') == 'PYG')
+        Gs. {{ number_format($property->price, 0, '.', '.') }}
+    @else
+        US$ {{ number_format($property->price, 0, ',', '.') }}
+    @endif
+</h3>
                             </div>
                         </div>
 
                         <h2 class="mb-3">{{ $property->current_content?->title }}</h2>
                         
-                        @if($property->city_name)
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-map-marker-alt"></i>
-                                {{ $property->city_name }}
-                            </p>
-                        @endif
-
+                        {{-- Localização Completa --}}
+<div class="property-location mb-3 p-3 bg-light rounded">
+    <h5><i class="fas fa-map-marker-alt text-primary"></i> Localização</h5>
+    <div class="location-details">
+        @if($property->current_content?->address)
+            <p class="mb-1"><strong>Endereço:</strong> {{ $property->current_content?->address }}</p>
+        @endif
+        
+              <p class="mb-0">
+            @if($property->city_name)
+                <span class="me-2">📍 {{ $property->city_name }}</span>
+            @endif
+            
+            @if($property->state_name)
+                <span class="me-2">🏛️ {{ $property->state_name }}</span>
+            @endif
+            
+            @if($property->country_name)
+                <span>🌍 {{ $property->country_name }}</span>
+            @endif
+        </p>
+    </div>
+</div>
                         <div class="property-features-box p-3 bg-light rounded mt-3">
                             <div class="row text-center">
                                 @if($property->beds)
@@ -115,7 +192,7 @@ function sendWhatsAppProperty(form) {
                     <div class="property-description mb-4 p-4 bg-white rounded shadow-sm">
                         <h4 class="mb-3">Descrição</h4>
                         <div class="content">
-                            {!! nl2br(e($property->current_content?->description)) !!}
+                            {!! $property->current_content?->description !!}
                         </div>
                     </div>
 
@@ -189,26 +266,69 @@ function sendWhatsAppProperty(form) {
                             </form>
                         </div>
                     </div>
+                           @php
+    $priceFormatted = ($property->currency ?? 'USD') == 'PYG' 
+        ? 'Gs. ' . number_format($property->price, 0, '.', '.') 
+        : 'US$ ' . number_format($property->price, 0, ',', '.');
+@endphp
+                              <div class="share-card card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title mb-3"><i class="fas fa-share-alt"></i> Compartilhar</h5>
+        <div class="d-grid gap-2">
+            {{-- Facebook --}}
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" 
+               target="_blank" 
+               class="btn btn-primary">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </a>
+            
+            {{-- WhatsApp --}}
+             <a href="https://wa.me/?text={{ urlencode('🏠 ' . ($property->current_content?->title ?? 'Imóvel') . '\n💰 ' . $priceFormatted . '\n🔗 ' . url()->current()) }}"
+               target="_blank" 
+               class="btn btn-success">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            
+            {{-- Instagram --}}
+            <button onclick="copyForIG()" class="btn" style="background: #E4405F; color: white;">
+                <i class="fab fa-instagram"></i> Instagram
+            </button>
+            
+            {{-- Twitter --}}
+              <a href="https://twitter.com/intent/tweet?text={{ urlencode('🏠 ' . $property->current_content?->title . ' - ' . $priceFormatted) }}&url={{ urlencode(url()->current()) }}"
+               target="_blank" 
+               class="btn btn-info">
+                <i class="fab fa-twitter"></i> Twitter
+            </a>
+            
+            {{-- Email --}}
+            <a href="mailto:?subject={{ urlencode($property->current_content?->title) }}&body={{ urlencode('Confira este imóvel: ' . url()->current()) }}" 
+               class="btn btn-secondary">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+            
+            {{-- Copiar Link --}}
+            <button onclick="copyShareLink()" class="btn btn-dark">
+                <i class="fas fa-link"></i> Copiar Link
+            </button>
+        </div>
+        <small id="copyMsg" class="text-success d-none mt-2">✅ Link copiado!</small>
+    </div>
+</div>
 
-                    <div class="share-card card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Compartilhar</h5>
-                            <div class="d-flex gap-2">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" 
-                                   target="_blank" 
-                                   class="btn btn-primary flex-fill">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="https://wa.me/?text={{ urlencode($property->current_content?->title . ' - ' . url()->current()) }}" 
-                                   target="_blank" 
-                                   class="btn btn-success flex-fill">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                                <a href="mailto:?subject={{ urlencode($property->current_content?->title) }}&body={{ urlencode(url()->current()) }}" 
-                                   class="btn btn-secondary flex-fill">
-                                    <i class="fas fa-envelope"></i>
-                                </a>
-                            </div>
+<script>
+function copyShareLink() {
+    navigator.clipboard.writeText("{{ url()->current() }}").then(() => {
+        const m = document.getElementById('copyMsg');
+        m.classList.remove('d-none');
+        setTimeout(() => m.classList.add('d-none'), 3000);
+    });
+}
+function copyForIG() {
+    copyShareLink();
+    setTimeout(() => alert('📋 Link copiado!\n\nAbra o Instagram e cole na sua história ou post.'), 100);
+}
+</script>
                         </div>
                     </div>
                 </div>
@@ -230,7 +350,13 @@ function sendWhatsAppProperty(form) {
                                         </a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="text-primary">USD {{ number_format($relatedProperty->price, 0, ',', '.') }}</h5>
+                                        <h5 class="text-primary">
+    @if(($relatedProperty->currency ?? 'USD') == 'PYG')
+        Gs. {{ number_format($relatedProperty->price, 0, '.', '.') }}
+    @else
+        US$ {{ number_format($relatedProperty->price, 0, ',', '.') }}
+    @endif
+</h5>
                                         <h6>
                                             <a href="{{ route('front.property.detail', $relatedProperty->current_content?->slug) }}" class="text-dark text-decoration-none">
                                                 {{ Str::limit($relatedProperty->current_content?->title, 40) }}

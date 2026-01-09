@@ -84,6 +84,7 @@ class Property extends Model
             'floor_planning_image' => $requestData['floorPlanningImage'],
             'video_image' => $requestData['videoImage'],
             'price' => $requestData['price'],
+            'currency' => $requestData['currency'] ?? 'USD', 
             'purpose' => $requestData['purpose'],
             'type' => $requestData['type'],
             'beds' => $requestData['beds'] ?? null,
@@ -109,6 +110,7 @@ class Property extends Model
             'floor_planning_image' => $requestData['floorPlanningImage'],
             'video_image' => $requestData['videoImage'],
             'price' => $requestData['price'],
+            'currency' => $requestData['currency'] ?? 'USD',
             'purpose' => $requestData['purpose'],
             'type' => $requestData['type'],
             'beds' => $requestData['beds'] ?? null,
@@ -260,22 +262,61 @@ class Property extends Model
     {
         return $this->hasMany(Wishlist::class, 'property_id', 'id');
     }
-/**
+    /**
+    /**
      * Accessor: Get city name in current language
      */
     public function getCityNameAttribute()
     {
-        return $this->city?->cityContent?->first()?->name ?? 'Not specified';
+        if (!$this->relationLoaded('city') || !$this->city) {
+            return '';
+        }
+
+        // Pegar idioma da sessão
+        $lang_code = session('frontend_lang', 'pt');
+        $lang_id = $lang_code == 'pt' ? 179 : ($lang_code == 'en' ? 176 : 178);
+
+        // Buscar cityContent no idioma correto
+        if ($this->city->relationLoaded('cityContent')) {
+            $cityContent = $this->city->cityContent->where('language_id', $lang_id)->first();
+            return $cityContent ? $cityContent->name : '';
+        }
+
+        return '';
     }
 
+    public function getStateNameAttribute()
+    {
+        return $this->state?->stateContent?->where('language_id', 179)->first()?->name ?? '';
+    }
+
+public function getCountryNameAttribute()
+{
+    return $this->country?->countryContent?->where('language_id', 179)->first()?->name ?? '';
+}    
     /**
      * Accessor: Get current content (first available)
      */
-    public function getCurrentContentAttribute()
+     public function getCurrentContentAttribute()
     {
-        return $this->contents->first();
-    }
+        // Pegar idioma da sessão
+        $lang_code = session('frontend_lang', 'pt');
+        $lang_id = $lang_code == 'pt' ? 179 : ($lang_code == 'en' ? 176 : 178);
 
+        // Buscar conteúdo no idioma correto
+        if ($this->relationLoaded('contents') && $this->contents->isNotEmpty()) {
+            $content = $this->contents->where('language_id', $lang_id)->first();
+            
+            // Fallback: se não tiver no idioma atual, pega qualquer um
+            if (!$content) {
+                $content = $this->contents->first();
+            }
+            
+            return $content;
+        }
+
+        return null;
+    }
     /**
      * Accessor: Get property URL
      */

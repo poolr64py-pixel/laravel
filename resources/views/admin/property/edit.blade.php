@@ -1,0 +1,394 @@
+@extends('admin.layout')
+@section('content') 
+  
+        <div class="page-header">
+            <h4 class="page-title">{{ __('Edit Property') }}</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="{{ route('admin.dashboard') }}">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.property.index') }}">{{ __('Properties') }}</a>
+                </li>
+            </ul>
+        </div>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="alert alert-info">
+            <strong>{{ __('Notice') }}:</strong> {{ __('Property will be created for user ID 148 (main site)') }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                       <div class="card-header">
+                <div class="card-title">{{ __('Edit Property') }}</div>
+            </div>
+                      <div class="card-body">
+                        <form method="POST" action="{{ route('admin.property.update', $property->id) }}" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+
+                            <h3>{{ __('Basic Information') }}</h3>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Price') }} * (USD)</label>
+                                        <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price', $property->price) }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Currency') }} <span class="text-danger">*</span></label>
+                                        <select name="currency" class="form-control" required>
+                                            <option value="USD" {{ ($property->currency ?? 'USD') == 'USD' ? 'selected' : '' }}>USD - Dólar</option>
+                                            <option value="PYG" {{ ($property->currency ?? 'USD') == 'PYG' ? 'selected' : '' }}>PYG - Guaraníes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Purpose') }} *</label>
+                                        <select name="purpose" class="form-control" required>
+                                            <option value="">{{ __('Select') }}</option>
+                                            <option value="sale" {{ old('purpose', $property->purpose) == 'sale' ? 'selected' : '' }}>{{ __('Sale') }}</option>
+                                            <option value="rent" {{ old('purpose', $property->purpose) == 'rent' ? 'selected' : '' }}>{{ __('Rent') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Type') }} *</label>
+                                        <select name="type" class="form-control" required>
+                                            <option value="">{{ __('Select') }}</option>
+                                            <option value="residential" {{ (old('type') ?? $property->type) == 'residential' ? 'selected' : '' }}>{{ __('Residential') }}</option>
+                                            <option value="commercial" {{ (old('type') ?? $property->type) == 'commercial' ? 'selected' : '' }}>{{ __('Commercial') }}</option>
+                                            <option value="land" {{ (old('type') ?? $property->type) == 'land' ? 'selected' : '' }}>{{ __('Land') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Bedrooms') }}</label>
+                                        <input type="number" name="beds" class="form-control" value="{{ old('beds', $property->beds ?? 0) }}" min="0">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Bathrooms') }}</label>
+                                        <input type="number" name="bath" class="form-control" value="{{ old('bath', $property->bath ?? 0) }}" min="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Area') }} (m²)</label>
+                                        <input type="number" step="0.01" name="area" class="form-control" value="{{ old('area', $property->area ?? 0) }}" min="0">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Category') }}</label>
+                                        <select name="category_id" class="form-control">
+                                            <option value="">{{ __('Select Category') }}</option>
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}" {{ old('category_id', $property->category_id) == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->name ?? 'N/A' }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ __('Country') }}</label>
+                                        <select name="country_id" class="form-control">
+                                            <option value="">{{ __('Select Country') }}</option>
+                                            @if(isset($countries))
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->id }}" {{ old('country_id', $property->country_id) == $country->id ? 'selected' : '' }}>
+                                                        {{ $country->name ?? 'N/A' }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ __('State') }}</label>
+                                        <select name="state_id" id="state_id" class="form-control">
+                                            <option value="">{{ __('Select State') }}</option>
+                                            @if(isset($states))
+                                                @foreach($states as $state)
+                                                    <option value="{{ $state->id }}" {{ old('state_id', $property->state_id) == $state->id ? 'selected' : '' }}>
+                                                        {{ $state->name ?? 'N/A' }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ __('City') }}</label>
+                                        <select name="city_id" id="city_id" class="form-control">
+                                            <option value="">{{ __('Select City') }}</option>
+                                            @if(isset($cities))
+                                                @foreach($cities as $city)
+                                                    <option value="{{ $city->id }}" {{ old('city_id', $property->city_id) == $city->id ? 'selected' : '' }}>
+                                                        {{ $city->name ?? 'N/A' }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ __('Video URL') }}</label>
+                                        <input type="url" name="video_url" class="form-control" value="{{ old('video_url', $property->video_url) }}" placeholder="https://youtube.com/...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Galeria --}}
+                            @php
+                                $galleryImages = DB::table('user_property_slider_images')->where('property_id', $property->id)->get();
+                            @endphp
+
+                            <h4>📸 Galeria ({{ $galleryImages->count() }} fotos)</h4>
+                            <hr>
+                            <div class="row mb-3">
+                                @foreach($galleryImages as $img)
+                                    <div class="col-md-2 mb-3 position-relative">
+                                        <img src="{{ asset('assets/img/property/slider-images/' . $img->image) }}"
+                                             class="img-thumbnail" style="height:120px; width:100%; object-fit:cover;">
+                                        <button type="button" class="btn btn-danger btn-sm position-absolute delete-gallery-img"
+                                                style="top: 5px; right: 15px;"
+                                                data-image-id="{{ $img->id }}"
+                                                data-property-id="{{ $property->id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="form-group">
+                                <label>➕ Adicionar Mais</label>
+                                <input type="file" name="gallery_images[]" class="form-control" accept="image/*" multiple>
+                            </div>
+
+                            {{-- Featured Image --}}
+                            <div class="form-group">
+                                <label>{{ __('Featured Image') }} <small>(Max: 5MB)</small></label>
+                                @if($property->featured_image)
+                                    <div class="mb-2">
+                                        <img src="{{ asset('assets/img/property/featureds/' . $property->featured_image) }}"
+                                             alt="Featured Image" style="max-width: 200px; border: 1px solid #ddd; padding: 5px;">
+                                    </div>
+                                @endif
+                                <input type="file" name="featured_image" class="form-control" accept="image/*">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ __('Latitude') }}</label>
+                                        <input type="text" name="latitude" class="form-control" value="{{ old('latitude', $property->latitude) }}" placeholder="-25.2637">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ __('Longitude') }}</label>
+                                        <input type="text" name="longitude" class="form-control" value="{{ old('longitude', $property->longitude) }}" placeholder="-57.5759">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="featured" name="featured" value="1" {{ old('featured', $property->featured) ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="featured">{{ __('Featured Property') }}</label>
+                                </div>
+                            </div>
+
+                            {{-- Conteúdo multi-linguagem --}}
+                            <h3 class="mt-4">{{ __('Content (Multi-language)') }}</h3>
+                            <hr>
+
+                            <ul class="nav nav-tabs" role="tablist">
+                                @foreach($langs as $index => $lang)
+                                    @php
+                                        $content = $property->contents->where('language_id', $lang->id)->first();
+                                    @endphp
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ $index == 0 ? 'active' : '' }}" data-toggle="tab" href="#lang{{ $lang->id }}" role="tab">
+                                            {{ $lang->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                            <div class="tab-content mt-3">
+                                @foreach($langs as $index => $lang)
+                                    @php
+                                        $content = $property->contents->where('language_id', $lang->id)->first();
+                                    @endphp
+                                    <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="lang{{ $lang->id }}" role="tabpanel">
+                                        <div class="form-group">
+                                            <label>{{ __('Title') }} * ({{ $lang->code }})</label>
+                                            <input type="text" name="title_{{ $lang->code }}" class="form-control"
+                                                   value="{{ old('title_' . $lang->code, $content->title ?? '') }}"
+                                                   {{ $lang->code == 'pt' ? 'required' : '' }}>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>{{ __('Address') }} ({{ $lang->code }})</label>
+                                            <input type="text" name="address_{{ $lang->code }}" class="form-control" value="{{ old('address_' . $lang->code, $content->address ?? '') }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>{{ __('Description') }} ({{ $lang->code }})</label>
+                                            <textarea name="description_{{ $lang->code }}" class="form-control summernote" rows="10">{{ old('description_' . $lang->code, $content->description ?? '') }}</textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>{{ __('Meta Keywords') }} ({{ $lang->code }})</label>
+                                            <input type="text" name="meta_keyword_{{ $lang->code }}" class="form-control" value="{{ old('meta_keyword_' . $lang->code, $content->meta_keyword ?? '') }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>{{ __('Meta Description') }} ({{ $lang->code }})</label>
+                                            <textarea name="meta_description_{{ $lang->code }}" class="form-control" rows="3">{{ old('meta_description_' . $lang->code, $content->meta_description ?? '') }}</textarea>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                              <script>
+                            $('form').on('submit', function(e) {
+                                e.preventDefault();
+                                
+                                console.log('=== FORM SUBMIT ===');
+                                $('.summernote').each(function() {
+                                    var name = $(this).attr('name');
+                                    var content = $(this).summernote('code');
+                                    console.log('Campo:', name, 'Tamanho:', content.length);
+                                });
+                                
+                                alert('Veja o console do browser (F12)');
+                                return false;
+                            });
+                            </script>
+                            <div class="form-group mt-4">
+                                <button type="submit" class="btn btn-success">
+                            </div>
+
+</div> <!-- card-body -->
+                </div> <!-- card -->
+            </div> <!-- col-md-12 -->
+        </div> <!-- row -->
+    </div> <!-- page-header -->
+@endsection
+@push('scripts')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<script>
+$(document).ready(function () {
+
+    $('.summernote').summernote({
+    height: 300,
+    callbacks: {
+        onBlur: function() {
+            $(this).val($(this).summernote('code'));
+        }
+    }
+});
+
+// Forçar atualização antes do submit
+$('form').on('submit', function(e) {
+    $('.summernote').each(function() {
+        $(this).val($(this).summernote('code'));
+    });
+});
+    $(document).on('click', '.delete-gallery-img', function(e) {
+    e.preventDefault();
+    
+    console.log('🗑️ Botão deletar clicado');
+    
+    if (!confirm('Deletar esta imagem?')) {
+        console.log('❌ Usuário cancelou');
+        return;
+    }
+    
+    const imageId = $(this).data('image-id');
+    const propertyId = $(this).data('property-id');
+    const lang = '{{ request("language", "pt") }}';
+    
+    console.log('📦 Dados:', { imageId, propertyId, lang });
+    
+    $.ajax({
+        url: '{{ route("admin.property.delete_image") }}',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            image_id: imageId,
+            property_id: propertyId,
+            language: lang
+        },
+      success: function (response) {
+    console.log('✅ Resposta:', response);
+    if (response.success) {
+        alert('Imagem deletada com sucesso!');
+        location.reload();
+    } else {
+        alert('Erro: ' + response.error);
+    }
+},
+error: function(xhr, status, error) {
+    console.error('❌ Erro completo:', xhr.responseText);
+    alert('Erro ao deletar imagem. Veja o console (F12)');
+}
+    });
+});
+});
+</script>
+@endpush

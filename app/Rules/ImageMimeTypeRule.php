@@ -26,7 +26,7 @@ class ImageMimeTypeRule implements Rule
   public function passes($attribute, $value)
   {
     $image = $value;
-    $allowedExtensions = array('jpg', 'jpeg', 'png', 'svg', 'gif');
+    $allowedExtensions = array('jpg', 'jpeg', 'png', 'svg', 'gif', 'webp', 'dng', 'cr2', 'nef', 'arw');
     $fileExtension = $image->getClientOriginalExtension();
     if (in_array($fileExtension, $allowedExtensions)) {
       return true;
@@ -42,6 +42,6 @@ class ImageMimeTypeRule implements Rule
    */
   public function message()
   {
-    return 'Only .jpg, .jpeg, .png, .svg and .gif file is allowed.';
+    return 'Only .jpg, .jpeg, .png, .svg, .gif, .webp, .dng and RAW files are allowed.';
   }
 }

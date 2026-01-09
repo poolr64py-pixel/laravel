@@ -1,13 +1,6 @@
 @extends('front.layout')
-
-@section('pagename')
-    - {{ __('About Us') }}
-@endsection
-
-@section('meta-description', !empty($seo) ? $seo->faqs_meta_description : '')
-@section('meta-keywords', !empty($seo) ? $seo->faqs_meta_keywords : '')
-
-
+@section('page-title', 'Sobre Nós - Terras no Paraguay | Especialistas em Imóveis no Paraguai')
+@section('meta-description', 'Conheça a Terras no Paraguay. Especialistas em imóveis, terrenos e projetos no Paraguai. Atendimento profissional e personalizado.')
 @section('content')
     @includeIf('front.partials.breadcrumb', [
         'title' => __('About Us'),

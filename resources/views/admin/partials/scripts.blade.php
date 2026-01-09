@@ -1,4 +1,14 @@
 <script>
+var mainurl = "{{ url('/') }}";
+var imgupload = "{{ route('admin.summernote.upload') }}";
+var storeUrl = "";
+var removeUrl = "";
+var rmvdbUrl = "";
+var curr_url = "{{ url()->current() }}";
+var demo_mode = "";
+</script>
+
+<script>
     "use strict";
     var mainurl = "{{ url('/') }}";
     var imgupload = "{{ route('admin.summernote.upload') }}";
@@ -141,3 +151,12 @@ $(document).ready(function() {
             if ($this.parent().find('.collapse').hasClass('show')) {
                 $this.parent().removeClass('submenu');
             } else {
+                $this.parent().addClass('submenu');
+            }
+        } else {
+            // Se não tem submenu, navegar normalmente
+            window.location.href = href;
+        }
+    });
+});
+</script>

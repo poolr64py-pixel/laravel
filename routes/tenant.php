@@ -156,7 +156,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'Te
     });
 
     Route::prefix('agent-management')->middleware('checkUserPermission:Agent')->controller(AgentController::class)->group(function () {
-        Route::get('/', 'index')->name('user.agent_management.index');
+         // Route::get('/', 'index')->name('user.agent_management.index');
         Route::post('/store', 'store')->name('user.agent_management.register')->middleware('packageLimitsCheck:agent,store');
         Route::post('/update', 'update')->name('user.agent_management.update_agent')->middleware('packageLimitsCheck:agent,store');
         Route::post('/update-status/{id}', 'changeStatus')->name('user.agent_management.change_status')->middleware('packageLimitsCheck:agent,update');
@@ -326,7 +326,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'Te
 
         // why choose us section
         Route::prefix('/why-choose-us-section')->controller(WhyChooseUsController::class)->group(function () {
-            Route::get('/', 'index')->name('user.home_page.why_choose_us_section');
+            //  Route::get('/', 'index')->name('user.home_page.why_choose_us_section');
             Route::post('/update-image', 'updateImage')->name('user.home_page.update_why_choose_us_img');
             Route::post('/update-info/{language}', 'updateInfo')->name('user.home_page.update_why_choose_us_info');
         });
@@ -544,12 +544,12 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'Te
     });
     // faq route start
     Route::prefix('/faq-management')->controller(FaqController::class)->group(function () {
-        Route::get('', 'index')->name('user.faq_management');
-        Route::post('/store-faq', 'store')->name('user.faq_management.store_faq');
-        Route::post('/update-faq', 'update')->name('user.faq_management.update_faq');
-        Route::post('/delete-faq/{id}', 'destroy')->name('user.faq_management.delete_faq');
-        Route::post('/bulk-delete-faq', 'bulkDestroy')->name('user.faq_management.bulk_delete_faq');
-    });
+        //  Route::get('', 'index')->name('user.faq_management');
+        //  Route::post('/store-faq', 'store')->name('user.faq_management.store_faq');
+       //  Route::post('/update-faq', 'update')->name('user.faq_management.update_faq');
+       //  Route::post('/delete-faq/{id}', 'destroy')->name('user.faq_management.delete_faq');
+       //  Route::post('/bulk-delete-faq', 'bulkDestroy')->name('user.faq_management.bulk_delete_faq');
+ });  
     // faq route end
 
     // blog route start

@@ -1,13 +1,6 @@
 @extends('front.layout')
-
-@section('pagename')
-    - {{ __('FAQs') }}
-@endsection
-
-@section('meta-description', !empty($seo) ? $seo->faqs_meta_description : '')
-@section('meta-keywords', !empty($seo) ? $seo->faqs_meta_keywords : '')
-
-
+@section('page-title', 'Perguntas Frequentes - FAQ Imóveis no Paraguai | Terras no Paraguay')
+@section('meta-description', 'Encontre respostas para as perguntas mais frequentes sobre compra, venda e aluguel de imóveis no Paraguai.')
 @section('content')
     @includeIf('front.partials.breadcrumb', [
         'title' => __('FAQs'),

@@ -314,7 +314,15 @@
                                             </p>
                                         </div>
                                     </div>
-
+                                        <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>{{ __('Currency') }} <span class="text-danger">*</span></label>
+                                            <select name="currency" class="form-control" required>
+                                                <option value="USD" {{ $property->currency == 'USD' ? 'selected' : '' }}>USD - Dólar</option>
+                                                <option value="PYG" {{ $property->currency == 'PYG' ? 'selected' : '' }}>PYG - Guaraníes</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     @if ($property->type == 'residential')
                                         <div class="col-lg-3">

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -43,10 +44,9 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $img = $request->file('image');
-        $allowedExts = array('jpg', 'png', 'jpeg');
-
+        $allowedExts = array('jpg', 'png', 'jpeg', 'webp');
         $slug = make_slug($request->title);
-
+        
         $rules = [
             'language' => 'required',
             'title' => 'required|max:255',
@@ -64,50 +64,65 @@ class BlogController extends Controller
                 },
             ],
         ];
-
+        
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            $errmsgs = $validator->getMessageBag()->add('error', 'true');
-            return response()->json($validator->errors());
+            return back()->withErrors($validator)->withInput();
         }
-
-
+        
         $input = $request->all();
-
         $input['bcategory_id'] = $request->category;
-        $input['language_id'] = $request->language;
+        $lang = Language::where('code', $request->language)->first();
+        $input['language_id'] = $lang ? $lang->id : $request->language;
         $input['slug'] = $slug;
-
+        
         if ($request->hasFile('image')) {
             $filename = time() . '.' . $img->getClientOriginalExtension();
-            $request->session()->put('blog_image', $filename);
             $request->file('image')->move(public_path('assets/front/img/blogs/'), $filename);
+            // Converter para WebP
+            $sourcePath = public_path("assets/front/img/blogs/" . $filename);
+            $webpFilename = time() . ".webp";
+            $webpPath = public_path("assets/front/img/blogs/" . $webpFilename);
+            
+            $ext = strtolower($img->getClientOriginalExtension());
+            if ($ext == "jpg" || $ext == "jpeg") {
+                $image = imagecreatefromjpeg($sourcePath);
+            } elseif ($ext == "png") {
+                $image = imagecreatefrompng($sourcePath);
+            }
+            
+            if (isset($image)) {
+                imagewebp($image, $webpPath, 80);
+                imagedestroy($image);
+                @unlink($sourcePath);
+                $filename = $webpFilename;
+            }
             $input['main_image'] = $filename;
         }
+        
         $input['content'] = Purifier::clean($request->content);
-
+        unset($input['image']);
+        
         $blog = new Blog;
-
         $blog->create($input);
-
-        Session::flash('success', __('Added successfully!'));
-        return "success";
+        
+        return redirect()->route('admin.blog.index', ['language' => $request->language])->with('success', __('Added successfully!'));
     }
+
 
     public function update(Request $request)
     {
-        $img = $request->file('image');
-        $allowedExts = array('jpg', 'png', 'jpeg');
 
+        $img = $request->file('image');
+        $allowedExts = array('jpg', 'png', 'jpeg', 'webp');
         $slug = make_slug($request->title);
         $blog = Blog::findOrFail($request->blog_id);
-
+        
         $rules = [
             'title' => 'required|max:255',
             'category' => 'required',
             'content' => 'required',
             'serial_number' => 'required|integer',
-
             'image' => [
                 function ($attribute, $value, $fail) use ($img, $allowedExts) {
                     if (!empty($img)) {
@@ -119,33 +134,48 @@ class BlogController extends Controller
                 },
             ],
         ];
-
+        
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            $errmsgs = $validator->getMessageBag()->add('error', 'true');
             return response()->json($validator->errors());
         }
+        
         $input = $request->all();
-        $blog = Blog::findOrFail($request->blog_id);
-
-        $input['bcategory'] = $request->category;
+        $input['bcategory_id'] = $request->category;
         $input['slug'] = $slug;
-
+        
         if ($request->hasFile('image')) {
             $filename = time() . '.' . $img->getClientOriginalExtension();
-            $request->file('image')->move('assets/front/img/blogs/', $filename);
+            $request->file('image')->move(public_path('assets/front/img/blogs/'), $filename);
+            // Converter para WebP
+            $sourcePath = public_path("assets/front/img/blogs/" . $filename);
+            $webpFilename = time() . ".webp";
+            $webpPath = public_path("assets/front/img/blogs/" . $webpFilename);
+            
+            $ext = strtolower($img->getClientOriginalExtension());
+            if ($ext == "jpg" || $ext == "jpeg") {
+                $image = imagecreatefromjpeg($sourcePath);
+            } elseif ($ext == "png") {
+                $image = imagecreatefrompng($sourcePath);
+            }
+            
+            if (isset($image)) {
+                imagewebp($image, $webpPath, 80);
+                imagedestroy($image);
+                @unlink($sourcePath);
+                $filename = $webpFilename;
+            }
             @unlink(public_path('assets/front/img/blogs/' . $blog->main_image));
             $input['main_image'] = $filename;
+        } else {
+            unset($input['main_image']);
         }
-        $input['content'] = Purifier::clean($request->content);
-
-
+       $input['content'] = Purifier::clean($request->content);
+        unset($input['image']);
         $blog->update($input);
-
         Session::flash('success', __('Updated successfully!'));
         return "success";
     }
-
     public function delete(Request $request)
     {
 
@@ -284,4 +314,17 @@ public function autoTranslate(Request $request)
         return response()->json(["message" => "Post translated successfully!"]);
     }
 
+
+    public function create()
+    {
+        $langCode = request('language');
+        $lang = Language::where('code', $langCode)->first();
+        
+        if (!$lang) {
+            return redirect()->back()->with('error', 'Idioma inválido');
+        }
+        
+        $data['bcats'] = Bcategory::where('language_id', $lang->id)->get();
+        return view('admin.blog.blog.create', $data);
     }
+}

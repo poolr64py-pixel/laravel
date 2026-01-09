@@ -1,0 +1,300 @@
+@extends('admin.layout')
+
+@section('content')
+<div class="page-header">
+    <h4 class="page-title">{{ __('Add New Property') }}</h4>
+    <ul class="breadcrumbs">
+        <li class="nav-home">
+            <a href="{{ route('admin.dashboard') }}">
+                <i class="flaticon-home"></i>
+            </a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.property.index') }}">{{ __('Properties') }}</a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            <a href="#">{{ __('Add Property') }}</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">{{ __('Add New Property') }}</div>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.property.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <h3>{{ __('Basic Information') }}</h3>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Price') }} * (USD)</label>
+                                <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price') }}" required>
+                            </div>
+                           </div>
+                           <div class="col-md-4">
+                        <div class="form-group">
+                            <label>{{ __('Currency') }} <span class="text-danger">*</span></label>
+                            <select name="currency" class="form-control" required>
+                                <option value="USD" selected>USD - Dólar</option>
+                                <option value="PYG">PYG - Guaraníes</option>
+                            </select>
+                        </div>
+                    </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Purpose') }} *</label>
+                                <select name="purpose" class="form-control" required>
+                                    <option value="">{{ __('Select') }}</option>
+                                    <option value="sale" {{ old('purpose') == 'sale' ? 'selected' : '' }}>{{ __('Sale') }}</option>
+                                    <option value="rent" {{ old('purpose') == 'rent' ? 'selected' : '' }}>{{ __('Rent') }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Type') }} *</label>
+                                <select name="type" class="form-control" required>
+                                    <option value="">{{ __('Select') }}</option>
+                                    <option value="residential" {{ old('type') == 'residential' ? 'selected' : '' }}>{{ __('Residential') }}</option>
+                                    <option value="commercial" {{ old('type') == 'commercial' ? 'selected' : '' }}>{{ __('Commercial') }}</option>
+                                    <option value="land" {{ old('type') == 'land' ? 'selected' : '' }}>{{ __('Land') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Bedrooms') }}</label>
+                                <input type="number" name="beds" class="form-control" value="{{ old('beds', 0) }}" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Bathrooms') }}</label>
+                                <input type="number" name="bath" class="form-control" value="{{ old('bath', 0) }}" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Area') }} (m²)</label>
+                                <input type="number" step="0.01" name="area" class="form-control" value="{{ old('area', 0) }}" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Category') }}</label>
+                                <select name="category_id" class="form-control">
+                                    <option value="">{{ __('Select Category') }}</option>
+                                    @if(isset($categories))
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name ?? 'N/A' }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                              
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Country') }}</label>
+                                <select name="country_id" id="country_id" class="form-control" required>
+                                    <option value="">{{ __('Select Country') }}</option>
+                                    @if(isset($countries))
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
+                                                {{ $country->name ?? 'N/A' }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                         
+                 <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>{{ __('State') }}</label>
+               <select name="state_id" id="state_id" class="form-control">
+    <option value="">{{ __('Select State') }}</option>
+    @foreach($states as $state)
+        <option value="{{ $state->id }}">{{ $state->name }}</option>
+    @endforeach
+</select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>{{ __('City') }}</label>
+              <select name="city_id" id="city_id" class="form-control">
+    <option value="">{{ __('Select City') }}</option>
+    @foreach($cities as $city)
+        <option value="{{ $city->id }}">{{ $city->name }}</option>
+    @endforeach
+</select>
+        </div>
+    </div>
+</div>
+
+<script>
+// Carregar estados ao mudar país
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('country_id').addEventListener('change', function() {
+        const countryId = this.value;
+        const stateSelect = document.getElementById('state_id');
+        const citySelect = document.getElementById('city_id');
+        
+        stateSelect.innerHTML = '<option value="">{{ __("Loading...") }}</option>';
+        citySelect.innerHTML = '<option value="">{{ __("Select City") }}</option>';
+        
+        if(countryId) {
+            fetch(`/admin/ajax/states/${countryId}`)
+                .then(r => r.json())
+                .then(states => {
+                    stateSelect.innerHTML = '<option value="">{{ __("Select State") }}</option>';
+                    states.forEach(s => {
+                        stateSelect.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+                    });
+                });
+        } else {
+            stateSelect.innerHTML = '<option value="">{{ __("Select State") }}</option>';
+        }
+    });
+
+    // Carregar cidades ao mudar estado
+    document.getElementById('state_id').addEventListener('change', function() {
+        const stateId = this.value;
+        const citySelect = document.getElementById('city_id');
+        
+        citySelect.innerHTML = '<option value="">{{ __("Loading...") }}</option>';
+        
+        if(stateId) {
+            fetch(`/admin/ajax/cities/${stateId}`)
+                .then(r => r.json())
+                .then(cities => {
+                    citySelect.innerHTML = '<option value="">{{ __("Select City") }}</option>';
+                    cities.forEach(c => {
+                        citySelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                    });
+                });
+        } else {
+            citySelect.innerHTML = '<option value="">{{ __("Select City") }}</option>';
+        }
+    });
+});
+</script>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Video URL') }}</label>
+                                <input type="url" name="video_url" class="form-control" value="{{ old('video_url') }}" placeholder="https://youtube.com/...">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Featured Image') }}</label>
+                                <input type="file" name="featured_image" class="form-control" accept="image/*">
+                                <small class="text-muted">{{ __('Max size: 5MB') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                           {{-- GALERIA DE IMAGENS - ADICIONAR AQUI --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>📸 {{ __('Gallery Images') }} ({{ __('Multiple') }})</label>
+                                <input type="file" name="gallery_images[]" class="form-control" accept="image/*" multiple>
+                                <small class="text-muted">{{ __('Select multiple images. Max: 5MB each') }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Latitude') }}</label>
+                                <input type="text" name="latitude" class="form-control" value="{{ old('latitude') }}" placeholder="-25.2637">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Longitude') }}</label>
+                                <input type="text" name="longitude" class="form-control" value="{{ old('longitude') }}" placeholder="-57.5759">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="featured" name="featured" value="1" {{ old('featured') ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="featured">{{ __('Featured Property') }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4">{{ __('Content (Multi-language)') }}</h3>
+                    <hr>
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        @foreach($langs as $index => $lang)
+                            <li class="nav-item">
+                                <a class="nav-link {{ $index == 0 ? 'active' : '' }}" data-toggle="tab" href="#lang{{ $lang->id }}" role="tab">
+                                    {{ $lang->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="tab-content mt-3">
+                        @foreach($langs as $index => $lang)
+                            <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="lang{{ $lang->id }}" role="tabpanel">
+                                <div class="form-group">
+                                    <label>{{ __('Title') }} * ({{ $lang->code }})</label>
+                                    <input type="text" name="title_{{ $lang->code }}" class="form-control" 
+                                           value="{{ old('title_' . $lang->code) }}" 
+                                           {{ $lang->code == 'pt' ? 'required' : '' }}>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{ __('Address') }} ({{ $lang->code }})</label>
+                                    <input type="text" name="address_{{ $lang->code }}" class="form-control" value="{{ old('address_' . $lang->code) }}">
+@endsection

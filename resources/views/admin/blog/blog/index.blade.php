@@ -15,7 +15,6 @@
                 text-align: right;
             }
         </style>
-    @endsection
 @endif
 
 @section('content')
@@ -59,8 +58,7 @@
                         
                         </div>
                         <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                            <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal"
-                                data-target="#createModal"><i class="fas fa-plus"></i> {{ __('Add Post') }}</a>
+                            <a href="{{ route('admin.blog.create', ['language' => request('language')]) }}" class="btn btn-primary float-right btn-sm"><i class="fas fa-plus"></i> {{ __("Add Post") }}</a>
                             <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete"
                                 data-href="{{ route('admin.blog.bulk.delete') }}"><i class="flaticon-interface-5"></i>
                                 {{ __('Delete') }}</button>
@@ -233,97 +231,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
-                    <button id="submitBtn" type="button" class="btn btn-primary">{{ __('Submit') }}</button>
+                    <button id="submitBtn" type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
                 </div>
             </div>
         </div>
     </div>
 <!-- Modal de Tradução -->
-    <div class="modal fade" id="translateModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('Translate Post') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="translate_blog_id">
-                    <div class="form-group">
-                        <label>{{ __('Post') }}:</label>
-                        <p id="translate_blog_title" class="font-weight-bold"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>{{ __('Translate to') }}:</label>
-                        <select id="target_language" class="form-control">
-                            @foreach($langs as $lang)
-                                {{-- @if($lang->code != request()->input('language')) --}}
-                                    <option value="{{ $lang->id }}">{{ $lang->name }}</option>
-                                {{-- @endif --}}
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="alert alert-info">
-                        <small>{{ __('This will create a new post in the selected language with translated content') }}</small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
-                    <button type="button" class="btn btn-primary" onclick="translatePost()">
-                        <i class="fas fa-language"></i> {{ __('Translate') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openTranslateModal(blogId, blogTitle) {
-            $('#translate_blog_id').val(blogId);
-            $('#translate_blog_title').text(blogTitle);
-            $('#translateModal').modal('show');
-        }
-
-        function translatePost() {
-            const blogId = $('#translate_blog_id').val();
-            const targetLang = $('#target_language').val();
-            
-            // Mostrar loading
-            const btn = event.target;
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {{ __("Translating...") }}';
-            btn.disabled = true;
-
-            $.ajax({
-                url: "{{ route('admin.blog.translate') }}",
-                method: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    blog_id: blogId,
-                    target_language: targetLang
-                },
-                success: function(response) {
-                    console.log("Response:", response);
-                    $('#translateModal').modal('hide');
-                    alert(response.message);
-                    location.reload();
-                    location.reload();
-                },
-                error: function(xhr) {
-                    btn.innerHTML = originalHtml;
-                    btn.disabled = false;
-                    
-                    let errorMsg = '{{ __("Translation failed") }}';
-                    if(xhr.responseJSON && xhr.responseJSON.message) {
-                        errorMsg = xhr.responseJSON.message;
-                    }
-                    
-                    alert(response.message);
-                    location.reload();
-                    location.reload();
-                }
-            });
-        }
-    </script>
 @endsection

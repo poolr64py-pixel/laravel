@@ -2,6 +2,15 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /user/
-Disallow: /agent/
+Disallow: /login
+Disallow: /register
 
 Sitemap: https://www.terrasnoparaguay.com/sitemap.xml
+Sitemap: https://www.terrasnoparaguay.com/sitemap.xml
+Sitemap: https://www.terrasnoparaguay.com/image-sitemap.xml
+# Crawl-delay for bots
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 1

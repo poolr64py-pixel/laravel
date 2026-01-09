@@ -1,67 +1,108 @@
 /* Ajustes para página de imóveis */
-
-/* Título da página */
 .page-title-area h2 {
     font-size: 2rem !important;
     margin-top: 1rem !important;
 }
-
-/* Cards de imóveis */
 .property-card {
     margin-bottom: 1.5rem;
     transition: transform 0.3s ease;
 }
-
 .property-card:hover {
     transform: translateY(-5px);
 }
-
-/* Badges */
 .badge {
     font-size: 0.75rem;
     padding: 0.35em 0.65em;
 }
-
-/* Espaçamento dos cards */
 .property-content {
     padding: 1rem !important;
 }
-
-/* Título do imóvel */
 .property-title a {
     font-size: 1rem;
     line-height: 1.4;
 }
-
-/* Preço */
 .property-price h5 {
     font-size: 1.25rem;
     font-weight: 700;
 }
-
-/* Features (quartos, banheiros, área) */
 .property-features {
     font-size: 0.875rem;
 }
-
-/* Filtros */
 .property-filter {
     padding: 2rem 0;
 }
-
-/* Breadcrumb */
 .breadcrumb {
     margin-bottom: 0;
     background: transparent;
 }
 
-/* Responsivo */
+/* Responsivo properties */
 @media (max-width: 768px) {
     .page-title-area h2 {
         font-size: 1.5rem !important;
     }
-    
     .property-card {
         margin-bottom: 1rem;
+    }
+}
+
+/* === MENU E LOGOS === */
+/* Desktop (1200px+): Esconder menu mobile, mostrar navbar desktop */
+@media (min-width: 1200px) {
+    .main-responsive-nav {
+        display: none !important;
+    }
+    .main-navbar {
+        display: block !important;
+    }
+}
+
+/* Mobile/Tablet (até 1199px): Mostrar menu mobile, esconder navbar desktop */
+@media (max-width: 1199px) and (min-width: 1px) {
+    .main-responsive-nav {
+        display: block !important;
+    }
+    .main-responsive-nav > div {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    .main-responsive-nav .logo,
+    .main-responsive-nav .menu-toggler {
+        display: block !important;
+        visibility: visible !important;
+    }
+    .menu-toggler {
+        flex: 0 0 auto !important;
+    }
+    .main-navbar {
+        display: none !important;
+    }
+}
+
+/* FORÇAR BOTÃO VISÍVEL */
+@media (max-width: 1199px) {
+    .menu-toggler {
+        background: transparent !important;
+        padding: 10px !important;
+        border: 1px solid #333 !important;
+        border-radius: 4px !important;
+    }
+    .menu-toggler span {
+        background: #333 !important;
+        height: 3px !important;
+        width: 22px !important;
+        display: block !important;
+        margin: 4px 0 !important;
+    }
+}
+/* GARANTIR hambúrguer entre 768-1199px */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .main-responsive-nav {
+        display: block !important;
+    }
+    .menu-toggler {
+        display: block !important;
+        visibility: visible !important;
     }
 }

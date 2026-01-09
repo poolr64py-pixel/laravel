@@ -41,6 +41,8 @@ class FrontendController extends Controller
 
     public function index(Request $request )
     {
+     file_put_contents('/tmp/index_executou.txt', date('Y-m-d H:i:s') . " - INDEX EXECUTOU\n", FILE_APPEND);
+       \Log::info("🔥 INDEX EXECUTANDO");
         \Log::info("🔥 INDEX CHAMADO", ["url" => request()->fullUrl()]);
 $host = request()->getHost();
 
@@ -49,16 +51,15 @@ $host = request()->getHost();
         } else {
             $currentLang = $this->defaultLang();
         }
-        $lang_id = $currentLang->id;
-// ================== IMÓVEIS + BUSCA ==================
-// ================== APENAS IMÓVEIS DESTAQUE NA HOME ==================
+    // ================== APENAS IMÓVEIS DESTAQUE NA HOME ==================
+    // Pegar idioma ativo
+    $lang_code = session('frontend_lang', 'pt');
+    $lang_id = $lang_code == 'pt' ? 179 : ($lang_code == 'en' ? 176 : 178);
+
     $data['featured_properties'] = \App\Models\User\Property\Property::query()
         ->where('user_id', 148)
         ->where('status', 1)
         ->where('featured', 1)
-        ->whereHas('contents', function($q) use ($lang_id) {
-            $q->where('language_id', $lang_id);
-        })
         ->with([
             'contents' => function($q) use ($lang_id) {
                 $q->where('language_id', $lang_id);
@@ -68,12 +69,31 @@ $host = request()->getHost();
             }
         ])
         ->latest()
-        ->limit(6)
+        ->limit(9)
         ->get();
 
-    \Log::info("🏠 FEATURED PROPERTIES", ["count" => $data['featured_properties']->count()]);
+    \Log::info("🏠 FEATURED PROPERTIES", ["count" => $data['featured_properties']->count(), "lang_id" => $lang_id]);
     // =====================================================
-// =====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         $bs = $currentLang->basic_setting;
@@ -415,12 +435,30 @@ $category_id = $request->category;
         return view('front.faq', $data);
     }
 
-    public function dynamicPage($slug)
-    {
-        $data['page'] = Page::where('slug', $slug)->firstOrFail();
-        return view('front.dynamic', $data);
+     public function dynamicPage($slug)
+{
+    // Pegar o idioma atual
+    if (session()->has('frontend_lang')) {
+        $currentLang = $this->selectLang(session()->get('frontend_lang'));
+    } else {
+        $currentLang = $this->defaultLang();
     }
-
+    
+    // Buscar o page_content pelo slug no idioma correto
+    $pageContent = \App\Models\PageContent::where('slug', $slug)
+        ->where('language_id', $currentLang->id)
+        ->firstOrFail();
+    
+    // Carregar a página completa
+    $data['page'] = Page::with(['contents' => function($q) use ($currentLang) {
+        $q->where('language_id', $currentLang->id);
+    }])->findOrFail($pageContent->page_id);
+    
+    // Adicionar o conteúdo específico do idioma
+    $data['pageContent'] = $pageContent;
+    
+    return view('front.dynamic', $data);
+}
     public function userDetailView()
     {
         return $this->users(request());
@@ -570,10 +608,12 @@ $category_id = $request->category;
         return redirect()->route('front.user.detail.view', getParam());
     }
 
-    public function userCPage($domain, $slug)
-    {
-        $user = getUser();
-
+       public function userCPage($slug)
+{
+    $user = getUser();
+        if (!$user) {
+        abort(404);
+    }
         $language = $this->getUserCurrentLanguage($user->id);
 
         $queryResult['bgImg'] = $this->getUserBreadcrumb($user->id);
@@ -595,6 +635,11 @@ $category_id = $request->category;
  */
 public function allProperties(Request $request)
 {
+ \Log::info('🎯 allProperties CHAMADO', [
+        'url' => request()->url(),
+        'host' => request()->getHost(),
+        'path' => request()->path()
+    ]);
     if (session()->has('frontend_lang')) {
         $currentLang = $this->selectLang(session()->get('frontend_lang'));
     } else {
@@ -604,14 +649,11 @@ public function allProperties(Request $request)
 
     // Query com eager loading otimizado
     $propertyQuery = Property::with([
-        'contents' => function($q) use ($lang_id) {
-            $q->where('language_id', $lang_id);
-        },
+        'contents',
         'city.cityContent' => function($q) use ($lang_id) {
             $q->where('language_id', $lang_id);
         }
     ])
-    ->where('user_id', 148)
     ->where('status', 1)
     ->where('approve_status', 1);
 
@@ -663,6 +705,9 @@ public function allProperties(Request $request)
             $propertyQuery->latest();
     }
 
+    switch ($request->get('sort', 'latest')) {
+        // ... switches ...
+    }
     $data['properties'] = $propertyQuery->paginate(12)->appends($request->all());
     $data['total_properties'] = $data['properties']->total();
     $data['seo'] = Seo::where('language_id', $lang_id)->first();
@@ -697,10 +742,8 @@ if (!$propertyContentInLang) {
     $propertyContentInLang = $propertyContent;
 }
 
-       $data['property'] = \App\Models\User\Property\Property::with([
-    'contents' => function($q) use ($lang_id) {
-        $q->where('language_id', $lang_id);
-    },
+$data['property'] = \App\Models\User\Property\Property::with([
+    'contents', // Carregar TODOS os idiomas
     'city.cityContent' => function($q) use ($lang_id) {
         $q->where('language_id', $lang_id);
     }
@@ -745,7 +788,13 @@ $data['related_properties'] = \App\Models\User\Property\Property::query()
     ->limit(3)
     ->get();
 
-$data['seo'] = Seo::where('language_id', $lang_id)->first();
+       $data['seo'] = Seo::where('language_id', $lang_id)->first();
+     
+
+// ADICIONE ESTAS LINHAS
+   $data['sliderImages'] = DB::table('user_property_slider_images')
+    ->where('property_id', $data['property']->id)
+    ->get();
 
 return view('front.properties.detail', $data);
 
@@ -852,4 +901,26 @@ if ($projectContentInLang) {
 
         return view('front.projects.detail', $data);
     }
+public function returnPolicy()
+{
+    // Detectar idioma pela URL
+    $url = request()->path();
+    
+    if (strpos($url, 'return-policy') !== false) {
+        $langCode = 'en';
+    } elseif (strpos($url, 'devolucion') !== false) {
+        $langCode = 'es';
+    } else {
+        $langCode = 'pt';
+    }
+    
+    // Criar objeto simples ao invés de buscar no banco
+    $currentLang = (object)['code' => $langCode, 'id' => ($langCode == 'pt' ? 179 : ($langCode == 'en' ? 176 : 178))];
+    
+    $data['currentLang'] = $currentLang;
+    $data['seo'] = null;
+    $data['bs'] = DB::table('basic_settings')->first();
+    
+    return view('front.return-policy', $data);
+}
 }

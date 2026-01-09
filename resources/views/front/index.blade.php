@@ -1,10 +1,9 @@
 @extends('front.layout')
-@section('meta-description', 'Encontre os melhores imóveis e terrenos no Paraguai. Casas, apartamentos, terrenos e projetos para venda e aluguel. Terras no Paraguay - Seu imóvel ideal está aqui!')
-@section('pagename')
-    - {{ __('Home') }}
-@endsection
-@section('meta-description', !empty($seo) ? $seo->home_meta_description : '')
-@section('meta-keywords', !empty($seo) ? $seo->home_meta_keywords : '')
+@section('page-title', $seo->home_meta_title ?? 'Imóveis e Terrenos no Paraguai | Terras no Paraguay')
+
+@section('meta-description', $seo->home_meta_description ?? 'Encontre os melhores imóveis no Paraguai. Mais de 50 propriedades: casas, apartamentos, terrenos e projetos. Invista com segurança!')
+
+@section('meta-keywords', $seo->home_meta_keywords ?? 'imóveis paraguai, terrenos paraguai, casas venda paraguai, apartamentos paraguai, investir paraguai')
 @section('content')
 
     {{-- HERO SECTION --}}
@@ -96,40 +95,40 @@
             <h2 class="title">Imóveis Disponíveis</h2>
         </div>
         <div class="row">
-           
- @forelse ($featured_properties as $property)
+    @forelse ($featured_properties as $property)
 @php
-    $content = $property->contents ? $property->contents->first() : null;
-    $cityContent = ($property->city && $property->city->cityContent) ? $property->city->cityContent->first() : null;
+       $content = $property->current_content;
+       $cityContent = ($property->city && $property->city->cityContent) ? $property->city->cityContent->first() : null;
 @endphp
-                @if($content)
-        <div class="col-md-4 mb-4">
-            <div class="property-card shadow-sm" style="border-radius: 8px; overflow: hidden;">
-                <img src="{{ asset('assets/img/property/featureds/' . $property->featured_image) }}"
-                     alt="{{ $content->title ?? 'Property' }}"
-                     style="width: 100%; height: 200px; object-fit: cover;">
-                <div class="p-3">
-                    <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-                        {{ $content->title ?? 'Sem título' }}
-                    </h4>
-                    <p style="margin-bottom: 0.5rem; color: #666;">
-                        <i class="fas fa-map-marker-alt"></i> {{ $cityContent->name ?? 'Localização não informada' }}
-                    </p>
-                    <strong style="color: #28a745; font-size: 1.3rem;">
-                        USD {{ number_format($property->price, 0, ',', '.') }}
-                    </strong>
-                    <div class="mt-3">
-                        @if(!empty($content->slug))
-                            <a href="{{ route('front.property.detail', $content->slug) }}"
-                               class="btn btn-primary btn-sm w-100">Ver Detalhes</a>
-                        @else
-                            <a href="#" class="btn btn-secondary btn-sm w-100 disabled">Sem Detalhes</a>
-                        @endif
-                    </div>
-                </div>
+
+@if($content)
+<div class="col-md-4 mb-4">
+    <div class="property-card shadow-sm" style="border-radius: 8px; overflow: hidden;">
+        <img src="{{ asset('assets/img/property/featureds/' . $property->featured_image) }}"
+             alt="{{ $content->title ?? 'Property' }}"
+             style="width: 100%; height: 200px; object-fit: cover;">
+        <div class="p-3">
+            <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+                {{ $content->title ?? 'Sem título' }}
+            </h4>
+            <p style="margin-bottom: 0.5rem; color: #666;">
+                <i class="fas fa-map-marker-alt"></i> {{ $property->city_name ?? 'Localização não informada' }}
+            </p>
+            <strong style="color: #28a745; font-size: 1.3rem;">
+                USD {{ number_format($property->price, 0, ',', '.') }}
+            </strong>
+            <div class="mt-3">
+                @if(!empty($content->slug))
+                    <a href="{{ route('front.property.detail', $content->slug) }}"
+                       class="btn btn-primary btn-sm w-100">Ver Detalhes</a>
+                @else
+                    <a href="#" class="btn btn-secondary btn-sm w-100 disabled">Sem detalhes</a>
+                @endif
             </div>
         </div>
-    @endif
+    </div>
+</div>
+@endif
 @empty
     <div class="col-12">
         <p class="text-center">Nenhum imóvel encontrado.</p>
@@ -293,7 +292,7 @@
             <h2 class="title">Blog e Novidades</h2>
         </div>
         <div class="row">
-            <p>DEBUG: Lang = {{ session()->get("frontend_lang", "pt") }} | Blogs count = {{ count($blogs) }}</p>
+{{--             <p>DEBUG: Lang = {{ session()->get("frontend_lang", "pt") }} | Blogs count = {{ count($blogs) }}</p> --}}
             @foreach($blogs as $blog)
 @php
     $content = $property->contents ? $property->contents->first() : null;
@@ -314,7 +313,7 @@
                            {{ Str::limit($blog->title ?? 'Título indisponível', 60) }}
                         </h4>
                         <p style="color: #666; margin-bottom: 1.5rem;">
-                            {{ Str::limit($blog->excerpt ?? $blog->content ?? 'Sem descrição disponível', 100) }}
+                            {{ Str::limit(strip_tags($blog->excerpt ?? $blog->content ?? 'Sem descrição disponível'), 100) }}
                         </p>
                         <a href="{{ route('front.blogdetails', ['slug' => $blog->slug, 'id' => $blog->id]) }}" 
                            class="btn btn-primary btn-sm">

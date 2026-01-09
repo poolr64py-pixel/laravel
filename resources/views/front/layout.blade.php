@@ -5,15 +5,57 @@
     <!--====== Required meta tags ======-->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="@yield('meta-description')">
-    <meta name="keywords" content="@yield('meta-keywords')">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    @yield('og-meta')
-    <!--====== Title ======-->
-    <title>{{ !empty($bs) ? $bs->website_title : "" }} @yield('pagename')</title>
-    <link rel="icon" href="{{ !empty($bs) && !empty($bs->favicon) ? asset('assets/front/img/' . $bs->favicon) : asset('assets/front/img/favicon.ico') }}">
+    
+    {{-- SEO Básico --}}
+    <title>@yield('page-title', 'Imóveis e Terrenos no Paraguai | Terras no Paraguay - Casas, Apartamentos e Projetos')</title>
+    <meta name="description" content="@yield('meta-description', 'Encontre os melhores imóveis e terrenos no Paraguai. Casas, apartamentos, terrenos e projetos para venda e aluguel. Oportunidades únicas com a Terras no Paraguay!')">
+    <meta name="keywords" content="@yield('meta-keywords', 'imóveis paraguai, terrenos paraguai, casas paraguai, apartamentos paraguai, investir paraguai')">
+    <link rel="canonical" href="{{ url()->current() }}">
+    {{-- Hreflang para SEO multi-idioma --}}
+    <link rel="alternate" hreflang="pt" href="{{ url('/changelanguage/pt') }}">
+    <link rel="alternate" hreflang="en" href="{{ url('/changelanguage/en') }}">
+    <link rel="alternate" hreflang="es" href="{{ url('/changelanguage/es') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">    
+   {{-- Open Graph (Facebook, WhatsApp, LinkedIn) --}}
+@if(isset($currentContent) && isset($property))
+    {{-- Página de propriedade específica --}}
+    <meta property="og:title" content="{{ $currentContent->title }}">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($currentContent->description ?? ''), 200) }}">
+    <meta property="og:image" content="{{ asset('assets/img/property/featureds/' . $property->featured_image) }}">
+    <meta property="og:type" content="article">
+@else
+    {{-- Home e outras páginas --}}
+    <meta property="og:title" content="@yield('page-title', 'Imóveis e Terrenos no Paraguai | Terras no Paraguay')">
+    <meta property="og:description" content="@yield('meta-description', 'Encontre os melhores imóveis no Paraguai. Casas, apartamentos, terrenos e projetos com a Terras no Paraguay!')">
+    <meta property="og:image" content="{{ asset('assets/front/img/logo.png') }}">
+    <meta property="og:type" content="website">
+@endif
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:locale" content="{{ session('frontend_lang') == 'pt' ? 'pt_BR' : (session('frontend_lang') == 'en' ? 'en_US' : 'es_ES') }}">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:site_name" content="Terras no Paraguay">    
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+      @if(isset($currentContent))
+    <meta name="twitter:title" content="{{ $currentContent->title }}">
+    <meta name="twitter:description" content="{{ Str::limit(strip_tags($currentContent->description ?? ''), 200) }}">
+@else
+    <meta name="twitter:title" content="@yield('page-title', 'Imóveis e Terrenos no Paraguai | Terras no Paraguay')">
+    <meta name="twitter:description" content="@yield('meta-description', 'Encontre os melhores imóveis no Paraguai')">
+@endif
+     @if(isset($currentContent))
+        <meta name="twitter:image" content="{{ asset('assets/img/property/featureds/' . ($property->featured_image ?? 'default.jpg')) }}">
+    @else
+        <meta name="twitter:image" content="{{ asset('assets/front/img/logo.png') }}">
+    @endif
+      <!--====== Title ======-->
+<link rel="icon" href="{{ !empty($bs) && !empty($bs->favicon) ? asset('assets/front/img/' . $bs->favicon) : asset('assets/front/img/favicon.png') }}">    
 
 
 
@@ -73,6 +115,33 @@
       gtag("config", "{{ $bs->google_analytics_id }}");
     </script>
     @endif
+    <link rel="stylesheet" href="{{ asset('assets/front/css/properties-custom.css') }}">
+      {{-- Schema.org JSON-LD --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Terras no Paraguay",
+        "description": "Imóveis e terrenos no Paraguai - Casas, apartamentos e projetos",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('assets/front/img/logo.png') }}",
+        "telephone": "+595-994-718400",
+        "email": "{{ $bs->support_email ?? 'contato@terrasnoparaguay.com' }}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "PY",
+            "addressLocality": "Asunción"
+        },
+        "sameAs": [
+            "https://www.facebook.com/terrasnoparaguay",
+            "https://www.instagram.com/terrasnoparaguay"
+        ],
+        "areaServed": {
+            "@type": "Country",
+            "name": "Paraguay"
+        }
+    }
+    </script>    
 </head>
 
 <body>

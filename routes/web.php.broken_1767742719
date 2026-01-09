@@ -1,0 +1,170 @@
+<?php
+        // all ads route
+        Route::middleware('routeAccess:Ecommerce')->group(function () {
+            Route::get('/shipping/details', 'Front\CustomerController@shippingdetails')->name('customer.shpping-details');
+            Route::post('/shipping/details/update', 'Front\CustomerController@shippingupdate')->name('customer.shipping-update');
+            //user order
+            Route::get('/order/{id}', 'Front\CustomerController@orderdetails')->name('customer.orders-details');
+            Route::get('/orders', 'Front\CustomerController@customerOrders')->name('customer.orders');
+            Route::get('/wishlist', 'Front\CustomerController@customerWishlist')->name('customer.wishlist');
+            Route::get('/remove-from-wishlist/{id}', 'Front\CustomerController@removefromWish')->name('customer.removefromWish');
+        });
+
+
+        Route::middleware('routeAccess:Donation Management')->group(function () {
+            //  donation route
+            Route::get('/donations', 'Front\CustomerController@donations')->name('customer.donations');
+        });
+
+        Route::middleware('routeAccess:Hotel Booking')->group(function () {
+            // room booking routes
+            Route::get('/room-bookings', 'Front\CustomerController@roomBookings')->name('customer.roomBookings');
+            // room booking details route
+            Route::get('/room_booking_details/{id}', 'Front\CustomerController@roomBookingDetails')->name('customer.room_booking_details');
+        });
+        Route::middleware('routeAccess:Course Management')->group(function () {
+            // all enrolment courses route
+            Route::get('/my-courses', 'Front\CustomerController@myCourses')->name('customer.my_courses');
+
+            // download lesson file route
+            Route::post('/my-course/curriculum/{id}/download-file', 'Front\CustomerController@downloadFile')->name('customer.my_course.curriculum.download_file');
+            // check quiz's answer route
+            Route::get('/my-course/curriculum/check-answer', 'Front\CustomerController@checkAns')->name('customer.my_course.curriculum.check_ans');
+            // store quiz's score route
+            Route::post('/my-course/curriculum/store-quiz-score', 'Front\CustomerController@storeQuizScore')->name('customer.my_course.curriculum.store_quiz_score');
+            // lesson-content completion route
+            Route::post('/my-course/curriculum/content-completion', 'Front\CustomerController@contentCompletion')->name('customer.my_course.curriculum.content_completion');
+            // get course certificate route
+            Route::get('/my-course/{id}/get-certificate', 'Front\CustomerController@getCertificate')
+                ->name('customer.my_course.get_certificate');
+            // ->middleware(['certificate.status', 'routeAccess:Course Completion Certificate']);
+            // purchase history route
+            Route::get('/purchase-history', 'Front\CustomerController@purchaseHistory')->name('customer.purchase_history');
+        });
+
+    Route::group(['middleware' => ['routeAccess:Portfolio']], function () {
+        Route::get('/portfolios', 'Front\FrontendController@userPortfolios')->name('front.user.portfolios');
+        Route::get('/portfolio/{slug}/{id}', 'Front\FrontendController@userPortfolioDetail')->name('front.user.portfolio.detail');
+    });
+    Route::group(['middleware' => ['routeAccess:Career']], function () {
+        Route::get('/career', 'Front\FrontendController@userJobs')->name('front.user.jobs');
+        Route::get('/job/{slug}/{id}', 'Front\FrontendController@userJobDetail')->name('front.user.job.detail');
+    });
+    Route::post('/subscribe', 'User\SubscriberController@store')->name('front.user.subscriber');
+//     Route::get('/contact', 'Front\CustomerController@contact')->name('front.user.contact');
+    Route::post('/contact/message', 'Front\FrontendController@contactMessage')->name('front.contact.message')->middleware('Demo');
+    Route::group(['middleware' => ['routeAccess:Team']], function () {
+        Route::get('/team', 'Front\FrontendController@userTeam')->name('front.user.team');
+    });
+    Route::get('/faqs', 'Front\FrontendController@userFaqs')->name('front.user.faq');
+    // Ecommerce route
+    Route::group(['middleware' => ['routeAccess:Ecommerce']], function () {
+        Route::get('/shop', 'Front\ShopController@shop')->name('front.user.shop');
+        Route::get('/item/{slug}', 'Front\ShopController@adDetails')->name('front.user.item_details');
+        Route::post('product/review/submit', 'Front\ReviewController@reviewsubmit')->name('item.review.submit')->middleware('Demo');
+        Route::get('/add-to-cart/{id}', 'Front\ItemController@addToCart')->name('front.user.add.cart');
+        Route::get('/add-to-wishlist/{id}', 'Front\ItemController@addToWishlist')->name('front.user.add.wishlist');
+        Route::get('/cart', 'Front\ItemController@cart')->name('front.user.cart');
+        Route::get('/cart/item/remove/{uid}', 'Front\ItemController@cartitemremove')->name('front.cart.item.remove');
+        Route::post('/cart/update', 'Front\ItemController@updatecart')->name('front.user.cart.update');
+        Route::get('/customer-checkout', 'Front\ItemController@checkout')->name('front.user.checkout');
+        Route::post('/coupon', 'Front\ItemController@coupon')->name('front.coupon');
+        Route::get('/customer-success', 'Front\CustomerController@onlineSuccess')->name('customer.success.page');
+        // CHECKOUT SECTION
+        Route::get('/product/payment/return', 'Payment\product\PaymentController@payreturn')->name('product.payment.return');
+        Route::get('/product/payment/cancle', 'Payment\product\PaymentController@paycancle')->name('product.payment.cancle');
+        Route::get('/product/paypal/notify', 'Payment\product\PaypalController@notify')->name('product.paypal.notify');
+        Route::post('/item/payment/submit', 'Front\UsercheckoutController@checkout')->name('item.payment.submit')->middleware('Demo');
+        // paypal routes
+        Route::post('/product/paypal/submit', 'Payment\product\PaypalController@store')->name('product.paypal.submit');
+        // stripe routes
+        Route::post('/product/stripe/submit', 'Payment\product\StripeController@store')->name('product.stripe.submit');
+        Route::post('/product/offline/{gatewayid}/submit', 'Payment\product\OfflineController@store')->name('product.offline.submit');
+        //Flutterwave Routes
+        Route::post('/product/flutterwave/submit', 'Payment\product\FlutterWaveController@store')->name('product.flutterwave.submit');
+        Route::post('/product/flutterwave/notify', 'Payment\product\FlutterWaveController@notify')->name('product.flutterwave.notify');
+        Route::get('/product/flutterwave/notify', 'Payment\product\FlutterWaveController@success')->name('product.flutterwave.success');
+        //Paystack Routes
+        Route::post('/product/paystack/submit', 'Payment\product\PaystackController@store')->name('product.paystack.submit');
+        // RazorPay
+        Route::post('/product/razorpay/submit', 'Payment\product\RazorpayController@store')->name('product.razorpay.submit');
+        Route::post('/product/razorpay/notify', 'Payment\product\RazorpayController@notify')->name('product.razorpay.notify');
+        //Instamojo Routes
+        Route::post('/product/instamojo/submit', 'Payment\product\InstamojoController@store')->name('product.instamojo.submit');
+        Route::get('/product/instamojo/notify', 'Payment\product\InstamojoController@notify')->name('product.instamojo.notify');
+        //PayTM Routes
+        Route::post('/product/paytm/submit', 'Payment\product\PaytmController@store')->name('product.paytm.submit');
+        Route::post('/product/paytm/notify', 'Payment\product\PaytmController@notify')->name('product.paytm.notify');
+        //Mollie Routes
+        Route::post('/product/mollie/submit', 'Payment\product\MollieController@store')->name('product.mollie.submit');
+        Route::get('/product/mollie/notify', 'Payment\product\MollieController@notify')->name('product.mollie.notify');
+        // Mercado Pago
+        Route::post('/product/mercadopago/submit', 'Payment\product\MercadopagoController@store')->name('product.mercadopago.submit');
+        Route::post('/product/mercadopago/notify', 'Payment\product\MercadopagoController@notify')->name('product.mercadopago.notify');
+        // PayUmoney
+        Route::post('/product/payumoney/submit', 'Payment\product\PayumoneyController@store')->name('product.payumoney.submit');
+        Route::post('/product/payumoney/notify', 'Payment\product\PayumoneyController@notify')->name('product.payumoney.notify');
+        // CHECKOUT SECTION ENDS
+        Route::post('/payment/instructions', 'Front\CustomerController@paymentInstruction')->name('user.front.payment.instructions');
+    });
+
+    Route::group(['middleware' => ['routeAccess:Request a Quote', 'Demo']], function () {
+        Route::get('/quote', 'Front\FrontendController@quote')->name('front.user.quote');
+        Route::post('/sendquote', 'Front\FrontendController@sendquote')->name('front.user.sendquote');
+    });
+    Route::prefix('item-checkout')->group(function () {
+        Route::get('paypal/success', "User\Payment\PaypalController@successPayment")->name('customer.itemcheckout.paypal.success');
+        Route::get('paypal/cancel', "User\Payment\PaypalController@cancelPayment")->name('customer.itemcheckout.paypal.cancel');
+        Route::get('stripe/cancel', "User\Payment\StripeController@cancelPayment")->name('customer.itemcheckout.stripe.cancel');
+        Route::get('paystack/success', 'User\Payment\PaystackController@successPayment')->name('customer.itemcheckout.paystack.success');
+        Route::post('mercadopago/cancel', 'User\Payment\paymenMercadopagoController@cancelPayment')->name('customer.itemcheckout.mercadopago.cancel');
+        Route::post('mercadopago/success', 'User\Payment\MercadopagoController@successPayment')->name('customer.itemcheckout.mercadopago.success');
+        Route::post('razorpay/success', 'User\Payment\RazorpayController@successPayment')->name('customer.itemcheckout.razorpay.success');
+        Route::post('razorpay/cancel', 'User\Payment\RazorpayController@cancelPayment')->name('customer.itemcheckout.razorpay.cancel');
+        Route::get('instamojo/success', 'User\Payment\InstamojoController@successPayment')->name('customer.itemcheckout.instamojo.success');
+        Route::post('instamojo/cancel', 'User\Payment\InstamojoController@cancelPayment')->name('customer.itemcheckout.instamojo.cancel');
+        Route::post('flutterwave/success', 'User\Payment\FlutterWaveController@successPayment')->name('customer.itemcheckout.flutterwave.success');
+        Route::post('flutterwave/cancel', 'User\Payment\FlutterWaveController@cancelPayment')->name('customer.itemcheckout.flutterwave.cancel');
+
+        Route::get('/mollie/success', 'User\Payment\MollieController@successPayment')->name('customer.itemcheckout.mollie.success');
+        Route::post('mollie/cancel', 'User\Payment\MollieController@cancelPayment')->name('customer.itemcheckout.mollie.cancel');
+
+        Route::post('/phonepe/success', 'User\Payment\PhonePeController@successPayment')->name('customer.itemcheckout.phonepe.success');
+        Route::post('phonepe/cancel', 'User\Payment\PhonePeController@cancelPayment')->name('customer.itemcheckout.phonepe.cancel');
+
+        Route::get('/perfect_money/success', 'User\Payment\PerfectMoneyController@successPayment')->name('customer.itemcheckout.perfect_money.success');
+        Route::get('perfect_money/cancel', 'User\Payment\PerfectMoneyController@cancelPayment')->name('customer.itemcheckout.perfect_money.cancel');
+
+        Route::get('/xendit/success', 'User\Payment\XenditController@successPayment')->name('customer.itemcheckout.xendit.success');
+        Route::get('/yoco/success', 'User\Payment\YocoController@successPayment')->name('customer.itemcheckout.yoco.success');
+        Route::get('/toyyibpay/success', 'User\Payment\ToyyibpayController@successPayment')->name('customer.itemcheckout.toyyibpay.success');
+
+        Route::post('/paytabs/success', 'User\Payment\PaytabsController@successPayment')->name('customer.itemcheckout.paytabs.success');
+        Route::get('/midtrans/success', 'User\Payment\MidtransController@successPayment')->name('customer.itemcheckout.midtrans.success');
+        Route::post('/iyzico/success', 'User\Payment\IyzicoController@successPayment')->name('customer.itemcheckout.iyzico.success');
+
+
+        Route::get('anet/cancel', 'User\Payment\AuthorizenetController@cancelPayment')->name('customer.itemcheckout.anet.cancel');
+        Route::get('/offline/success', 'Front\UsercheckoutController@offlineSuccess')->name('customer.itemcheckout.offline.success');
+        Route::get('/trial/success', 'Front\CheckoutController@trialSuccess')->name('customer.itemcheckout.trial.success');
+        Route::post('paytm/payment-status', "User\Payment\PaytmController@paymentStatus")->name('customer.itemcheckout.paytm.status');
+    });
+    Route::get('/vcard/{id}', 'Front\FrontendController@vcard')->name('front.user.vcard');
+    Route::get('/vcard-import/{id}', 'Front\FrontendController@vcardImport')->name('front.user.vcardImport');
+    Route::get('/user/changelanguage', 'Front\FrontendController@changeUserLanguage')->name('changeUserLanguage');
+    // user logout attempt route
+    Route::get('/logout',  'Front\CustomerController@logoutSubmit')->name('customer.logout');
+    Route::group(['middleware' => ['routeAccess:Custom Page']], function () {
+        Route::get('/{slug}', 'Front\FrontendController@userCPage')->name('front.user.cpage');
+    });
+
+})->where('username', '(?!admin|user).*');
+
+
+Route::get('/debug-host-check', function() {
+    return response()->json([
+        'HTTP_HOST' => request()->getHost(),
+    ]);
+});
+
+// DEBUG - deletar depois
