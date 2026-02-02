@@ -320,7 +320,7 @@ $(function ($) {
     responsive: true,
     ordering: false,
     searching: false,
-    lengthChange: false,
+    lengthChange: true,
     language: {
       'paginate': {
         'previous': typeof previous !== 'undefined' ? previous : 'Previous',

@@ -54,10 +54,21 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>{{ __('Price') }} * (USD)</label>
-                                <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price') }}" required>
+                            <label>{{ __('Price') }} <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price') }}" required>
+                            <small class="text-muted">Digite sem pontos ou vírgulas. Ex: 1100000 para R$ 1.100.000</small>
                             </div>
                         </div>
+                          <div class="col-md-4">
+        <div class="form-group">
+            <label>{{ __('Currency') }} <span class="text-danger">*</span></label>
+            <select name="currency" class="form-control" required>
+                <option value="USD" {{ old('currency', 'USD') == 'USD' ? 'selected' : '' }}>USD - Dólar</option>
+                <option value="BRL" {{ old('currency') == 'BRL' ? 'selected' : '' }}>BRL - Real</option>
+                <option value="PYG" {{ old('currency') == 'PYG' ? 'selected' : '' }}>PYG - Guaraníes</option>
+            </select>
+        </div>
+    </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -150,32 +161,37 @@
                                 <input type="url" name="video_url" class="form-control" value="{{ old('video_url') }}" placeholder="https://youtube.com/...">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{ __('Featured Image') }}</label>
-                                <input type="file" name="featured_image" class="form-control" accept="image/*">
-                                <small class="text-muted">{{ __('Max size: 5MB') }}</small>
+                    <!-- Galeria de Imagens -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>📸 Galeria de Imagens</h4>
+                                    <div class="form-group">
+                                        <input type="file" name="gallery_images[]" class="form-control" accept="image/*" multiple>
+                                        <small class="form-text text-muted">Selecione múltiplas imagens</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{ __('Latitude') }}</label>
-                                <input type="text" name="latitude" class="form-control" value="{{ old('latitude') }}" placeholder="-25.2637">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{ __('Longitude') }}</label>
-                                <input type="text" name="longitude" class="form-control" value="{{ old('longitude') }}" placeholder="-57.5759">
+                    <!-- Imagem Principal -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>🖼️ Imagem Principal</h4>
+                                    <div class="form-group">
+                                        <input type="file" name="featured_image" class="form-control" accept="image/*">
+                                        <small class="text-muted">Max 5MB</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -252,8 +268,40 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.summernote').summernote({ height: 300, toolbar: [['heading', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']], ['style', ['bold', 'italic', 'underline']], ['fontsize', ['fontsize']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['insert', ['link']], ['view', ['fullscreen', 'codeview']]] });
-    $(document).on('click', '.delete-gallery-img', function(e) { e.preventDefault(); if(!confirm('Deletar?')) return; $.ajax({ url: '{{ route("admin.property.delete_image") }}', type: 'POST', data: { _token: '{{ csrf_token() }}', image_id: $(this).data('image-id') }, success: function() { location.reload(); } }); });
+    // Inicializar Summernote
+    $('.summernote').summernote({
+        height: 300,
+        toolbar: [
+            ['heading', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']],
+            ['style', ['bold', 'italic', 'underline']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link']],
+            ['view', ['fullscreen', 'codeview']]
+        ],
+        callbacks: {
+            onChange: function(contents, $editable) {
+                $(this).val(contents); // Atualizar textarea em tempo real
+            }
+        }
+    });
+    
+    // GARANTIR envio antes do submit
+    $('form').on('submit', function(e) {
+        $('.summernote').each(function() {
+            var content = $(this).summernote('code');
+            $(this).val(content);
+            console.log('Summernote content:', content); // Debug
+        });
+        return true;
+    });
+    
+    // Máscara para o preço (opcional)
+    $('input[name="price"]').on('input', function() {
+        // Remover tudo que não for número
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
 });
 </script>
 @endpush

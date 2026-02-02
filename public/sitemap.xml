@@ -105,6 +105,10 @@
     <priority>0.8</priority>
             </url>
     <url>
+    <loc>https://www.terrasnoparaguay.com/imoveis/apartment-for-sale-in-downtown-balneario-camboriu-straight-street-to-the-beach</loc>
+    <priority>0.8</priority>
+            </url>
+    <url>
     <loc>https://www.terrasnoparaguay.com/projetos/serenity-grand-residences</loc>
     <priority>0.8</priority>
             </url>
@@ -137,7 +141,11 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>https://www.terrasnoparaguay.com/projetos/casa-muito-boa-em-san-bernardinocasa-muito-boa-em-san-bernardino-pt</loc>
+    <loc>https://www.terrasnoparaguay.com/projetos/altea-de-gaulle-apartamentos-modernos-e-inteligentes-em-asuncion-paraguai-pt</loc>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>https://www.terrasnoparaguay.com/projetos/altea-del-sol-modern-apartments-for-living-or-investment-in-asuncion-en</loc>
     <priority>0.8</priority>
             </url>
 </urlset>

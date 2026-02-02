@@ -1,4 +1,5 @@
 <?php
+require __DIR__.'/properties.php';
 
 use App\Http\Controllers\User\HotelBooking\RoomController;
 use App\Http\Controllers\User\HotelBooking\RoomManagementController;
@@ -63,8 +64,8 @@ Route::domain($domain)->group(function () {
         Route::get('/contact', 'Front\FrontendController@contactView')->name('front.contact');
         Route::get('/faq', 'Front\FrontendController@faqs')->name('front.faq.view');
         Route::get('/blog', 'Front\FrontendController@blogs')->name('front.blogs');
-        Route::get('/imoveis', 'Front\FrontendController@allProperties')->name('front.properties');
-Route::get('/imoveis/{slug}', 'Front\FrontendController@propertyDetail')->name('front.property.detail');
+        
+
 Route::get('/projetos', 'Front\FrontendController@allProjects')->name('front.projects');
 Route::get('/projetos/{slug}', 'Front\FrontendController@projectDetail')->name('front.project.detail');
         Route::get('/pricing', 'Front\FrontendController@pricing')->name('front.pricing');
@@ -1589,11 +1590,17 @@ Route::get('/debug-host-check', function() {
     ]);
 });
 
-// Custom Page middleware
-Route::group(['middleware' => ['routeAccess:Custom Page']], function () {
-    Route::get('/{slug}', 'Front\FrontendController@userCPage')
-        ->name('front.user.cpage');
+Route::group(['middleware' => 'setlang'], function () {
+    // Listagem geral
+    Route::get('/imoveis', 'Front\FrontendController@allProperties')->name('front.properties');
+    
+    // Categorias SEO - URLs específicas
+    
+    // Detalhes de imóvel (genérica)
+    Route::get('/imoveis/{slug}', 'Front\FrontendController@propertyDetail')->name('front.property.detail');
 });
+
+// Custom Page middleware
 
 // Se tiver grupo de username (opcional)
 Route::group([], function() {
@@ -1611,3 +1618,5 @@ Route::get('/debug-host-check', function() {
 });
 });
 });
+
+

@@ -76,8 +76,8 @@
                                                     <input type="checkbox" class="bulk-check" data-val="{{ $project->id }}">
                                                 </td>
                                                 <td>
-                                                    @if($project->featured_img)
-                                                        <img src="{{ asset('assets/img/projects/' . $project->featured_img) }}" 
+                                                    @if($project->featured_image)
+                                                        <img src="{{ asset('assets/img/projects/' . $project->featured_image) }}" 
                                                              alt="project" width="80">
                                                     @endif
                                                 </td>
@@ -87,8 +87,8 @@
                                                         @csrf
                                                         <input type="hidden" name="project_id" value="{{ $project->id }}">
                                                         <select name="status" class="form-control form-control-sm" onchange="this.form.submit()">
-                                                            <option value="1" {{ $project->status == 1 ? 'selected' : '' }}>{{ __('Active') }}</option>
-                                                            <option value="0" {{ $project->status == 0 ? 'selected' : '' }}>{{ __('Inactive') }}</option>
+                                                            <option value="1" {{ $project->complete_status == 1 ? 'selected' : '' }}>{{ __('Active') }}</option>
+                                                            <option value="0" {{ $project->complete_status == 0 ? 'selected' : '' }}>{{ __('Inactive') }}</option>
                                                         </select>
                                                     </form>
                                                 </td>

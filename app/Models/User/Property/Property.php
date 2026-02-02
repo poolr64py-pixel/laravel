@@ -290,10 +290,19 @@ class Property extends Model
         return $this->state?->stateContent?->where('language_id', 179)->first()?->name ?? '';
     }
 
-public function getCountryNameAttribute()
+   public function getCountryNameAttribute()
 {
-    return $this->country?->countryContent?->where('language_id', 179)->first()?->name ?? '';
-}    
+    if (!$this->country) {
+        return '';
+    }
+    
+    // Usar contents (plural) com filtro, não countryContent (singular)
+    $lang_id = session('frontend_lang') == 'pt' ? 179 : (session('frontend_lang') == 'en' ? 176 : 178);
+    
+    return $this->country->contents()
+        ->where('language_id', $lang_id)
+        ->value('name') ?? '';
+}
     /**
      * Accessor: Get current content (first available)
      */

@@ -123,11 +123,15 @@ function scrollCarousel(direction) {
                             </div>
                             <div class="property-price">
                                 <h3 class="text-primary mb-0">
-    @if(($property->currency ?? 'USD') == 'PYG')
-        Gs. {{ number_format($property->price, 0, '.', '.') }}
-    @else
-        US$ {{ number_format($property->price, 0, ',', '.') }}
-    @endif
+                      @php
+    $currency = $property->currency ?? 'USD';
+    $price = match($currency) {
+        'BRL' => 'R$ ' . number_format($property->price, 2, ',', '.'),
+        'PYG' => 'Gs. ' . number_format($property->price, 0, '.', '.'),
+        default => 'US$ ' . number_format($property->price, 0, ',', '.')
+    };
+    @endphp
+    {{ $price }}
 </h3>
                             </div>
                         </div>
@@ -267,9 +271,11 @@ function scrollCarousel(direction) {
                         </div>
                     </div>
                            @php
-    $priceFormatted = ($property->currency ?? 'USD') == 'PYG' 
-        ? 'Gs. ' . number_format($property->price, 0, '.', '.') 
-        : 'US$ ' . number_format($property->price, 0, ',', '.');
+                        $priceFormatted = match($property->currency ?? 'USD') {
+        'BRL' => 'R$ ' . number_format($property->price, 2, ',', '.'),
+        'PYG' => 'Gs. ' . number_format($property->price, 0, '.', '.'),
+        default => 'US$ ' . number_format($property->price, 0, ',', '.')
+    };
 @endphp
                               <div class="share-card card shadow-sm">
     <div class="card-body">
@@ -351,11 +357,15 @@ function copyForIG() {
                                     </div>
                                     <div class="card-body">
                                         <h5 class="text-primary">
-    @if(($relatedProperty->currency ?? 'USD') == 'PYG')
-        Gs. {{ number_format($relatedProperty->price, 0, '.', '.') }}
-    @else
-        US$ {{ number_format($relatedProperty->price, 0, ',', '.') }}
-    @endif
+                                    @php
+    $relCurrency = $relatedProperty->currency ?? 'USD';
+    $relPrice = match($relCurrency) {
+        'BRL' => 'R$ ' . number_format($relatedProperty->price, 2, ',', '.'),
+        'PYG' => 'Gs. ' . number_format($relatedProperty->price, 0, '.', '.'),
+        default => 'US$ ' . number_format($relatedProperty->price, 0, ',', '.')
+    };
+    @endphp
+    {{ $relPrice }}
 </h5>
                                         <h6>
                                             <a href="{{ route('front.property.detail', $relatedProperty->current_content?->slug) }}" class="text-dark text-decoration-none">

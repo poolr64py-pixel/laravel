@@ -93,6 +93,7 @@ $(document).ready(function() {
 var imgupload = "{{ route('admin.summernote.upload') }}";
 </script>
 <script>console.log("jQuery carregado:", typeof jQuery);</script>
+@stack('scripts')
 </body>
 
 </html>

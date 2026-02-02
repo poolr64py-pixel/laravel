@@ -11,7 +11,7 @@
             <h2>{{ $content ? $content->title : 'Project' }}</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('front.home') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('front.projects') }}">Projetos</a></li>
                     <li class="breadcrumb-item active">{{ Str::limit($content ? $content->title : 'Project', 30) }}</li>
                 </ol>
@@ -24,38 +24,105 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="project-gallery mb-4">
-                    <div class="main-image mb-3">
-                        <a href="{{ asset('assets/img/projects/' . $project->featured_image) }}" data-lightbox="project-gallery">
-                            <img src="{{ asset('assets/img/projects/' . $project->featured_image) }}" 
-                                 alt="{{ $content ? $content->title : 'Project' }}" 
-                                 class="img-fluid w-100 rounded"
-                                 style="max-height: 500px; object-fit: cover; cursor: pointer;">
-                        </a>
+      <div class="project-gallery mb-4">
+    @if($project->sliderImages && $project->sliderImages->count() > 0)
+        <!-- Main Swiper Carousel -->
+        <div class="swiper project-swiper-main mb-3" style="border-radius: 10px; overflow: hidden;">
+            <div class="swiper-wrapper">
+                @foreach($project->sliderImages as $image)
+                    <div class="swiper-slide">
+                        <img src="{{ asset('assets/img/projects/' . $image->image) }}"
+                             alt="Gallery Image"
+                             class="w-100"
+                             style="max-height: 500px; object-fit: cover;">
                     </div>
-                    
-                    @if($project->sliderImages && $project->sliderImages->count() > 0)
-                        <div class="row g-2 mb-4">
-                            @foreach($project->sliderImages as $image)
-                                <div class="col-3">
-                                    <a href="{{ asset('assets/img/projects/slider/' . $image->image) }}" data-lightbox="project-gallery">
-                                        <img src="{{ asset('assets/img/projects/slider/' . $image->image) }}" 
-                                             class="img-fluid rounded"
-                                             style="height:120px;object-fit:cover;width:100%;cursor:pointer;">
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
+                @endforeach
+            </div>
+            <!-- Navigation buttons -->
+            <div class="swiper-button-next" style="color: #fff; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%;"></div>
+            <div class="swiper-button-prev" style="color: #fff; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%;"></div>
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
 
+        <!-- Thumbnail Swiper -->
+        <div class="swiper project-swiper-thumbs">
+            <div class="swiper-wrapper">
+                @foreach($project->sliderImages as $image)
+                    <div class="swiper-slide" style="cursor: pointer;">
+                        <img src="{{ asset('assets/img/projects/' . $image->image) }}"
+                             class="img-fluid rounded"
+                             style="height: 80px; object-fit: cover; width: 100%;">
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <style>
+            .project-swiper-thumbs .swiper-slide {
+                opacity: 0.5;
+                transition: opacity 0.3s;
+            }
+            .project-swiper-thumbs .swiper-slide-thumb-active {
+                opacity: 1;
+                border: 2px solid #007bff;
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Thumbnail swiper
+                var swiperThumbs = new Swiper('.project-swiper-thumbs', {
+                    spaceBetween: 10,
+                    slidesPerView: 4,
+                    freeMode: true,
+                    watchSlidesProgress: true,
+                    breakpoints: {
+                        320: { slidesPerView: 3 },
+                        768: { slidesPerView: 4 },
+                        1024: { slidesPerView: 5 }
+                    }
+                });
+
+                // Main swiper
+                var swiperMain = new Swiper('.project-swiper-main', {
+                    spaceBetween: 10,
+                    loop: true,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    thumbs: {
+                        swiper: swiperThumbs,
+                    },
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                });
+            });
+        </script>
+    @else
+        <!-- Fallback: featured image -->
+        <div class="main-image mb-3">
+            <img src="{{ asset('assets/img/projects/' . $project->featured_image) }}"
+                 alt="{{ $content ? $content->title : 'Project' }}"
+                 class="img-fluid w-100 rounded"
+                 style="max-height: 500px; object-fit: cover;">
+        </div>
+    @endif
+</div>
                 <div class="project-info mb-4 p-4 bg-white rounded shadow-sm">
                     <h2 class="mb-3">{{ $content ? $content->title : 'Project' }}</h2>
                     
                     <div class="project-description">
                         <h4 class="mb-3">Descrição</h4>
                         <div class="content">
-                            {!! nl2br(e($content ? $content->description : '')) !!}
+                            {!! $content ? $content->description : '' !!}
                         </div>
                     </div>
                 </div>
@@ -167,14 +234,14 @@
         </div>
     @endif
         <script>
-function sendWhatsApp(form) {
+   function sendWhatsApp(form) {
     const name = form.querySelector('input[name="name"]').value;
     const email = form.querySelector('input[name="email"]').value;
     const phone = form.querySelector('input[name="phone"]').value;
     const message = form.querySelector('textarea[name="message"]').value;
-    
-    const msg = `*Interesse em Projeto*\n\n*Nome:* ${name}\n*Email:* ${email}\n*Telefone:* ${phone}\n*Mensagem:* ${message}`;
-    
+    const title = document.querySelector('h2')?.textContent || 'Projeto';
+    const url = window.location.href;
+    const msg = `*Interesse em Projeto*\n\n*Projeto:* ${title}\n*Link:* ${url}\n\n*Nome:* ${name}\n*Email:* ${email}\n*Telefone:* ${phone}\n*Mensagem:* ${message}`;
     window.open(`https://wa.me/595994718400?text=${encodeURIComponent(msg)}`, '_blank');
 }
 </script>

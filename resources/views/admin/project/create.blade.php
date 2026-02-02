@@ -87,6 +87,43 @@
                     </div>
 
                     <div class="row">
+                    
+                    {{-- País, Estado e Cidade --}}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('Country') }} *</label>
+                                <select name="country_id" class="form-control" required>
+                                    <option value="">{{ __('Select Country') }}</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('State') }} *</label>
+                                <select name="state_id" class="form-control" required>
+                                    <option value="">{{ __('Select State') }}</option>
+                                    @foreach($states as $state)
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ __('City') }} *</label>
+                                <select name="city_id" class="form-control" required>
+                                    <option value="">{{ __('Select City') }}</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('Bedrooms') }}</label>
@@ -118,45 +155,13 @@
                                     @if(isset($categories))
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->categoryContent->first()->name ?? 'N/A' }}
+                                                {{ $category->name }}
                                             </option>
                                         @endforeach
                                     @endif
                                 </select>
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{ __('Country') }}</label>
-                                <select name="country_id" class="form-control">
-                                    <option value="">{{ __('Select Country') }}</option>
-                                    @if(isset($countries))
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
-                                                {{ $country->countryContent->first()->name ?? 'N/A' }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{ __('Video URL') }}</label>
-                                <input type="url" name="video_url" class="form-control" value="{{ old('video_url') }}" placeholder="https://youtube.com/...">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{ __('Featured Image') }}</label>
-                                <input type="file" name="featured_image" class="form-control" accept="image/*">
-                                <small class="text-muted">{{ __('Max size: 5MB') }}</small>
-                            </div>
                         </div>
                     </div>
 
@@ -175,7 +180,23 @@
                             </div>
                         </div>
                     </div>
-
+               {{-- IMAGENS --}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Featured Image') }} *</label>
+                                <input type="file" name="featured_image" class="form-control" accept="image/*" required>
+                                <small class="text-muted">Max: 5MB</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __('Gallery Images') }} ({{ __('Multiple') }})</label>
+                                <input type="file" name="gallery_images[]" class="form-control" accept="image/*" multiple>
+                                <small class="text-muted">Max: 5MB cada</small>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

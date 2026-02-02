@@ -1,0 +1,34 @@
+// Menu Mobile - Solução Simples e Segura
+document.addEventListener('DOMContentLoaded', function() {
+    // Só no mobile
+    if (window.innerWidth <= 991) {
+        console.log('Menu mobile ativado');
+        
+        // Encontrar o toggle de Imóveis
+        const toggles = document.querySelectorAll('.navbar-nav .nav-link.toggle');
+        
+        toggles.forEach(function(toggle) {
+            const text = toggle.textContent.toLowerCase();
+            
+            // Só configurar o de Imóveis
+            if (text.includes('imoveis') || text.includes('imóveis')) {
+                const dropdown = toggle.nextElementSibling;
+                
+                if (dropdown && dropdown.classList.contains('menu-dropdown')) {
+                    // Ao clicar, só alternar display
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        if (dropdown.style.display === 'block') {
+                            dropdown.style.display = 'none';
+                        } else {
+                            dropdown.style.display = 'block';
+                        }
+                    });
+                    
+                    console.log('Toggle Imóveis configurado');
+                }
+            }
+        });
+    }
+});

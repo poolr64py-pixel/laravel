@@ -389,6 +389,11 @@ if (file_exists($webpPath) && filesize($webpPath) > 0) {
 
 public function store(Request $request)
 {
+   \Log::info('🔥 STORE PROPERTY CHAMADO', [
+        'all_data' => $request->all(),
+        'has_featured_image' => $request->hasFile('featured_image'),
+        'has_gallery' => $request->hasFile('gallery_images'),
+    ]);
     // Validação completa
     $request->validate([
         'category_id' => 'nullable|exists:user_property_categories,id',
@@ -396,7 +401,7 @@ public function store(Request $request)
         'state_id' => 'nullable|exists:user_states,id',
         'city_id' => 'nullable|exists:user_cities,id',
         'price' => 'required|numeric|min:0',
-        'currency' => 'required|in:USD,PYG',
+        'currency' => 'required|in:USD,BRL,PYG',
         'purpose' => 'required|in:sale,rent',
         'type' => 'required|in:house,apartment,villa,office,land,commercial',
         'beds' => 'nullable|integer|min:0',
@@ -458,7 +463,7 @@ public function store(Request $request)
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('assets/img/property/slider-images'), $imageName);
              // Otimizar imagem automaticamente
-            $imagePath = public_path('assets/img/property/featureds/' . $imageName);
+            $imagePath = public_path('assets/img/property/slider-images/' . $imageName);
                   exec("convert '$imagePath' -quality 75 -resize '1200x800>' '$imagePath'");            
             DB::table('user_property_slider_images')->insert([
                 'property_id' => $property->id,

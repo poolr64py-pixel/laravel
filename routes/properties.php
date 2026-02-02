@@ -22,3 +22,11 @@ Route::group(['middleware' => 'setlang'], function () {
     // Detalhes de imóvel (ÚLTIMA - pega o resto)
     Route::get('/imoveis/{slug}', 'Front\FrontendController@propertyDetail')->name('front.property.detail');
 });
+
+// Aluguéis
+Route::group(['middleware' => 'setlang'], function () {
+    Route::get('/alugueis/casas-asuncion', [PropertySeoController::class, 'category'])->defaults('slug', 'alugueis-casas-asuncion');
+    Route::get('/alugueis/apartamentos-asuncion', [PropertySeoController::class, 'category'])->defaults('slug', 'alugueis-apartamentos-asuncion');
+    Route::get('/alugueis/casas-luque', [PropertySeoController::class, 'category'])->defaults('slug', 'alugueis-casas-luque');
+    Route::get('/alugueis/apartamentos-luque', [PropertySeoController::class, 'category'])->defaults('slug', 'alugueis-apartamentos-luque');
+});

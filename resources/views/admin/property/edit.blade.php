@@ -59,6 +59,7 @@
                                         <label>{{ __('Currency') }} <span class="text-danger">*</span></label>
                                         <select name="currency" class="form-control" required>
                                             <option value="USD" {{ ($property->currency ?? 'USD') == 'USD' ? 'selected' : '' }}>USD - Dólar</option>
+                                            <option value="BRL" {{ ($property->currency ?? 'USD') == 'BRL' ? 'selected' : '' }}>BRL - Real</option>
                                             <option value="PYG" {{ ($property->currency ?? 'USD') == 'PYG' ? 'selected' : '' }}>PYG - Guaraníes</option>
                                         </select>
                                     </div>
@@ -334,11 +335,20 @@
 <script>
 $(document).ready(function () {
 
-    $('.summernote').summernote({
+$('.summernote').summernote({
     height: 300,
+    toolbar: [
+        ['heading', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']],
+        ['style', ['bold', 'italic', 'underline']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['link']],
+        ['view', ['fullscreen', 'codeview']]
+    ],
     callbacks: {
-        onBlur: function() {
-            $(this).val($(this).summernote('code'));
+        onChange: function(contents, $editable) {
+            $(this).val(contents);
         }
     }
 });

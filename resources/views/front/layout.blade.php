@@ -292,6 +292,9 @@
         <!--End of Tawk.to Script-->
     @endif
 
+    <script>console.log("CARREGANDO MENU FIX...");</script>
+    <script src="{{ asset('assets/front/js/mobile-menu-fix.js') }}"></script>
+    <script src="{{ asset('assets/front/js/menu-mobile-simple.js') }}"></script>
 </body>
 
 </html>

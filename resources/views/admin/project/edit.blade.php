@@ -58,7 +58,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ __('Max Price') }} (USD)</label>
-                                <input type="number" step="0.01" name="max_price" class="form-control" value="{{ old('max_price', $project->max_price) }}">
+                                <input type="text" name="max_price" class="form-control" value="{{ old('max_price', $project->max_price) }}" pattern="[0-9.,]+" placeholder="Ex: 132997 ou 132997.00">
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,36 @@
                                 <small class="text-muted">{{ __('Leave empty to keep current image') }}</small>
                             </div>
                         </div>
-
+                                         
+                               {{-- GALERIA --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{ __('Gallery Images') }} ({{ __('Add More') }})</label>
+                                <input type="file" name="gallery_images[]" class="form-control" accept="image/*" multiple>
+                                <small class="text-muted">Max: 5MB cada</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {{-- GALERIA EXISTENTE --}}
+                    @if(isset($project->sliderImages) && count($project->sliderImages) > 0)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>{{ __('Current Gallery') }}</label>
+                            <div class="row">
+                                @foreach($project->sliderImages as $img)
+                                <div class="col-md-2 mb-3">
+                                    <img src="{{ asset('assets/img/projects/gallery/' . $img->image) }}" class="img-thumbnail" style="width: 100%;">
+                                    <button type="button" class="btn btn-danger btn-sm btn-block mt-1" onclick="deleteGalleryImage({{ $img->id }})">
+                                        <i class="fas fa-trash"></i> {{ __('Delete') }}
+                                    </button>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ __('Project Status') }}</label>
@@ -149,7 +178,7 @@
 
                                 <div class="form-group">
                                     <label>{{ __('Description') }} ({{ $lang->code }})</label>
-                                    <textarea name="description_{{ $lang->code }}" class="form-control" rows="5">{{ old('description_' . $lang->code, $content->description ?? '') }}</textarea>
+                                     <textarea name="description_{{ $lang->code }}" class="form-control summernote" rows="5">{{ old('description_' . $lang->code, $content->description ?? '') }}</textarea>
                                 </div>
 
                                 <div class="form-group">

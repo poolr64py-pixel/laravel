@@ -100,21 +100,40 @@
                                      @endif
                                  </ul>
                              </div>
-                             @php
-                                $symbol = $basicInfo->base_currency_symbol ?? '';
-                                $position = $basicInfo->base_currency_symbol_position; 
-                                $price = $propertyContent->price ? $propertyContent->price : ($keywords['Negotiable'] ?? __('Negotiable'));
-                            
-                                if (is_numeric($propertyContent->price)) {
-                                    $formattedPrice = $position === 'left' ? $symbol . $price : $price . $symbol;
-                                } else {
-                                    $formattedPrice = $price;
-                                }
-                             @endphp
-                             <div class="col-md-4">
-                                 <div class="product-price mb-10">
-                                     <span class="new-price">{{ $keywords['Price'] ?? __('Price') }}: {{ $formattedPrice }}</span>
-                                 </div>
+                               @php
+    // DEBUG - ver o que está disponível
+    \Log::info('🔍 Property Details Debug', [
+        'property_id' => $property->id ?? 'NULL',
+        'property_currency' => $property->currency ?? 'NULL',
+        'propertyContent_currency' => $propertyContent->currency ?? 'NULL'
+    ]);
+    
+    // Pegar currency DA PROPRIEDADE
+    $currency = $property->currency ?? 'USD';
+    
+    // Símbolos por moeda
+    $symbols = [
+        'USD' => 'US$ ',
+        'BRL' => 'R$ ',
+        'PYG' => 'Gs. '
+    ];
+    
+    $symbol = $symbols[$currency] ?? 'US$ ';
+    $price = $property->price ?? null;
+    
+    if (is_numeric($price)) {
+        if ($currency == 'PYG') {
+            $formattedPrice = $symbol . number_format($price, 0, ',', '.');
+        } else {
+            $formattedPrice = $symbol . number_format($price, 2, ',', '.');
+        }
+    } else {
+        $formattedPrice = $keywords['Negotiable'] ?? __('Negotiable');
+    }
+@endphp
+                               <div class="product-price mb-10">
+    <span class="new-price">{{ $keywords['Price'] ?? __('Price') }}: {{ $formattedPrice }}</span>
+</div>
                                  @if (!empty($agent))
                                      <a
                                          href="{{ safeRoute('frontend.agent.details', [ 'agentusername' => $agent->username]) }}">

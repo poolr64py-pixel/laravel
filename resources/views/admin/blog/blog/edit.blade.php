@@ -36,9 +36,22 @@ $(document).ready(function() {
         const form = $('#ajaxForm')[0];
 
         const formData = new FormData(form);
+        
+        // DEBUG: Mostrar todos os dados sendo enviados
+        console.log("=== DADOS DO FORMULÁRIO ===");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + " = " + pair[1]);
+        }
+        console.log("=========================");
 
         
 
+        // Debug: ver o que está sendo enviado
+        console.log("FormData contents:");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+        }
+        
         $.ajax({
 
             url: $(form).attr('action'),
@@ -203,9 +216,22 @@ $(document).ready(function() {
         const form = $('#ajaxForm')[0];
 
         const formData = new FormData(form);
+        
+        // DEBUG: Mostrar todos os dados sendo enviados
+        console.log("=== DADOS DO FORMULÁRIO ===");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + " = " + pair[1]);
+        }
+        console.log("=========================");
 
         
 
+        // Debug: ver o que está sendo enviado
+        console.log("FormData contents:");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+        }
+        
         $.ajax({
 
             url: $(form).attr('action'),
@@ -220,7 +246,25 @@ $(document).ready(function() {
 
             beforeSend: function() { $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Atualizando...'); },
 
-            success: function(res) { console.log("Resposta:", res); if(res == 'success') location.href = '{{ route("admin.blog.index", ["language" => request("language")]) }}'; else alert(res); },
+            success: function(res) { 
+                console.log("Resposta:", res); 
+                console.log("Tipo:", typeof res);
+                
+                if(typeof res === 'object') {
+                    console.log("Erros de validação:", res);
+                    let errorMsg = 'Erros de validação:\n';
+                    for(let field in res) {
+                        errorMsg += field + ': ' + res[field] + '\n';
+                    }
+                    alert(errorMsg);
+                    $('#submitBtn').prop('disabled', false).html('Atualizar');
+                } else if(res == 'success') {
+                    location.href = '{{ route("admin.blog.index", ["language" => request("language")]) }}';
+                } else {
+                    alert('Resposta inesperada: ' + res);
+                    $('#submitBtn').prop('disabled', false).html('Atualizar');
+                }
+            },
 
             error: function(xhr) { console.log("Erro:", xhr); alert('Erro: ' + xhr.status); $('#submitBtn').prop('disabled', false).html('Atualizar'); }
 

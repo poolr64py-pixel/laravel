@@ -57,4 +57,32 @@ return [
         'city_id' => 48,
         'category_slug' => 'quintas',
     ],
+    'alugueis-casas-asuncion' => [
+        'title' => 'Casas para Alugar em Asunción | Aluguel Paraguai',
+        'description' => 'Casas para alugar em Asunción. Aluguel de imóveis no Paraguai.',
+        'h1' => 'Casas para Alugar em Asunción',
+        'city_id' => 40,
+        'category_slug' => 'casas',
+    ],
+    'alugueis-apartamentos-asuncion' => [
+        'title' => 'Apartamentos para Alugar em Asunción | Paraguai',
+        'description' => 'Apartamentos para alugar em Asunción.',
+        'h1' => 'Apartamentos para Alugar em Asunción',
+        'city_id' => 40,
+        'category_slug' => 'apartamentos',
+    ],
+    'alugueis-casas-luque' => [
+        'title' => 'Casas para Alugar em Luque | Aluguel Paraguai',
+        'description' => 'Casas para alugar em Luque.',
+        'h1' => 'Casas para Alugar em Luque',
+        'city_id' => 49,
+        'category_slug' => 'casas',
+    ],
+    'alugueis-apartamentos-luque' => [
+        'title' => 'Apartamentos para Alugar em Luque | Paraguai',
+        'description' => 'Apartamentos para alugar em Luque.',
+        'h1' => 'Apartamentos para Alugar em Luque',
+        'city_id' => 49,
+        'category_slug' => 'apartamentos',
+    ],
 ];

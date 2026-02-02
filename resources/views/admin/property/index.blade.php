@@ -87,7 +87,16 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $content->title ?? 'N/A' }}</td>
-                                                <td>USD {{ number_format($property->price, 0) }}</td>
+                                                <td>
+    @php
+    $currency = $property->currency ?? 'USD';
+    echo match($currency) {
+        'BRL' => 'R$ ' . number_format($property->price, 2, ',', '.'),
+        'PYG' => 'Gs. ' . number_format($property->price, 0, '.', '.'),
+        default => 'US$ ' . number_format($property->price, 0, ',', '.')
+    };
+    @endphp
+</td>
                                                 <td>{{ ucfirst($property->type) }}</td>
                                                 <td>{{ ucfirst($property->purpose) }}</td>
                                                 <td>

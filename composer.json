@@ -17,6 +17,7 @@
         "barryvdh/laravel-dompdf": "^2.2",
         "baselrabia/myfatoorah-with-laravel": "^1.0",
         "cartalyst/stripe-laravel": "^v16.0.0",
+        "deeplcom/deepl-php": "^1.16",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "instamojo/instamojo-php": "^0.4.0",

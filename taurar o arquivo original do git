@@ -1,0 +1,101 @@
+[1mdiff --git a/app/Http/Controllers/Front/FrontendController.php b/app/Http/Controllers/Front/FrontendController.php[m
+[1mindex 3646686..4b9a00a 100755[m
+[1m--- a/app/Http/Controllers/Front/FrontendController.php[m
+[1m+++ b/app/Http/Controllers/Front/FrontendController.php[m
+[36m@@ -58,7 +58,7 @@[m [m$host = request()->getHost();[m
+ [m
+     $data['featured_properties'] = \App\Models\User\Property\Property::query()[m
+         ->where('user_id', 148)[m
+[31m-        ->where('status', 1)[m
+[32m+[m[41m        [m
+         ->where('featured', 1)[m
+         ->with([[m
+             'contents' => function($q) use ($lang_id) {[m
+[36m@@ -155,7 +155,7 @@[m [m$host = request()->getHost();[m
+ [m
+         $lang_id = $currentLang->id;[m
+        // ================== IMÓVEIS + BUSCA ==================[m
+[31m-$propertyQuery = \App\Models\Property::where('status', 1)[m
+[32m+[m[32m$propertyQuery = \App\Models\Property::query()[m
+     ->where('language_id', $lang_id);[m
+ [m
+ // 🔍 Busca por texto[m
+[36m@@ -320,7 +320,7 @@[m [m$data['featured_properties'] = $propertyQuery[m
+         $data['password'] = $request->password;[m
+         $data['status'] = $request->status;[m
+         $data['id'] = $request->id;[m
+[31m-        $online = PaymentGateway::query()->where('status', 1)->get();[m
+[32m+[m[32m        $online = PaymentGateway::query()->get();[m
+         $offline = OfflineGateway::where('status', 1)->get();[m
+         $data['offline'] = $offline;[m
+         $data['payment_methods'] = $online->merge($offline);[m
+[36m@@ -368,7 +368,7 @@[m [m$term = $request->search;[m
+ $category_id = $request->category;[m
+ [m
+         $data['bcats'] = Bcategory::where('language_id', $lang_id)[m
+[31m-            ->where('status', 1)[m
+[32m+[m[41m            [m
+             ->orderBy('serial_number', 'ASC')[m
+             ->get();[m
+ [m
+[36m@@ -397,7 +397,7 @@[m [m$category_id = $request->category;[m
+         $lang_id = $currentLang->id;[m
+ [m
+         $data['blog'] = Blog::findOrFail($id);[m
+[31m-        $data['bcats'] = Bcategory::where('status', 1)[m
+[32m+[m[32m        $data['bcats'] = Bcategory::query()[m
+             ->where('language_id', $lang_id)[m
+             ->orderBy('serial_number', 'ASC')[m
+             ->get();[m
+[36m@@ -477,7 +477,7 @@[m [m$category_id = $request->category;[m
+         $search = $request->input('search');[m
+ [m
+         $users = User::where('online_status', 1)[m
+[31m-            ->where('status', 1)[m
+[32m+[m[41m            [m
+             ->where('show_profile_on_admin_website', 1)[m
+             ->whereHas('memberships', function ($q) {[m
+                 $q->where('status', '=', 1)[m
+[36m@@ -654,7 +654,7 @@[m [mpublic function allProperties(Request $request)[m
+             $q->where('language_id', $lang_id);[m
+         }[m
+     ])[m
+[31m-    ->where('status', 1)[m
+[32m+[m[41m    [m
+     ->where('approve_status', 1);[m
+ [m
+     // Filtros[m
+[36m@@ -721,7 +721,8 @@[m [mpublic function allProperties(Request $request)[m
+      */[m
+     public function propertyDetail($slug)[m
+     {[m
+[31m-        if (session()->has('frontend_lang')) {[m
+[32m+[m[32m      \Log::info("PropertyDetail chamado com slug: " . $slug);[m[41m    [m
+[32m+[m[32m    if (session()->has('frontend_lang')) {[m
+             $currentLang = $this->selectLang(session()->get('frontend_lang'));[m
+         } else {[m
+             $currentLang = $this->defaultLang();[m
+[36m@@ -749,11 +750,11 @@[m [m$data['property'] = \App\Models\User\Property\Property::with([[m
+     }[m
+ ])->findOrFail($propertyContent->property_id);[m
+ [m
+[31m-// Verificar se pertence ao user 148[m
+[31m-if ($data['property']->user_id != 148) {[m
+[32m+[m[32m// Verificar se pertence aos users permitidos[m
+[32m+[m[32m$allowedUsers = [148, 149]; // Adicione os IDs permitidos[m
+[32m+[m[32mif (!in_array($data['property']->user_id, $allowedUsers)) {[m
+     abort(404);[m
+ }[m
+[31m-[m
+ // Carregar slider images manualmente[m
+ $data['sliderImages'] = \DB::table('user_property_slider_images')[m
+     ->where('property_id', $data['property']->id)[m
+[36m@@ -777,7 +778,7 @@[m [mif ($amenityIds->count() > 0) {[m
+ // Carregar imóveis relacionados[m
+ $data['related_properties'] = \App\Models\User\Property\Property::query()[m
+     ->where('user_id', 148)[m
+[31m-    ->where('status', 1)[m
+[32m+[m[41m    [m
+     ->where('id', '!=', $data['property']->id)[m
+     ->whereHas('contents', function($q) use ($lang_id) {[m
+         $q->where('language_id', $lang_id);[m

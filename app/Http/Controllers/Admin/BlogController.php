@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
+use App\Services\TranslationService;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
@@ -77,6 +79,7 @@ class BlogController extends Controller
         $input['slug'] = $slug;
         
         if ($request->hasFile('image')) {
+            $img = $request->file('image');
             $filename = time() . '.' . $img->getClientOriginalExtension();
             $request->file('image')->move(public_path('assets/front/img/blogs/'), $filename);
             // Converter para WebP
@@ -84,11 +87,16 @@ class BlogController extends Controller
             $webpFilename = time() . ".webp";
             $webpPath = public_path("assets/front/img/blogs/" . $webpFilename);
             
-            $ext = strtolower($img->getClientOriginalExtension());
-            if ($ext == "jpg" || $ext == "jpeg") {
+            // Detectar tipo real do arquivo (não confiar apenas na extensão)
+            $imageInfo = getimagesize($sourcePath);
+            $mimeType = $imageInfo['mime'] ?? null;
+            
+            if ($mimeType == 'image/jpeg') {
                 $image = imagecreatefromjpeg($sourcePath);
-            } elseif ($ext == "png") {
+            } elseif ($mimeType == 'image/png') {
                 $image = imagecreatefrompng($sourcePath);
+            } elseif ($mimeType == 'image/gif') {
+                $image = imagecreatefromgif($sourcePath);
             }
             
             if (isset($image)) {
@@ -103,9 +111,17 @@ class BlogController extends Controller
         $input['content'] = Purifier::clean($request->content);
         unset($input['image']);
         
-        $blog = new Blog;
+                $blog = new Blog;
         $blog->create($input);
         
+        // AUTO-TRADUÇÃO: Criar versões em outros idiomas
+        try {
+            $this->autoTranslateBlog($blog);
+        } catch (\Exception $e) {
+            \Log::error('Auto-translation failed: ' . $e->getMessage());
+        }
+        
+        return redirect()->route('admin.blog.index', ['language' => $request->language])->with('success', __('Added successfully!'));
         return redirect()->route('admin.blog.index', ['language' => $request->language])->with('success', __('Added successfully!'));
     }
 
@@ -117,6 +133,10 @@ class BlogController extends Controller
         $allowedExts = array('jpg', 'png', 'jpeg', 'webp');
         $slug = make_slug($request->title);
         $blog = Blog::findOrFail($request->blog_id);
+        
+        // DEBUG: Ver o que está sendo enviado
+        \Log::info("Update Request Data:", $request->all());
+        \Log::info("Category value:", ["category" => $request->category]);
         
         $rules = [
             'title' => 'required|max:255',
@@ -145,6 +165,7 @@ class BlogController extends Controller
         $input['slug'] = $slug;
         
         if ($request->hasFile('image')) {
+            $img = $request->file('image');
             $filename = time() . '.' . $img->getClientOriginalExtension();
             $request->file('image')->move(public_path('assets/front/img/blogs/'), $filename);
             // Converter para WebP
@@ -152,11 +173,16 @@ class BlogController extends Controller
             $webpFilename = time() . ".webp";
             $webpPath = public_path("assets/front/img/blogs/" . $webpFilename);
             
-            $ext = strtolower($img->getClientOriginalExtension());
-            if ($ext == "jpg" || $ext == "jpeg") {
+            // Detectar tipo real do arquivo (não confiar apenas na extensão)
+            $imageInfo = getimagesize($sourcePath);
+            $mimeType = $imageInfo['mime'] ?? null;
+            
+            if ($mimeType == 'image/jpeg') {
                 $image = imagecreatefromjpeg($sourcePath);
-            } elseif ($ext == "png") {
+            } elseif ($mimeType == 'image/png') {
                 $image = imagecreatefrompng($sourcePath);
+            } elseif ($mimeType == 'image/gif') {
+                $image = imagecreatefromgif($sourcePath);
             }
             
             if (isset($image)) {
@@ -173,6 +199,16 @@ class BlogController extends Controller
        $input['content'] = Purifier::clean($request->content);
         unset($input['image']);
         $blog->update($input);
+        
+        // AUTO-TRADUÇÃO: Atualizar traduções existentes (em background)
+        try {
+            // Recarregar blog para pegar dados atualizados
+            $blog->refresh();
+            $this->updateTranslations($blog);
+        } catch (\Exception $e) {
+            \Log::error('Auto-translation update failed: ' . $e->getMessage());
+        }
+        
         Session::flash('success', __('Updated successfully!'));
         return "success";
     }
@@ -326,5 +362,168 @@ public function autoTranslate(Request $request)
         
         $data['bcats'] = Bcategory::where('language_id', $lang->id)->get();
         return view('admin.blog.blog.create', $data);
+    }
+    /**
+     * Traduzir blog automaticamente para outros idiomas
+     */
+    protected function autoTranslateBlog($sourceBlog)
+    {
+        $translator = new TranslationService();
+        
+        // Pegar idioma do blog original
+        $sourceLang = Language::find($sourceBlog->language_id);
+        
+        if (!$sourceLang || $sourceLang->code !== 'pt') {
+            return; // Só traduz se o original for em português
+        }
+        
+        // Idiomas de destino
+        $targetLangs = ['en', 'es'];
+        
+        foreach ($targetLangs as $langCode) {
+            $targetLang = Language::where('code', $langCode)->first();
+            
+            if (!$targetLang) {
+                continue;
+            }
+            
+            // Verificar se já existe tradução
+            $exists = Blog::where('language_id', $targetLang->id)
+                ->where('slug', $sourceBlog->slug . '-' . $langCode)
+                ->exists();
+                
+            if ($exists) {
+                continue;
+            }
+            
+            // Traduzir conteúdo
+            $translated = $translator->translateBlog($sourceBlog, $langCode);
+            
+            // Criar novo blog traduzido
+            // Pegar categoria equivalente no idioma de destino
+            $sourceCat = Bcategory::find($sourceBlog->bcategory_id);
+            $targetCat = Bcategory::where("language_id", $targetLang->id)
+                ->where("name", $sourceCat->name)
+                ->first();
+            
+            if (!$targetCat) {
+                // Se não existe, criar categoria no idioma de destino
+                $targetCat = Bcategory::create([
+                    "language_id" => $targetLang->id,
+                    "name" => $sourceCat->name,
+                    "status" => $sourceCat->status,
+                    "serial_number" => $sourceCat->serial_number,
+                ]);
+            }
+            
+            $newBlog = new Blog();
+            $newBlog->language_id = $targetLang->id;
+            $newBlog->bcategory_id = $targetCat->id;
+            $newBlog->title = $translated['title'];
+            $newBlog->slug = $sourceBlog->slug . '-' . $langCode;
+            $newBlog->content = $translated['content'];
+            $newBlog->main_image = $sourceBlog->main_image;
+            $newBlog->serial_number = $sourceBlog->serial_number;
+            $newBlog->meta_keywords = $translated['meta_keywords'];
+            $newBlog->meta_description = $translated['meta_description'];
+            $newBlog->save();
+            
+            \Log::info("Blog #{$sourceBlog->id} auto-translated to {$langCode} (#{$newBlog->id})");
+        }
+    }
+    /**
+     * Atualizar traduções existentes quando o blog original é editado
+     */
+    protected function updateTranslations($sourceBlog)
+    {
+        $translator = new TranslationService();
+        
+        // Pegar idioma do blog original
+        $sourceLang = Language::find($sourceBlog->language_id);
+        
+        if (!$sourceLang || $sourceLang->code !== 'pt') {
+            return; // Só atualiza traduções se o original for em português
+        }
+        
+        // Idiomas de destino
+        $targetLangs = ['en', 'es'];
+        
+        foreach ($targetLangs as $langCode) {
+            $targetLang = Language::where('code', $langCode)->first();
+            
+            if (!$targetLang) {
+                continue;
+            }
+            
+            // Buscar tradução existente pelo slug base
+            $slugBase = preg_replace('/-pt$/', '', $sourceBlog->slug);
+            $translatedBlog = Blog::where('language_id', $targetLang->id)
+                ->where('slug', 'like', $slugBase . '%')
+                ->first();
+            
+            if (!$translatedBlog) {
+                // Se não existe, criar nova tradução
+                $translated = $translator->translateBlog($sourceBlog, $langCode);
+                
+                // Pegar categoria equivalente no idioma de destino
+                $sourceCat = Bcategory::find($sourceBlog->bcategory_id);
+                $targetCat = Bcategory::where("language_id", $targetLang->id)
+                    ->where("name", $sourceCat->name)
+                    ->first();
+                
+                if (!$targetCat) {
+                    // Se não existe, criar categoria no idioma de destino
+                    $targetCat = Bcategory::create([
+                        "language_id" => $targetLang->id,
+                        "name" => $sourceCat->name,
+                        "status" => $sourceCat->status,
+                        "serial_number" => $sourceCat->serial_number,
+                    ]);
+                }
+                
+                $newBlog = new Blog();
+                $newBlog->language_id = $targetLang->id;
+                $newBlog->bcategory_id = $targetCat->id;
+                $newBlog->title = $translated['title'];
+                $newBlog->slug = $slugBase . '-' . $langCode;
+                $newBlog->content = $translated['content'];
+                $newBlog->main_image = $sourceBlog->main_image;
+                $newBlog->serial_number = $sourceBlog->serial_number;
+                $newBlog->meta_keywords = $translated['meta_keywords'];
+                $newBlog->meta_description = $translated['meta_description'];
+                $newBlog->save();
+                
+                \Log::info("Created translation for blog #{$sourceBlog->id} in {$langCode} (#{$newBlog->id})");
+            } else {
+                // Atualizar tradução existente
+                $translated = $translator->translateBlog($sourceBlog, $langCode);
+                
+                // Pegar categoria equivalente no idioma de destino
+                $sourceCat = Bcategory::find($sourceBlog->bcategory_id);
+                $targetCat = Bcategory::where("language_id", $targetLang->id)
+                    ->where("name", $sourceCat->name)
+                    ->first();
+                
+                if (!$targetCat) {
+                    $targetCat = Bcategory::create([
+                        "language_id" => $targetLang->id,
+                        "name" => $sourceCat->name,
+                        "status" => $sourceCat->status,
+                        "serial_number" => $sourceCat->serial_number,
+                    ]);
+                }
+                
+                $translatedBlog->title = $translated['title'];
+                $translatedBlog->content = $translated['content'];
+                $translatedBlog->bcategory_id = $targetCat->id;
+                $translatedBlog->main_image = $sourceBlog->main_image;
+                $translatedBlog->serial_number = $sourceBlog->serial_number;
+                $translatedBlog->meta_keywords = $translated['meta_keywords'];
+                $translatedBlog->meta_description = $translated['meta_description'];
+                $translatedBlog->save();
+                
+                \Log::info("Updated translation for blog #{$sourceBlog->id} in {$langCode} (#{$translatedBlog->id})");
+            }
+        }
     }
 }
