@@ -1920,6 +1920,9 @@ body.mobile-menu-active {
 
 .template-area .card .card-image img {
   width: 100%;
+  height: 400px;
+  object-fit: cover;
+  object-position: center;
   transition: transform 10s ease-out;
 }
 
@@ -4287,4 +4290,130 @@ body.mobile-menu-active {
 }
 .header-area .logo img {
   opacity: 1 !important;
+}
+
+/* Corrigir tamanho da imagem na página de detalhes do blog */
+.blog-details-area .item-single .image .lazy-container {
+  width: 100%;
+  min-height: 450px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-details-area .item-single .image .lazy-container img {
+  width: 100%;
+  height: auto;
+  min-height: 450px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Fix: Menu dropdown deve começar escondido */
+.navbar-nav .menu-dropdown {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-width: 220px;
+    z-index: 999;
+}
+
+.navbar-nav .nav-item:hover .menu-dropdown {
+    display: block;
+}
+
+/* Para mobile */
+@media (max-width: 991px) {
+    .navbar-nav .menu-dropdown {
+        position: relative;
+        box-shadow: none;
+        padding-left: 15px;
+    }
+}
+
+/* === FIX MENU MOBILE - FORÇAR ABERTO === */
+@media (max-width: 991px) {
+    /* Quando o toggle tem a classe 'active', forçar dropdown aberto */
+    .navbar-nav .nav-item.active .menu-dropdown {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        max-height: 1000px !important;
+        overflow: visible !important;
+    }
+    
+    /* Adicionar padding para melhor clique */
+    .navbar-nav .menu-dropdown a {
+        padding: 12px 20px !important;
+        display: block;
+        min-height: 48px;
+    }
+    
+    /* Espaçamento entre itens */
+    .navbar-nav .menu-dropdown li {
+        margin: 0 !important;
+    }
+}
+
+/* Menu Dropdown - Força visibilidade */
+.navbar-nav .menu-dropdown {
+    display: none;
+}
+
+.navbar-nav .menu-dropdown.open {
+    display: block !important;
+}
+
+@media (max-width: 991px) {
+    .navbar-nav .menu-dropdown a {
+        padding: 12px 20px;
+        display: block;
+    }
+}
+
+/* === FORÇA MENU MOBILE APARECER === */
+@media (max-width: 991px) {
+    .navbar-nav .menu-dropdown[style*="display: block"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    .navbar-nav .menu-dropdown[style*="display: block"] li {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .navbar-nav .menu-dropdown[style*="display: block"] a {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        padding: 10px 15px !important;
+    }
+}
+
+/* Menu Mobile - Força Visibilidade */
+@media (max-width: 991px) {
+    .navbar-nav .menu-dropdown[style*="display: block"] {
+        display: block !important;
+        position: relative !important;
+        background: white;
+        padding: 10px 0;
+    }
+    
+    .navbar-nav .menu-dropdown a {
+        padding: 10px 20px !important;
+        display: block !important;
+    }
 }
