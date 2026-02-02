@@ -1,101 +1,56 @@
-/**
- * Menu Mobile - Solução Profissional
- * Funciona para qualquer dropdown no menu
- */
+// Menu Mobile - Versão Ultra Simples
 (function() {
     'use strict';
     
-    function initMobileMenu() {
-        const isMobile = window.innerWidth <= 991;
+    console.log('Menu mobile v7 - carregado');
+    
+    // Esperar tudo carregar
+    window.addEventListener('load', function() {
         
-        if (!isMobile) return;
+        if (window.innerWidth > 991) {
+            console.log('Desktop - não fazer nada');
+            return;
+        }
         
-        const menuToggles = document.querySelectorAll('.navbar-nav .nav-link.toggle');
+        console.log('Mobile detectado');
         
-        menuToggles.forEach(function(toggle) {
-            const parentItem = toggle.closest('.nav-item');
-            const dropdown = parentItem.querySelector('.menu-dropdown');
+        // Pegar TODOS os links com classe .toggle
+        const toggles = document.querySelectorAll('.navbar-nav .toggle');
+        console.log('Toggles:', toggles.length);
+        
+        toggles.forEach(function(toggle, i) {
+            const dropdown = toggle.nextElementSibling;
             
-            if (!dropdown) return;
+            if (!dropdown || !dropdown.classList.contains('menu-dropdown')) {
+                console.log('Toggle', i, 'sem dropdown');
+                return;
+            }
             
-            // Remover eventos anteriores (clonar)
-            const newToggle = toggle.cloneNode(true);
-            toggle.parentNode.replaceChild(newToggle, toggle);
+            console.log('Toggle', i, 'configurado:', toggle.textContent.trim());
             
-            // Adicionar evento de click
-            newToggle.addEventListener('click', function(e) {
+            // SEM CLONAR - apenas adicionar evento
+            toggle.onclick = function(e) {
+                console.log('CLICK em:', toggle.textContent.trim());
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
                 
-                const icon = this.querySelector('i');
-                const isOpen = dropdown.classList.contains('open');
-                
-                // Fechar outros dropdowns
-                document.querySelectorAll('.menu-dropdown.open').forEach(function(d) {
-                    if (d !== dropdown) {
-                        d.classList.remove('open');
-                        d.style.display = 'none';
-                    }
-                });
-                
-                // Resetar ícones
-                document.querySelectorAll('.navbar-nav .toggle i').forEach(function(i) {
-                    if (i !== icon) {
-                        i.classList.remove('fa-minus');
-                        i.classList.add('fa-plus');
-                    }
-                });
-                
-                // Toggle este dropdown
-                if (isOpen) {
-                    dropdown.classList.remove('open');
+                // Toggle simples
+                if (dropdown.style.display === 'block') {
+                    console.log('Fechando');
                     dropdown.style.display = 'none';
-                    if (icon) {
-                        icon.classList.remove('fa-minus');
-                        icon.classList.add('fa-plus');
-                    }
                 } else {
-                    dropdown.classList.add('open');
+                    console.log('Abrindo');
+                    // Fechar outros
+                    document.querySelectorAll('.menu-dropdown').forEach(d => d.style.display = 'none');
+                    // Abrir este
                     dropdown.style.display = 'block';
-                    if (icon) {
-                        icon.classList.remove('fa-plus');
-                        icon.classList.add('fa-minus');
-                    }
                 }
-            });
-            
-            // Impedir que cliques dentro do dropdown o fechem
-            dropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+                
+                return false;
+            };
         });
         
-        // Fechar dropdown ao clicar fora do menu
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.navbar-nav')) {
-                document.querySelectorAll('.menu-dropdown.open').forEach(function(d) {
-                    d.classList.remove('open');
-                    d.style.display = 'none';
-                });
-                document.querySelectorAll('.navbar-nav .toggle i').forEach(function(i) {
-                    i.classList.remove('fa-minus');
-                    i.classList.add('fa-plus');
-                });
-            }
-        });
-    }
-    
-    // Inicializar quando DOM carregar
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initMobileMenu);
-    } else {
-        initMobileMenu();
-    }
-    
-    // Reinicializar ao redimensionar
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(initMobileMenu, 250);
+        console.log('Configuração OK');
     });
 })();
