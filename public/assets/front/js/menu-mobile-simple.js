@@ -1,64 +1,87 @@
-// Menu Mobile - Versão Final Funcional
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Menu mobile iniciando...');
+// Menu Mobile - FORÇAR ABERTO
+(function() {
+    'use strict';
     
-    // Só no mobile
     if (window.innerWidth > 991) return;
     
-    console.log('Mobile confirmado');
+    console.log('🔧 Mobile menu anti-close');
     
-    // Esperar 500ms para garantir que tudo carregou
-    setTimeout(function() {
+    window.addEventListener('load', function() {
         
-        const toggles = document.querySelectorAll('.navbar-nav .nav-link.toggle');
-        console.log('Toggles encontrados:', toggles.length);
-        
-        toggles.forEach(function(toggle) {
-            const parent = toggle.parentElement;
-            const dropdown = parent.querySelector('.menu-dropdown');
+        setTimeout(function() {
             
-            if (!dropdown) return;
+            const toggles = document.querySelectorAll('.navbar-nav .nav-link.toggle');
+            console.log('Toggles:', toggles.length);
             
-            console.log('Configurando:', toggle.textContent.trim());
-            
-            // Forçar estado inicial fechado
-            dropdown.style.display = 'none';
-            
-            // Remover TODOS os eventos antigos
-            const newToggle = toggle.cloneNode(true);
-            toggle.parentNode.replaceChild(newToggle, toggle);
-            
-            // Adicionar evento NO CAPTURE (antes de outros)
-            newToggle.addEventListener('touchstart', handleClick, true);
-            newToggle.addEventListener('click', handleClick, true);
-            
-            function handleClick(e) {
-                console.log('>>> CLICK:', newToggle.textContent.trim());
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
+            toggles.forEach(function(toggle, idx) {
                 
-                const isOpen = dropdown.style.display === 'block';
-                console.log('Estava aberto?', isOpen);
+                const dropdown = toggle.nextElementSibling;
+                if (!dropdown || !dropdown.classList.contains('menu-dropdown')) return;
                 
-                if (isOpen) {
-                    dropdown.style.display = 'none';
-                    console.log('Fechou');
-                } else {
+                console.log('Config toggle', idx);
+                
+                // Forçar fechado inicial
+                dropdown.style.display = 'none';
+                dropdown.dataset.menuIndex = idx;
+                
+                // Remover TODOS os eventos
+                const newToggle = toggle.cloneNode(true);
+                toggle.replaceWith(newToggle);
+                
+                // Clonar dropdown também
+                const newDropdown = dropdown.cloneNode(true);
+                dropdown.replaceWith(newDropdown);
+                
+                // Variável de estado
+                let menuAberto = false;
+                
+                // Adicionar evento NO CAPTURE
+                newToggle.onclick = function(e) {
+                    console.log('>>> CLICK menu', idx, 'aberto?', menuAberto);
+                    
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    
+                    if (menuAberto) {
+                        console.log('Já aberto, ignorando');
+                        return false;
+                    }
+                    
                     // Fechar TODOS
                     document.querySelectorAll('.menu-dropdown').forEach(d => {
                         d.style.display = 'none';
                     });
+                    
                     // Abrir ESTE
-                    dropdown.style.display = 'block';
-                    console.log('Abriu!');
-                }
+                    newDropdown.style.display = 'block';
+                    menuAberto = true;
+                    
+                    console.log('✅ Abriu menu', idx);
+                    
+                    // NUNCA FECHAR - só muda quando clica em outro
+                    
+                    return false;
+                };
                 
-                return false;
-            }
-        });
+                // Bloquear propagação no dropdown
+                newDropdown.onclick = function(e) {
+                    e.stopPropagation();
+                };
+                
+            });
+            
+            // Bloquear clicks no document
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.navbar-nav .menu-dropdown')) {
+                    e.stopPropagation();
+                }
+            }, true);
+            
+            console.log('✅ Mobile menu configurado');
+            
+        }, 1000);
         
-        console.log('Menu mobile pronto!');
-        
-    }, 500);
-});
+    });
+    
+})();
