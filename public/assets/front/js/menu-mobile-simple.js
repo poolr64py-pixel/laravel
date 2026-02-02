@@ -1,56 +1,64 @@
-// Menu Mobile - Versão Ultra Simples
-(function() {
-    'use strict';
+// Menu Mobile - Versão Final Funcional
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Menu mobile iniciando...');
     
-    console.log('Menu mobile v7 - carregado');
+    // Só no mobile
+    if (window.innerWidth > 991) return;
     
-    // Esperar tudo carregar
-    window.addEventListener('load', function() {
+    console.log('Mobile confirmado');
+    
+    // Esperar 500ms para garantir que tudo carregou
+    setTimeout(function() {
         
-        if (window.innerWidth > 991) {
-            console.log('Desktop - não fazer nada');
-            return;
-        }
+        const toggles = document.querySelectorAll('.navbar-nav .nav-link.toggle');
+        console.log('Toggles encontrados:', toggles.length);
         
-        console.log('Mobile detectado');
-        
-        // Pegar TODOS os links com classe .toggle
-        const toggles = document.querySelectorAll('.navbar-nav .toggle');
-        console.log('Toggles:', toggles.length);
-        
-        toggles.forEach(function(toggle, i) {
-            const dropdown = toggle.nextElementSibling;
+        toggles.forEach(function(toggle) {
+            const parent = toggle.parentElement;
+            const dropdown = parent.querySelector('.menu-dropdown');
             
-            if (!dropdown || !dropdown.classList.contains('menu-dropdown')) {
-                console.log('Toggle', i, 'sem dropdown');
-                return;
-            }
+            if (!dropdown) return;
             
-            console.log('Toggle', i, 'configurado:', toggle.textContent.trim());
+            console.log('Configurando:', toggle.textContent.trim());
             
-            // SEM CLONAR - apenas adicionar evento
-            toggle.onclick = function(e) {
-                console.log('CLICK em:', toggle.textContent.trim());
+            // Forçar estado inicial fechado
+            dropdown.style.display = 'none';
+            
+            // Remover TODOS os eventos antigos
+            const newToggle = toggle.cloneNode(true);
+            toggle.parentNode.replaceChild(newToggle, toggle);
+            
+            // Adicionar evento NO CAPTURE (antes de outros)
+            newToggle.addEventListener('touchstart', handleClick, true);
+            newToggle.addEventListener('click', handleClick, true);
+            
+            function handleClick(e) {
+                console.log('>>> CLICK:', newToggle.textContent.trim());
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 
-                // Toggle simples
-                if (dropdown.style.display === 'block') {
-                    console.log('Fechando');
+                const isOpen = dropdown.style.display === 'block';
+                console.log('Estava aberto?', isOpen);
+                
+                if (isOpen) {
                     dropdown.style.display = 'none';
+                    console.log('Fechou');
                 } else {
-                    console.log('Abrindo');
-                    // Fechar outros
-                    document.querySelectorAll('.menu-dropdown').forEach(d => d.style.display = 'none');
-                    // Abrir este
+                    // Fechar TODOS
+                    document.querySelectorAll('.menu-dropdown').forEach(d => {
+                        d.style.display = 'none';
+                    });
+                    // Abrir ESTE
                     dropdown.style.display = 'block';
+                    console.log('Abriu!');
                 }
                 
                 return false;
-            };
+            }
         });
         
-        console.log('Configuração OK');
-    });
-})();
+        console.log('Menu mobile pronto!');
+        
+    }, 500);
+});
