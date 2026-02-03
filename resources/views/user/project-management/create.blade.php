@@ -226,15 +226,6 @@
                                             <label>{{ __('Longitude') }} <span
                                                     class="text-danger">{{ '*' }}</span> </label>
                                             <input type="text" class="form-control" name="longitude"
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{ __("Tour Virtual URL") }} <span class="text-muted">({{ __("opcional") }})</span></label>
-                                            <input type="url" class="form-control" name="virtual_tour_url"
-                                                   placeholder="https://exemplo.com/tour"
-                                                   value="{{ old("virtual_tour_url") }}">
-                                            <small class="form-text text-muted">{{ __("Cole a URL completa do tour virtual (ex: Matterport, Kuula, etc)") }}</small>
-                                        </div>
                                                 placeholder="{{ __('Enter Longitude') }}">
 
                                             <p>
@@ -243,6 +234,16 @@
                                                 </span> <a href="https://tinyurl.com/2hjtmtvc "> <i class="fas fa-eye">
                                                     </i> {{ __('See Example') }} </a>
                                             </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ __("Tour Virtual URL") }} <span class="text-muted">({{ __("opcional") }})</span></label>
+                                            <input type="url" class="form-control" name="virtual_tour_url"
+                                                   placeholder="https://exemplo.com/tour"
+                                                   value="{{ old("virtual_tour_url") }}">
+                                            <small class="form-text text-muted">{{ __("Cole a URL completa do tour virtual (ex: Matterport, Kuula, etc)") }}</small>
                                         </div>
                                     </div>
 

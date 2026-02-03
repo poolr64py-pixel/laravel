@@ -77,6 +77,15 @@
                                 <input type="text" name="longitude" class="form-control" value="{{ old('longitude', $project->longitude) }}">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ __("Tour Virtual URL") }} <span class="text-muted">({{ __("opcional") }})</span></label>
+                                <input type="url" class="form-control" name="virtual_tour_url"
+                                       placeholder="https://exemplo.com/tour"
+                                       value="{{ old('virtual_tour_url', $project->virtual_tour_url) }}">
+                                <small class="form-text text-muted">{{ __("Cole a URL completa do tour virtual (ex: Matterport, Kuula, etc)") }}</small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">

@@ -1,4 +1,19 @@
 @extends('tenant_frontend.layout')
+<style>
+.ratio-16x9 {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+.ratio-16x9 iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
 
 @section('pageHeading')
     {{ $project->title }}
@@ -130,6 +145,28 @@
                     @endif
 
                     <div class="pb-20"></div>
+
+                    {{-- TOUR VIRTUAL 360° --}}
+                    @if($project->virtual_tour_url)
+                    <div class="property-single-section mb-40" data-aos="fade-up">
+                        <h3 class="mb-20">
+                            <i class="fas fa-vr-cardboard"></i> {{ __("Tour Virtual 360°") }}
+                        </h3>
+                        <div class="lazy-container radius-lg ratio ratio-16x9 border">
+                            <iframe
+                                class="lazyload"
+                                data-src="{{ $project->virtual_tour_url }}"
+                                title="{{ $project->title }} - Tour Virtual"
+                                frameborder="0"
+                                allow="accelerometer; gyroscope; autoplay; vr; xr-spatial-tracking; fullscreen"
+                                allowfullscreen
+                                webkitallowfullscreen
+                                mozallowfullscreen
+                                style="width: 100%; height: 100%;">
+                            </iframe>
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="project-location mb-40" data-aos="fade-up">
                         <h3 class="mb-20"> {{ $keywords['Location'] ?? __('Location') }}</h3>
