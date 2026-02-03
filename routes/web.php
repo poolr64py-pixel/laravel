@@ -1620,3 +1620,6 @@ Route::get('/debug-host-check', function() {
 });
 
 
+
+// Tour Virtual
+Route::get('/tourvirtual/{slug?}', 'Front\FrontendController@tourVirtual')->name('front.tour.virtual');

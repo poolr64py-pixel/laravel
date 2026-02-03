@@ -226,6 +226,15 @@
                                             <label>{{ __('Longitude') }} <span
                                                     class="text-danger">{{ '*' }}</span> </label>
                                             <input type="text" class="form-control" name="longitude"
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ __("Tour Virtual URL") }} <span class="text-muted">({{ __("opcional") }})</span></label>
+                                            <input type="url" class="form-control" name="virtual_tour_url"
+                                                   placeholder="https://exemplo.com/tour"
+                                                   value="{{ old("virtual_tour_url") }}">
+                                            <small class="form-text text-muted">{{ __("Cole a URL completa do tour virtual (ex: Matterport, Kuula, etc)") }}</small>
+                                        </div>
                                                 placeholder="{{ __('Enter Longitude') }}">
 
                                             <p>
@@ -249,6 +258,33 @@
                                                 @endforeach
                                             </select>
                                             <p class="text-warning">
+                                        </div>
+                                    </div>
+                                    <!-- TOUR VIRTUAL 360° -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert alert-info">
+                                                <h5><i class="fas fa-vr-cardboard"></i> {{ __("Tour Virtual 360°") }}</h5>
+                                                <p class="mb-0">{{ __("Adicione a URL do tour virtual (Matterport, Kuula, etc) para permitir visitas virtuais") }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="virtual_tour_url">{{ __("URL do Tour Virtual") }}</label>
+                                                <input type="url" 
+                                                       class="form-control" 
+                                                       id="virtual_tour_url"
+                                                       name="virtual_tour_url"
+                                                       placeholder="https://exemplo.com/tour"
+                                                       value="{{ old("virtual_tour_url") }}">
+                                                <small class="form-text text-muted">
+                                                    {{ __("Exemplo") }}: https://my.matterport.com/show/?m=XXXXXX
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
                                                 {{ __('If you do not select any agent, then this project will be listed under you') }}
                                             </p>
                                         </div>

@@ -89,7 +89,8 @@ class Project extends Model
             'featured' => 0,
             'complete_status' => $requestData['status'],
             'latitude' => $requestData['latitude'],
-            'longitude' => $requestData['longitude']
+            'longitude' => $requestData['longitude'],
+            'virtual_tour_url' => $requestData['virtual_tour_url'] ?? null
         ]);
     }
 
@@ -109,6 +110,7 @@ class Project extends Model
             'complete_status' => $requestData['status'],
             'latitude' => $requestData['latitude'],
             'longitude' => $requestData['longitude'],
+            'virtual_tour_url' => $requestData['virtual_tour_url'] ?? null,
         ]);
     }
     public  function  destroyProject()

@@ -923,4 +923,30 @@ public function returnPolicy()
     
     return view('front.return-policy', $data);
 }
+    /**
+     * Tour Virtual
+     */
+    public function tourVirtual($slug = null)
+    {
+        $project = null;
+        $projects = null;
+        
+        if ($slug) {
+            $project = \App\Models\User\Project\Project::whereHas("contents", function($q) use ($slug) {
+                $q->where("slug", $slug);
+            })->with("contents")->first();
+            
+            if (!$project || !$project->virtual_tour_url) {
+                abort(404);
+            }
+        } else {
+            $projects = \App\Models\User\Project\Project::whereNotNull("virtual_tour_url")
+                ->where("virtual_tour_url", "!=", "")
+                ->with("contents")
+                ->get();
+        }
+        
+        return view("front.tour-virtual", compact("project", "projects"));
+    }
+
 }

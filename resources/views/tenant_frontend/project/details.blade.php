@@ -136,6 +136,31 @@
                         <div class="lazy-container radius-lg ratio ratio-21-8 border">
                             <iframe class="lazyload"
                                 src="https://maps.google.com/maps?q={{ $project->latitude }},{{ $project->longitude }}&hl={{ $currentLanguageInfo->code }};z=15&amp;output=embed"></iframe>
+
+                        @if($project->virtual_tour_url)
+                        <!-- Tour Virtual -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-vr-cardboard"></i> {{ __("Tour Virtual 360°") }}
+                                        </h4>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                            <iframe 
+                                                src="{{ $project->virtual_tour_url }}" 
+                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                                                allowfullscreen 
+                                                allow="xr-spatial-tracking; gyroscope; accelerometer">
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         </div>
                     </div>
 
