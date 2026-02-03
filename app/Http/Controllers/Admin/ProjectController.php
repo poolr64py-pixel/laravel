@@ -155,6 +155,7 @@ class ProjectController extends Controller
         $project->city_id = $request->city_id ?? 1;
         $project->latitude = $request->latitude ?? 0;
         $project->longitude = $request->longitude ?? 0;
+       $project->virtual_tour_url = $request->virtual_tour_url;
         $project->complete_status = 1; // 1 = completo
         $project->featured = $request->has('featured') ? 1 : 0;
 
