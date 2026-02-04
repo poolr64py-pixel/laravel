@@ -1536,8 +1536,6 @@ if (array_key_exists('host', $parsedUrl)) {
         Route::get('/quote', 'Front\FrontendController@quote')->name('front.user.quote');
         Route::post('/sendquote', 'Front\FrontendController@sendquote')->name('front.user.sendquote');
     });
-    Route::prefix('item-checkout')->group(function () {
-        Route::get('paypal/success', "User\Payment\PaypalController@successPayment")->name('customer.itemcheckout.paypal.success');
         Route::get('paypal/cancel', "User\Payment\PaypalController@cancelPayment")->name('customer.itemcheckout.paypal.cancel');
         Route::get('stripe/cancel', "User\Payment\StripeController@cancelPayment")->name('customer.itemcheckout.stripe.cancel');
         Route::get('paystack/success', 'User\Payment\PaystackController@successPayment')->name('customer.itemcheckout.paystack.success');
@@ -1571,6 +1569,7 @@ if (array_key_exists('host', $parsedUrl)) {
         Route::get('anet/cancel', 'User\Payment\AuthorizenetController@cancelPayment')->name('customer.itemcheckout.anet.cancel');
         Route::get('/offline/success', 'Front\UsercheckoutController@offlineSuccess')->name('customer.itemcheckout.offline.success');
         Route::get('/trial/success', 'Front\CheckoutController@trialSuccess')->name('customer.itemcheckout.trial.success');
+    });
         // Paytm payment status
 Route::post('paytm/payment-status', "User\Payment\PaytmController@paymentStatus")
     ->name('paytm.payment.status');
@@ -1614,8 +1613,6 @@ Route::get('/debug-host-check', function() {
     ]);
 });
 
-});
-});
 });
 });
 
