@@ -809,8 +809,9 @@ return view('front.properties.detail', $data);
         } else {
             $currentLang = $this->defaultLang();
         }
-        $lang_id = $currentLang->id;
-
+        // Forçar usar ID 310 (PT) diretamente da tabela user_languages
+        $lang_id = 310;
+        \Log::info("DEBUG allProjects", ["lang_id" => $lang_id, "currentLang" => $currentLang ? $currentLang->code : "NULL"]);
         $projectQuery = \App\Models\User\Project\Project::query()
             ->where('user_id', 148)
             ->whereHas('contents', function($q) use ($lang_id) {

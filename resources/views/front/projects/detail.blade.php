@@ -126,6 +126,23 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- TOUR VIRTUAL 360° --}}
+                @if(!empty($project->virtual_tour_url))
+                <div class="tour-virtual-section mb-4 p-4 bg-white rounded shadow-sm">
+                    <h4 class="mb-3">
+                        <i class="fas fa-vr-cardboard"></i> {{ __("Tour Virtual 360°") }}
+                    </h4>
+                    <div style="position: relative; height: 500px; overflow: hidden; border-radius: 10px;">
+                        <iframe
+                            src="{{ $project->virtual_tour_url }}"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            allowfullscreen
+                            allow="xr-spatial-tracking; gyroscope; accelerometer">
+                        </iframe>
+                    </div>
+                </div>
+                @endif
             </div>
 
             <div class="col-lg-4">
