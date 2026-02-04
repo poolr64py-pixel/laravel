@@ -55,7 +55,7 @@
     "Confirm": "Confirmar",
     "Confirm Password": "Confirmar Palavra-passe",
     "Contact": "Contato",
-    "Contanct Us": "Contate-nos",
+    "Contanct Us": "Fale Conosco",
     "Continue": "Continuar",
     "Counter Information": "Informações do contador",
     "Country": "País",
@@ -317,5 +317,7 @@
     "You are receiving this email because we received a password reset request for your account.": "Recebeu esse e-mail porque foi solicitada a redefinição da palavra-passe da sua conta.",
     "You have enrolled successfully with 100% discount": "Você se inscreveu com sucesso com 100% de desconto",
     "Your subdomain based website URL will be": "O URL do seu site baseado em subdomínio será",
-    "Your transaction request was received and sent for review": "Sua solicitação de transação foi recebida e enviada para análise"
+    "Your transaction request was received and sent for review": "Sua solicitação de transação foi recebida e enviada para análise",
+    "Projetos": "Projetos",
+    "projetos encontrados": "projetos encontrados"
 }

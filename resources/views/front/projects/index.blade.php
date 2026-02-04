@@ -39,7 +39,7 @@
     <div class="container">
         <div class="row mb-4">
             <div class="col-md-12">
-                <h5>{{ $total_projects }} projetos encontrados</h5>
+                <h5>{{ $total_projects }} {{ __("projetos encontrados") }}</h5>
             </div>
         </div>
 

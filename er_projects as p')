@@ -1,0 +1,65 @@
+[90m= [39m[34;4mIlluminate\Support\Collection[39;24m {#6785
+    [34mall[39m: [
+      {#6784
+        +"[1mproject_id[22m": [35m26[39m,
+        +"[1mtitle[22m": "[32mCrown Jewel Estates[39m",
+        +"[1mslug[22m": "[32mcrown-jewel-estates[39m",
+      },
+      {#6776
+        +"[1mproject_id[22m": [35m27[39m,
+        +"[1mtitle[22m": "[32mSerenity Grand Residences[39m",
+        +"[1mslug[22m": "[32mserenity-grand-residences[39m",
+      },
+      {#6787
+        +"[1mproject_id[22m": [35m28[39m,
+        +"[1mtitle[22m": "[32mMidtown Business Towers[39m",
+        +"[1mslug[22m": "[32mmidtown-business-towers[39m",
+      },
+      {#6767
+        +"[1mproject_id[22m": [35m28[39m,
+        +"[1mtitle[22m": "[32mأبراج الأعمال في ميدتاون[39m",
+        +"[1mslug[22m": "[32mأبراج-الأعمال-في-ميدتاون[39m",
+      },
+      {#2085
+        +"[1mproject_id[22m": [35m27[39m,
+        +"[1mtitle[22m": "[32mسيرينيتي جراند ريزيدنسز[39m",
+        +"[1mslug[22m": "[32mسيرينيتي-جراند-ريزيدنسز[39m",
+      },
+      {#6797
+        +"[1mproject_id[22m": [35m26[39m,
+        +"[1mtitle[22m": "[32mكراون جويل إستيتس[39m",
+        +"[1mslug[22m": "[32mكراون-جويل-إستيتس[39m",
+      },
+      {#6802
+        +"[1mproject_id[22m": [35m26[39m,
+        +"[1mtitle[22m": "[32mCrown Jewel Estates[39m",
+        +"[1mslug[22m": "[32mcrown-jewel-estates-pt[39m",
+      },
+      {#6758
+        +"[1mproject_id[22m": [35m27[39m,
+        +"[1mtitle[22m": "[32mSerenity Grand Residences[39m",
+        +"[1mslug[22m": "[32mserenity-grand-residences-pt[39m",
+      },
+      {#6801
+        +"[1mproject_id[22m": [35m28[39m,
+        +"[1mtitle[22m": "[32mMidtown Business Towers[39m",
+        +"[1mslug[22m": "[32mmidtown-business-towers-pt[39m",
+      },
+      {#6753
+        +"[1mproject_id[22m": [35m26[39m,
+        +"[1mtitle[22m": "[32mCrown Jewel Estates[39m",
+        +"[1mslug[22m": "[32mcrown-jewel-estates-es[39m",
+      },
+      {#6803
+        +"[1mproject_id[22m": [35m27[39m,
+        +"[1mtitle[22m": "[32mSerenity Grand Residences[39m",
+        +"[1mslug[22m": "[32mserenity-grand-residences-es[39m",
+      },
+      {#6804
+        +"[1mproject_id[22m": [35m28[39m,
+        +"[1mtitle[22m": "[32mMidtown Business Towers[39m",
+        +"[1mslug[22m": "[32mmidtown-business-towers-es[39m",
+      },
+    ],
+  }
+

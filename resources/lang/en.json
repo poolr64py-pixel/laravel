@@ -55,7 +55,7 @@
     "Confirm": "Confirm",
     "Confirm Password": "Confirm Password",
     "Contact": "Contact",
-    "Contanct Us": "Contanct Us",
+    "Contanct Us": "Contact Us",
     "Continue": "Continue",
     "Counter Information": "Counter Information",
     "Country": "Country",
@@ -317,5 +317,7 @@
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "You have enrolled successfully with 100% discount": "You have enrolled successfully with 100% discount",
     "Your subdomain based website URL will be": "Your subdomain based website URL will be",
-    "Your transaction request was received and sent for review": "Your transaction request was received and sent for review"
+    "Your transaction request was received and sent for review": "Your transaction request was received and sent for review",
+    "Projetos": "Projects",
+    "projetos encontrados": "projects found"
 }

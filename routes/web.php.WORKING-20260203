@@ -1,5 +1,4 @@
 <?php
-require __DIR__.'/properties.php';
 
 use App\Http\Controllers\User\HotelBooking\RoomController;
 use App\Http\Controllers\User\HotelBooking\RoomManagementController;
@@ -1536,6 +1535,8 @@ if (array_key_exists('host', $parsedUrl)) {
         Route::get('/quote', 'Front\FrontendController@quote')->name('front.user.quote');
         Route::post('/sendquote', 'Front\FrontendController@sendquote')->name('front.user.sendquote');
     });
+    Route::prefix('item-checkout')->group(function () {
+        Route::get('paypal/success', "User\Payment\PaypalController@successPayment")->name('customer.itemcheckout.paypal.success');
         Route::get('paypal/cancel', "User\Payment\PaypalController@cancelPayment")->name('customer.itemcheckout.paypal.cancel');
         Route::get('stripe/cancel', "User\Payment\StripeController@cancelPayment")->name('customer.itemcheckout.stripe.cancel');
         Route::get('paystack/success', 'User\Payment\PaystackController@successPayment')->name('customer.itemcheckout.paystack.success');
@@ -1567,9 +1568,9 @@ if (array_key_exists('host', $parsedUrl)) {
 
 
         Route::get('anet/cancel', 'User\Payment\AuthorizenetController@cancelPayment')->name('customer.itemcheckout.anet.cancel');
+    });
         Route::get('/offline/success', 'Front\UsercheckoutController@offlineSuccess')->name('customer.itemcheckout.offline.success');
         Route::get('/trial/success', 'Front\CheckoutController@trialSuccess')->name('customer.itemcheckout.trial.success');
-    });
         // Paytm payment status
 Route::post('paytm/payment-status', "User\Payment\PaytmController@paymentStatus")
     ->name('paytm.payment.status');
@@ -1589,14 +1590,19 @@ Route::get('/debug-host-check', function() {
     ]);
 });
 
+// === ROTAS SEO (DEVEM VIR ANTES DO CATCH-ALL) ===
 Route::group(['middleware' => 'setlang'], function () {
-    // Listagem geral
+    // Rota de listagem geral de imóveis
     Route::get('/imoveis', 'Front\FrontendController@allProperties')->name('front.properties');
     
-    // Categorias SEO - URLs específicas
+    // Rotas SEO para categorias de imóveis
+    Route::get('/imoveis/{slug}', [App\Http\Controllers\Front\PropertySeoController::class, 'category'])
+        ->where('slug', 'casas-.*|apartamentos-.*|terrenos-.*|quintas-.*')
+        ->name('property.seo.category');
     
-    // Detalhes de imóvel (genérica)
-    Route::get('/imoveis/{slug}', 'Front\FrontendController@propertyDetail')->name('front.property.detail');
+    // Rota genérica de detalhes de imóveis
+    Route::get('/imoveis/{slug}', 'Front\FrontendController@propertyDetail')
+        ->name('front.property.detail');
 });
 
 // Custom Page middleware
@@ -1615,17 +1621,5 @@ Route::get('/debug-host-check', function() {
 
 });
 });
-
-
-
-// Tour Virtual
-Route::get('/tourvirtual/{slug?}', 'Front\FrontendController@tourVirtual')->name('front.tour.virtual');
-
-// DEBUG sessão
-Route::get('/debug-lang', function() {
-    return response()->json([
-        'frontend_lang' => session('frontend_lang'),
-        'user_language_id' => session('user_language_id'),
-        'all_session' => session()->all(),
-    ]);
 });
+

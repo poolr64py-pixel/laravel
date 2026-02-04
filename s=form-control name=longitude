@@ -1,0 +1,520 @@
+[90m= [39m"""
+  [32m@extends('user.layout')[39m\n
+  \n
+  [32m@section('content')[39m\n
+  [32m    <div class="page-header">[39m\n
+  [32m        <h4 class="page-title">{{ __('Add Project') }}</h4>[39m\n
+  [32m        <ul class="breadcrumbs">[39m\n
+  [32m            <li class="nav-home">[39m\n
+  [32m                <a href="{{ route('user-dashboard') }}">[39m\n
+  [32m                    <i class="flaticon-home">[39m[32m</i>[39m\n
+  [32m                </a>[39m\n
+  [32m            </li>[39m\n
+  [32m            <li class="separator">[39m\n
+  [32m                <i class="flaticon-right-arrow">[39m[32m</i>[39m\n
+  [32m            </li>[39m\n
+  [32m            <li class="nav-item">[39m\n
+  [32m                <a href="#">{{ __('Project Management') }}</a>[39m\n
+  [32m            </li>[39m\n
+  [32m            <li class="separator">[39m\n
+  [32m                <i class="flaticon-right-arrow">[39m[32m</i>[39m\n
+  [32m            </li>[39m\n
+  [32m            <li class="nav-item">[39m\n
+  [32m                <a href="#">{{ __('Add Project') }}</a>[39m\n
+  [32m            </li>[39m\n
+  [32m        </ul>[39m\n
+  [32m    </div>[39m\n
+  \n
+  [32m    <div class="row">[39m\n
+  [32m        <div class="col-md-12">[39m\n
+  [32m            <div class="card">[39m\n
+  [32m                <div class="card-header">[39m\n
+  [32m                    <div class="card-title d-inline-block">{{ __('Add Project') }}</div>[39m\n
+  [32m                </div>[39m\n
+  \n
+  [32m                <div class="card-body">[39m\n
+  [32m                    <div class="row">[39m\n
+  [32m                        <div class="col-lg-10 offset-lg-1">[39m\n
+  [32m                            <div class="alert alert-danger pb-1 dis-none" id="propertyErrors">[39m\n
+  [32m                                <button type="button" class="close" data-dismiss="alert">×</button>[39m\n
+  [32m                                <ul>[39m[32m</ul>[39m\n
+  [32m                            </div>[39m\n
+  [32m                            <div class="row">[39m\n
+  [32m                                <div class="col-lg-6">[39m\n
+  [32m                                    <label for="" class="mb-2"><strong>{{ __('Gallery Images') }}[39m\n
+  [32m                                        </strong> <span class="text-danger">{{ '*' }}</span> </label>[39m\n
+  [32m                                    <form action="{{ route('user.project.gallery_image_store') }}" id="my-dropzone"[39m\n
+  [32m                                        enctype="multipart/form-data" class="dropzone create">[39m\n
+  [32m                                        @csrf[39m\n
+  [32m                                        <div class="fallback">[39m\n
+  [32m                                            <input name="file" type="file" multiple />[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </form>[39m\n
+  [32m                                    <p class="em text-danger mb-0" id="errgallery_images">[39m[32m</p>[39m\n
+  [32m                                </div>[39m\n
+  \n
+  [32m                                <div class="col-lg-6">[39m\n
+  [32m                                    <label for="" class="mb-2"><strong>{{ __('Floor Planning Image') }}[39m\n
+  [32m                                        </strong>[39m[32m</label>[39m\n
+  [32m                                    <form action="{{ route('user.property.imagesstore') }}" id="my-dropzone2"[39m\n
+  [32m                                        enctype="multipart/form-data" class="dropzone create">[39m\n
+  [32m                                        @csrf[39m\n
+  [32m                                        <div class="fallback">[39m\n
+  [32m                                            <input name="file" type="file" multiple />[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </form>[39m\n
+  [32m                                    <p class="em text-danger mb-0" id="errfloor_plan_images">[39m[32m</p>[39m\n
+  [32m                                </div>[39m\n
+  [32m                            </div>[39m\n
+  [32m                            <form id="propertyForm" action="{{ route('user.project_management.store_project') }}"[39m\n
+  [32m                                method="POST" enctype="multipart/form-data">[39m\n
+  [32m                                @csrf[39m\n
+  [32m                                <input type="hidden" name="type" value="{{ request()->type }}">[39m\n
+  [32m                                <div id="sliders">[39m[32m</div>[39m\n
+  [32m                                <div id="floorPlan">[39m[32m</div>[39m\n
+  [32m                                <div class="row">[39m\n
+  [32m                                    <div class="col-lg-6">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label for="">{{ __('Thumbnail Image') }} <span[39m\n
+  [32m                                                    class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                            <br>[39m\n
+  [32m                                            <div class="thumb-preview">[39m\n
+  [32m                                                <img src="{{ asset('assets/img/noimage.jpg') }}" alt="..."[39m\n
+  [32m                                                    class="uploaded-img">[39m\n
+  [32m                                            </div>[39m\n
+  \n
+  [32m                                            <div class="mt-3">[39m\n
+  [32m                                                <div role="button" class="btn btn-primary btn-sm upload-btn">[39m\n
+  [32m                                                    {{ __('Choose Image') }}[39m\n
+  [32m                                                    <input type="file" class="img-input" name="featured_image">[39m\n
+  [32m                                                </div>[39m\n
+  [32m                                            </div>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  \n
+  [32m                                </div>[39m\n
+  \n
+  [32m                                <div class="row">[39m\n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group ">[39m\n
+  [32m                                            <label>{{ __('Category') }} <span[39m\n
+  [32m                                                    class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                            <select name="category_id" class="form-control category">[39m\n
+  [32m                                                <option disabled selected>[39m\n
+  [32m                                                    {{ __('Select Category') }}[39m\n
+  [32m                                                </option>[39m\n
+  \n
+  [32m                                                @foreach ($projectCategories as $category)[39m\n
+  [32m                                                    <option value="{{ $category->id }}">[39m\n
+  [32m                                                        {{ @$category->getContent($language->id)->name }}</option>[39m\n
+  [32m                                                @endforeach[39m\n
+  [32m                                            </select>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  [32m                                    @if ($projectSettings->project_country_status == 1)[39m\n
+  [32m                                        <div class="col-lg-4">[39m\n
+  [32m                                            <div class="form-group">[39m\n
+  \n
+  \n
+  [32m                                                <label>{{ __('Country') }} <span[39m\n
+  [32m                                                        class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                                <select name="country_id"[39m\n
+  [32m                                                    class="form-control country js-example-basic-single3">[39m\n
+  [32m                                                    <option disabled selected>[39m\n
+  [32m                                                        {{ __('Select Country') }}[39m\n
+  [32m                                                    </option>[39m\n
+  \n
+  [32m                                                    @foreach ($projectCountries as $country)[39m\n
+  [32m                                                        <option value="{{ $country->id }}">[39m\n
+  [32m                                                            {{ @$country->getContent($language->id)->name ?? "N/A" }}</option>[39m\n
+  [32m                                                    @endforeach[39m\n
+  [32m                                                </select>[39m\n
+  [32m                                            </div>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    @endif[39m\n
+  [32m                                    @if ($projectSettings->project_state_status == 1)[39m\n
+  [32m                                        <div class="col-lg-4 state">[39m\n
+  [32m                                            <div class="form-group  ">[39m\n
+  \n
+  [32m                                                <label>{{ __('State') }} <span[39m\n
+  [32m                                                        class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                                <select onchange="getCities(event)" name="state_id"[39m\n
+  [32m                                                    class="form-control state_id states js-example-basic-single3">[39m\n
+  [32m                                                    <option selected disabled>[39m\n
+  [32m                                                        {{ __('Select State') }}[39m\n
+  [32m                                                    </option>[39m\n
+  [32m                                                    @foreach ($states as $state)[39m\n
+  [32m                                                        <option value="{{ $state->id }}">[39m\n
+  [32m                                                            {{ @$state->getContent($language->id)->name }}</option>[39m\n
+  [32m                                                    @endforeach[39m\n
+  \n
+  [32m                                                </select>[39m\n
+  [32m                                            </div>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    @endif[39m\n
+  [32m                                    <div class="col-lg-4 city">[39m\n
+  [32m                                        <div class="form-group ">[39m\n
+  \n
+  \n
+  [32m                                            <label>{{ __('City') }} <span[39m\n
+  [32m                                                    class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                            <select name="city_id" class="form-control city_id js-example-basic-single3">[39m\n
+  [32m                                                <option selected disabled>[39m\n
+  [32m                                                    {{ __('Select City') }}[39m\n
+  [32m                                                </option>[39m\n
+  [32m                                                @if ($projectSettings->project_state_status == 0 && $projectSettings->project_country_status == 0)[39m\n
+  [32m                                                    @foreach ($cities as $city)[39m\n
+  [32m                                                        <option value="{{ $city->id }}">[39m\n
+  [32m                                                            {{ @$city->getContent($language->id)->name }}</option>[39m\n
+  [32m                                                    @endforeach[39m\n
+  [32m                                                @endif[39m\n
+  [32m                                            </select>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  \n
+  \n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label>{{ __('Minimum Price') . ' (' . $userBs->base_currency_text . ')' }}[39m\n
+  [32m                                                <span class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                            <input type="number" class="form-control" name="min_price"[39m\n
+  [32m                                                placeholder="{{ __('Enter minimum price') }}">[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label>{{ __('Maximum Price') . ' (' . $userBs->base_currency_text . ')' }}[39m\n
+  [32m                                            </label>[39m\n
+  [32m                                            <input type="number" class="form-control" name="max_price"[39m\n
+  [32m                                                placeholder="{{ __('Enter maximum price') }}">[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  [32m                                    [39m\n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label>{{ __('Status') }} <span[39m\n
+  [32m                                                    class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                            <select name="status" id="" class="form-control">[39m\n
+  [32m                                                <option value="1">{{ __('Complete') }}[39m\n
+  [32m                                                </option>[39m\n
+  [32m                                                <option value="0">[39m\n
+  [32m                                                    {{ __('Under Construction') }}[39m\n
+  [32m                                                </option>[39m\n
+  [32m                                            </select>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label>{{ __('Latitude') }} <span[39m\n
+  [32m                                                    class="text-danger">{{ '*' }}</span> </label>[39m\n
+  [32m                                            <input type="text" class="form-control" name="latitude"[39m\n
+  [32m                                                placeholder="{{ __('Enter Latitude') }}">[39m\n
+  [32m                                            <p>[39m\n
+  [32m                                                <span[39m\n
+  [32m                                                    class="text-warning">{{ __('The Latitude must be between -90 to 90') }}[39m\n
+  [32m                                                </span> <a href="https://tinyurl.com/2hjtmtvc "> <i class="fas fa-eye">[39m\n
+  [32m                                                    </i> {{ __('See Example') }}</a>[39m\n
+  [32m                                            </p>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label>{{ __('Longitude') }} <span[39m\n
+  [32m                                                    class="text-danger">{{ '*' }}</span> </label>[39m\n
+  [32m                                            <input type="text" class="form-control" name="longitude"[39m\n
+  [32m                                    </div>[39m\n
+  [32m                                    <div class="col-md-6">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label>{{ __("Tour Virtual URL") }} <span class="text-muted">({{ __("opcional") }})</span>[39m[32m</label>[39m\n
+  [32m                                            <input type="url" class="form-control" name="virtual_tour_url"[39m\n
+  [32m                                                   placeholder="https://exemplo.com/tour"[39m\n
+  [32m                                                   value="{{ old("virtual_tour_url") }}">[39m\n
+  [32m                                            <small class="form-text text-muted">{{ __("Cole a URL completa do tour virtual (ex: Matterport, Kuula, etc)") }}</small>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                                placeholder="{{ __('Enter Longitude') }}">[39m\n
+  \n
+  [32m                                            <p>[39m\n
+  [32m                                                <span[39m\n
+  [32m                                                    class="text-warning">{{ __('The Longitude must be between -180 to 180') }}[39m\n
+  [32m                                                </span> <a href="https://tinyurl.com/2hjtmtvc "> <i class="fas fa-eye">[39m\n
+  [32m                                                    </i> {{ __('See Example') }} </a>[39m\n
+  [32m                                            </p>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  [32m                                    <div class="col-lg-4">[39m\n
+  [32m                                        <div class="form-group">[39m\n
+  [32m                                            <label for="">{{ __('Agent') }}</label>[39m\n
+  [32m                                            <select name="agent_id" class="form-control agent_id">[39m\n
+  [32m                                                <option value="0">[39m\n
+  [32m                                                    {{ __('Select Agent') }}[39m\n
+  [32m                                                </option>[39m\n
+  [32m                                                @foreach ($agents as $agent)[39m\n
+  [32m                                                    <option value="{{ $agent->id }}">{{ $agent->username }}</option>[39m\n
+  [32m                                                @endforeach[39m\n
+  [32m                                            </select>[39m\n
+  [32m                                            <p class="text-warning">[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  [32m                                    <!-- TOUR VIRTUAL 360° -->[39m\n
+  [32m                                    <div class="row">[39m\n
+  [32m                                        <div class="col-12">[39m\n
+  [32m                                            <div class="alert alert-info">[39m\n
+  [32m                                                <h5><i class="fas fa-vr-cardboard">[39m[32m</i>[39m[32m {{ __("Tour Virtual 360°") }}</h5>[39m\n
+  [32m                                                <p class="mb-0">{{ __("Adicione a URL do tour virtual (Matterport, Kuula, etc) para permitir visitas virtuais") }}</p>[39m\n
+  [32m                                            </div>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                        <div class="col-md-12">[39m\n
+  [32m                                            <div class="form-group">[39m\n
+  [32m                                                <label for="virtual_tour_url">{{ __("URL do Tour Virtual") }}</label>[39m\n
+  [32m                                                <input type="url" [39m\n
+  [32m                                                       class="form-control" [39m\n
+  [32m                                                       id="virtual_tour_url"[39m\n
+  [32m                                                       name="virtual_tour_url"[39m\n
+  [32m                                                       placeholder="https://exemplo.com/tour"[39m\n
+  [32m                                                       value="{{ old("virtual_tour_url") }}">[39m\n
+  [32m                                                <small class="form-text text-muted">[39m\n
+  [32m                                                    {{ __("Exemplo") }}: https://my.matterport.com/show/?m=XXXXXX[39m\n
+  [32m                                                </small>[39m\n
+  [32m                                            </div>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  [32m                                    <div class="row">[39m\n
+  [32m                                        <div class="col-lg-4">[39m\n
+  [32m                                                {{ __('If you do not select any agent, then this project will be listed under you') }}[39m\n
+  [32m                                            </p>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    </div>[39m\n
+  \n
+  \n
+  \n
+  [32m                                </div>[39m\n
+  \n
+  [32m                                <div id="accordion" class="mt-3">[39m\n
+  [32m                                    @foreach ($tenantFrontLangs as $language)[39m\n
+  [32m                                        <div class="version">[39m\n
+  [32m                                            <div class="version-header" id="heading{{ $language->id }}">[39m\n
+  [32m                                                <h5 class="mb-0">[39m\n
+  [32m                                                    <button type="button" class="btn btn-link" data-toggle="collapse"[39m\n
+  [32m                                                        data-target="#collapse{{ $language->id }}"[39m\n
+  [32m                                                        aria-expanded="{{ $language->is_default == 1 ? 'true' : 'false' }}"[39m\n
+  [32m                                                        aria-controls="collapse{{ $language->id }}">[39m\n
+  [32m                                                        {{ $language->name . __(' Language') }}[39m\n
+  [32m                                                        {{ $language->is_default == 1 ? '(Default)' : '' }}[39m\n
+  [32m                                                    </button>[39m\n
+  [32m                                                </h5>[39m\n
+  [32m                                            </div>[39m\n
+  \n
+  [32m                                            <div id="collapse{{ $language->id }}"[39m\n
+  [32m                                                class="collapse {{ $language->is_default == 1 ? 'show' : '' }}"[39m\n
+  [32m                                                aria-labelledby="heading{{ $language->id }}" data-parent="#accordion">[39m\n
+  [32m                                                <div class="version-body">[39m\n
+  [32m                                                    <div class="row">[39m\n
+  [32m                                                        <div class="col-lg-8">[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <label>{{ __('Title') }} <span[39m\n
+  [32m                                                                        class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                                                <input type="text" class="form-control"[39m\n
+  [32m                                                                    name="{{ $language->code }}_title"[39m\n
+  [32m                                                                    placeholder="{{ __('Enter Title') }}">[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        </div>[39m\n
+  \n
+  \n
+  [32m                                                        <div class="col-lg-4">[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <label>{{ __('Address') }} <span[39m\n
+  [32m                                                                        class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                                                <input type="text"[39m\n
+  [32m                                                                    name="{{ $language->code }}_address"[39m\n
+  [32m                                                                    class="form-control"[39m\n
+  [32m                                                                    placeholder="{{ __('Enter Address') }}">[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        </div>[39m\n
+  [32m                                                    </div>[39m\n
+  \n
+  [32m                                                    <div class="row">[39m\n
+  [32m                                                        <div class="col-lg-12">[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <label>{{ __('Description') }}  <span class="text-danger">{{ '*' }}</span>[39m[32m</label>[39m\n
+  [32m                                                                <textarea id="{{ $language->code }}_description" class="form-control summernote"[39m\n
+  [32m                                                                    placeholder="{{ __('Enter Description') }}" name="{{ $language->code }}_description" data-height="300">[39m[32m</textarea>[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        </div>[39m\n
+  [32m                                                    </div>[39m\n
+  \n
+  [32m                                                    <div class="row">[39m\n
+  [32m                                                        <div class="col-lg-12">[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <label>{{ __('Meta Keywords') }}</label>[39m\n
+  [32m                                                                <input class="form-control"[39m\n
+  [32m                                                                    name="{{ $language->code }}_meta_keyword"[39m\n
+  [32m                                                                    placeholder="{{ __('Enter Meta Keywords') }}"[39m\n
+  [32m                                                                    data-role="tagsinput">[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        </div>[39m\n
+  [32m                                                    </div>[39m\n
+  \n
+  [32m                                                    <div class="row">[39m\n
+  [32m                                                        <div class="col-lg-12">[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <label>{{ __('Meta Description') }} </label>[39m\n
+  [32m                                                                <textarea class="form-control" name="{{ $language->code }}_meta_description" rows="5"[39m\n
+  [32m                                                                    placeholder="{{ __('Enter Meta Description') }}">[39m[32m</textarea>[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        </div>[39m\n
+  [32m                                                    </div>[39m\n
+  \n
+  [32m                                                    <div class="row">[39m\n
+  [32m                                                        <div class="col">[39m\n
+  [32m                                                            @php $currLang = $language; @endphp[39m\n
+  \n
+  [32m                                                            @foreach ($tenantFrontLangs as $language)[39m\n
+  [32m                                                                @continue($language->id == $currLang->id)[39m\n
+  \n
+  [32m                                                                <div class="form-check py-0">[39m\n
+  [32m                                                                    <label class="form-check-label">[39m\n
+  [32m                                                                        <input class="form-check-input" type="checkbox"[39m\n
+  [32m                                                                            onchange="cloneInput('collapse{{ $currLang->id }}', 'collapse{{ $language->id }}', event)">[39m\n
+  [32m                                                                        <span[39m\n
+  [32m                                                                            class="form-check-sign">{{ __('Clone for') }}[39m\n
+  [32m                                                                            <strong[39m\n
+  [32m                                                                                class="text-capitalize text-secondary">{{ $language->name }}</strong>[39m\n
+  [32m                                                                            {{ __('language') }}</span>[39m\n
+  [32m                                                                    </label>[39m\n
+  [32m                                                                </div>[39m\n
+  [32m                                                            @endforeach[39m\n
+  [32m                                                        </div>[39m\n
+  [32m                                                    </div>[39m\n
+  [32m                                                </div>[39m\n
+  [32m                                            </div>[39m\n
+  [32m                                        </div>[39m\n
+  [32m                                    @endforeach[39m\n
+  [32m                                </div>[39m\n
+  \n
+  [32m                                <div class="row">[39m\n
+  [32m                                    <div class="col-lg-12" id="variation_pricing">[39m\n
+  [32m                                        <h4 for="">[39m\n
+  [32m                                            {{ __('Additional Features') . ' (' . __('Optional') . ')' }}[39m\n
+  [32m                                        </h4>[39m\n
+  [32m                                        <table class="table table-bordered table-striped">[39m\n
+  [32m                                            <thead>[39m\n
+  [32m                                                <tr>[39m\n
+  [32m                                                    <th>{{ __('Label') }}</th>[39m\n
+  [32m                                                    <th>{{ __('Value') }}</th>[39m\n
+  [32m                                                    <th><a href="" class="btn btn-sm btn-success addRow"><i[39m\n
+  [32m                                                                class="fas fa-plus-circle">[39m[32m</i>[39m[32m</a>[39m[32m</th>[39m\n
+  [32m                                                </tr>[39m\n
+  [32m                                            <tbody id="tbody">[39m\n
+  [32m                                                <tr>[39m\n
+  [32m                                                    <td>[39m\n
+  [32m                                                        @foreach ($tenantFrontLangs as $language)[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <input type="text"[39m\n
+  [32m                                                                    name="{{ $language->code }}_label[]"[39m\n
+  [32m                                                                    class="form-control"[39m\n
+  [32m                                                                    placeholder="{{ __('Label for') . ' ' . $language->name . ' ' . __('language') }}">[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        @endforeach[39m\n
+  [32m                                                    </td>[39m\n
+  [32m                                                    <td>[39m\n
+  [32m                                                        @foreach ($tenantFrontLangs as $language)[39m\n
+  [32m                                                            <div[39m\n
+  [32m                                                                class="form-group {{ $language->direction == 1 ? 'rtl text-right' : '' }}">[39m\n
+  [32m                                                                <input type="text"[39m\n
+  [32m                                                                    name="{{ $language->code }}_value[]"[39m\n
+  [32m                                                                    class="form-control"[39m\n
+  [32m                                                                    placeholder="{{ __('Value for') . ' ' . $language->name . ' ' . __('language') }}">[39m\n
+  [32m                                                            </div>[39m\n
+  [32m                                                        @endforeach[39m\n
+  [32m                                                    </td>[39m\n
+  [32m                                                    <td>[39m\n
+  [32m                                                        <a href="javascript:void(0)"[39m\n
+  [32m                                                            class="btn btn-danger  btn-sm deleteRow">[39m\n
+  [32m                                                            <i class="fas fa-minus">[39m[32m</i>[39m[32m</a>[39m\n
+  [32m                                                    </td>[39m\n
+  [32m                                                </tr>[39m\n
+  [32m                                            </tbody>[39m\n
+  [32m                                            </thead>[39m\n
+  [32m                                        </table>[39m\n
+  [32m                                    </div>[39m\n
+  [32m                                </div>[39m\n
+  \n
+  [32m                                <div id="galleries">[39m[32m</div>[39m\n
+  [32m                                <div id="floorPlan">[39m[32m</div>[39m\n
+  [32m                            </form>[39m\n
+  [32m                        </div>[39m\n
+  [32m                    </div>[39m\n
+  [32m                </div>[39m\n
+  \n
+  [32m                <div class="card-footer">[39m\n
+  [32m                    <div class="row">[39m\n
+  [32m                        <div class="col-12 text-center">[39m\n
+  [32m                            <button type="submit" id="propertySubmit" class="btn btn-success">[39m\n
+  [32m                                {{ __('Save') }}[39m\n
+  [32m                            </button>[39m\n
+  [32m                        </div>[39m\n
+  [32m                    </div>[39m\n
+  [32m                </div>[39m\n
+  [32m            </div>[39m\n
+  [32m        </div>[39m\n
+  [32m    </div>[39m\n
+  [32m@endsection[39m\n
+  \n
+  [32m@php[39m\n
+  [32m    $labels = '';[39m\n
+  [32m    $values = '';[39m\n
+  [32m    foreach ($tenantFrontLangs as $language) {[39m\n
+  [32m        $label_name = $language->code . '_label[]';[39m\n
+  [32m        $value_name = $language->code . '_value[]';[39m\n
+  \n
+  [32m        $labels_placeholder = __('Label for') . ' ' . $language->name . ' ' . __('language');[39m\n
+  [32m        $values_placeholder = __('Value for') . ' ' . $language->name . ' ' . __('language');[39m\n
+  \n
+  [32m        if ($language->direction == 1) {[39m\n
+  [32m            $direction = 'form-group rtl text-right';[39m\n
+  [32m        } else {[39m\n
+  [32m            $direction = 'form-group';[39m\n
+  [32m        }[39m\n
+  \n
+  [32m        $labels .=[39m\n
+  [32m            "<div class='$direction'><input type='text' name='" .[39m\n
+  [32m            $label_name .[39m\n
+  [32m            "' class='form-control' placeholder='$labels_placeholder'>[39m[32m</div>[39m[32m";[39m\n
+  [32m        $values .= "<div class='$direction'><input type='text' name='$value_name' class='form-control' placeholder='$values_placeholder'>[39m[32m</div>[39m[32m";[39m\n
+  [32m    }[39m\n
+  [32m@endphp[39m\n
+  \n
+  [32m@section('scripts')[39m\n
+  [32m    <script>[39m\n
+  [32m        'use strict';[39m\n
+  [32m        var labels = "{!! $labels !!}";[39m\n
+  [32m        var values = "{!! $values !!}";[39m\n
+  [32m        var galleryStoreUrl = "{{ route('user.project.gallery_image_store') }}";[39m\n
+  [32m        var galleryRemoveUrl = "{{ route('user.project.gallery_imagermv') }}";[39m\n
+  [32m        var floorPlanStoreUrl = "{{ route('user.project.floor_plan_image_store') }}";[39m\n
+  [32m        var floorPlanRemoveUrl = "{{ route('user.project.floor_plan_imagermv') }}";[39m\n
+  [32m        var stateUrl = "{{ route('user.project_management.get_state_cities') }}";[39m\n
+  [32m        let cityUrl = "{{ route('user.project_management.get_cities') }}";[39m\n
+  [32m        let galleryImages = "{{ $userCurrentPackage->number_of_project_gallery_images }}";[39m\n
+  [32m        var selectAmenLocal = "{{ $keywords['Select Amenities'] ?? __('Select Amenities') }}";[39m\n
+  [32m    </script>[39m\n
+  \n
+  \n
+  [32m    <script type="text/javascript" src="{{ asset('assets/tenant/js/admin-partial.js') }}">[39m[32m</script>[39m\n
+  [32m    <script type="text/javascript" src="{{ asset('assets/tenant/js/admin-project-dropzone.js') }}">[39m[32m</script>[39m\n
+  [32m    <script type="text/javascript" src="{{ asset('assets/tenant/js/property.js') }}">[39m[32m</script>[39m\n
+  [32m@endsection[39m\n
+  """
+

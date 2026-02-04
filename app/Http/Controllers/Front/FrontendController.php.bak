@@ -590,19 +590,18 @@ $category_id = $request->category;
 
     public function changeLanguage($lang): \Illuminate\Http\RedirectResponse
     {
-        // Mapear para AMBAS as tabelas
-        $userLangMap = ['en' => 300, 'es' => 306, 'pt' => 310]; // user_languages
-        $langMap = ['en' => 176, 'es' => 178, 'pt' => 179];     // languages
+        // Buscar idioma na tabela global do sistema
+        $language = \App\Models\Language::where('code', $lang)->first();
         
-        if (isset($langMap[$lang])) {
+        if ($language) {
             session()->put('frontend_lang', $lang);
-            session()->put('user_language_id', $userLangMap[$lang]); // Para projetos
-            session()->put('language_id', $langMap[$lang]);          // Para interface
+            session()->put('language_id', $language->id);
             session()->save();
         }
         
         return redirect()->back();
     }
+    
     public function removeMaintenance($domain, $token)
     {
         Session::put('user-bypass-token', $token);
@@ -811,7 +810,7 @@ return view('front.properties.detail', $data);
             $currentLang = $this->defaultLang();
         }
         // Forçar usar ID 310 (PT) diretamente da tabela user_languages
-        $lang_id = session("user_language_id", 310);
+        $lang_id = 310;
         \Log::info("DEBUG allProjects", ["lang_id" => $lang_id, "currentLang" => $currentLang ? $currentLang->code : "NULL"]);
         $projectQuery = \App\Models\User\Project\Project::query()
             ->where('user_id', 148)
