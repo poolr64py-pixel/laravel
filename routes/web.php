@@ -62,6 +62,7 @@ Route::domain($domain)->group(function () {
         Route::post('/subscribe', 'Front\FrontendController@subscribe')->name('front.subscribe');
         Route::get('/listings', 'Front\FrontendController@users')->name('front.user.view');
         Route::get('/contact', 'Front\FrontendController@contactView')->name('front.contact');
+        Route::get('/contato', 'Front\FrontendController@contactView')->name('front.contato');
         Route::get('/faq', 'Front\FrontendController@faqs')->name('front.faq.view');
         Route::get('/blog', 'Front\FrontendController@blogs')->name('front.blogs');
         

@@ -84,7 +84,7 @@
     "Enter email": "Digite o e-mail",
     "Enter password": "Digite a senha",
     "Enter Your Email": "Digite seu e-mail",
-    "Enter your email": "Digite seu e-mail",
+    "Enter your email": "Digite seu email",
     "Enter your message": "Digite sua mensagem",
     "Enter your name": "Digite seu nome",
     "Enter your subject": "Digite seu assunto",
@@ -319,5 +319,6 @@
     "Your subdomain based website URL will be": "O URL do seu site baseado em subdomínio será",
     "Your transaction request was received and sent for review": "Sua solicitação de transação foi recebida e enviada para análise",
     "Projetos": "Projetos",
-    "projetos encontrados": "projetos encontrados"
+    "projetos encontrados": "projetos encontrados",
+    "Send via WhatsApp": "Enviar via WhatsApp"
 }

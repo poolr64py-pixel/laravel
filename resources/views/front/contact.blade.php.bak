@@ -71,53 +71,69 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6 mb-30" data-aos="fade-up" data-aos-delay="100">
-                            <form id="contactForm" onsubmit="event.preventDefault(); sendWhatsApp(this);">
+                            <form id="contactForm" action="{{ url('/admin/contact-msg') }}" method="post">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-30">
-                                            <input type="text" name="name" class="form-control" required
+                                            <input type="text" name="name" class="form-control" id="name"
+                                                required data-error="{{ __('Enter your name') }}"
                                                 placeholder="{{ __('Enter your name') }}*" />
+                                            @if ($errors->has('name'))
+                                                <div class="help-block text-danger">{{ $errors->first('name') }}</div>
+                                            @endif
+
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group mb-30">
-                                            <input type="email" name="email" class="form-control" required
+                                            <input type="email" name="email" class="form-control" id="email"
+                                                required data-error="{{ __('Enter your email') }}"
                                                 placeholder="{{ __('Enter your email') }}*" />
+                                            @if ($errors->has('email'))
+                                                <div class="help-block text-danger">{{ $errors->first('email') }}</div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group mb-30">
-                                            <input type="text" name="subject" class="form-control" required
-                                                placeholder="{{ __('Subject') }}*" />
+                                            <input type="text" name="subject" class="form-control" id="email"
+                                                required data-error="{{ __('Enter your subject') }}"
+                                                placeholder="{{ __('Enter your subject') }}*" />
+                                            @if ($errors->has('subject'))
+                                                <div class="help-block text-danger">{{ $errors->first('subject') }}</div>
+                                            @endif
                                         </div>
                                     </div>
+
                                     <div class="col-md-12">
                                         <div class="form-group mb-30">
-                                            <textarea name="message" class="form-control" rows="5" required
-                                                placeholder="{{ __('Message') }}*"></textarea>
+                                            <textarea name="message" id="message" class="form-control" cols="30" rows="8" required
+                                                data-error="{{ __('Enter your message') }}" placeholder="{{ __('Enter your message') }}*"></textarea>
+                                            @if ($errors->has('message'))
+                                                <div class="help-block text-danger">{{ $errors->first('message') }}</div>
+                                            @endif
                                         </div>
                                     </div>
+                                    @if ($bs->is_recaptcha == 1)
+                                        <div class="form-group mb-30">
+                                            {!! NoCaptcha::renderJs() !!}
+                                            {!! NoCaptcha::display() !!}
+
+                                            @error('g-recaptcha-response')
+                                                <p class="mt-1 text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    @endif
+
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-lg btn-primary">
-                                            <i class="fab fa-whatsapp"></i> {{ __('Send via WhatsApp') }}
-                                        </button>
+                                        <button type="submit" class="btn btn-lg btn-primary"
+                                            title="{{ __('Send message') }}"> {{ __('Send Message') }} </button>
+                                        <div id="msgSubmit"></div>
                                     </div>
                                 </div>
                             </form>
-                            
-                            <script>
-                            function sendWhatsApp(form) {
-                                const name = form.name.value;
-                                const email = form.email.value;
-                                const subject = form.subject.value;
-                                const message = form.message.value;
-                                
-                                const text = `*Contato do Site*\n\n*Nome:* ${name}\n*Email:* ${email}\n*Assunto:* ${subject}\n\n*Mensagem:*\n${message}`;
-                                const whatsappUrl = `https://wa.me/595994718400?text=${encodeURIComponent(text)}`;
-                                
-                                window.open(whatsappUrl, '_blank');
-                            }
-                            </script>
                         </div>
                          @if($be && $be->latitude && $be->longitude)
                         <div class="col-lg-6 mb-30" data-aos="fade-up" data-aos-delay="200">

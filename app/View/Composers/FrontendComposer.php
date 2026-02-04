@@ -11,15 +11,25 @@ use App\Traits\FrontendLanguage;
 class FrontendComposer
 {
   use FrontendLanguage;
+  
   public function compose(View $view)
   {
+    // Pegar language_id da sessão (mesmo do GlobalComposer)
+    $langId = session('language_id', 179); // Default: PT
+    
+    // Buscar idioma pelo ID
+    $currentLang = Language::find($langId);
+    
+    // Fallback se não encontrar
+    if (!$currentLang) {
+        $currentLang = Language::where('is_default', 1)->first();
+    }
 
-    $currentLang = $this->currentLang();
-    $menus = Menu::where('language_id', $currentLang->id)->first()->menus ?? json_encode([]);
-    $rtl = $currentLang->rtl ? 1 : 0;
+    $menus = Menu::where('language_id', $langId)->first()->menus ?? json_encode([]);
+    $rtl = $currentLang->rtl ?? 0;
 
-    $view->with('bs', $currentLang->basic_setting);
-    $view->with('be', $currentLang->basic_extended);
+    $view->with('bs', $currentLang ? $currentLang->basic_setting : null);
+    $view->with('be', $currentLang ? $currentLang->basic_extended : null);
     $view->with('currentLang', $currentLang);
     $view->with('menus', $menus);
     $view->with('rtl', $rtl);
